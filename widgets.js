@@ -254,7 +254,9 @@ function toggleSupport(force) {
 // ── OTHER PROJECTS / WEBSITES ────────────────────────────────────────────────
 const OTHER_SITES = [
   { name: 'LabPrepDz', url: 'https://intj-boy.github.io/LabPrepDz/' }, 
-  { name: 'ExpoShare', url: 'https://intj-boy.github.io/ExpoShare/' }
+  { name: 'ExpoShare', url: 'https://intj-boy.github.io/ExpoShare/' }, 
+  { name: 'MicroOdyssey', url: 'https://intj-boy.github.io/MicroLabPro/' }, 
+  { name: 'MicroVerse', url: 'https://intj-boy.github.io/MicroVerse/'}
   // Add up to 4 more entries here as future projects launch:
   // { name: 'ProjectName', url: 'https://example.com' }
 ];
