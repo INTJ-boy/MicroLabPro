@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>MicroPedia : Reference milieux de culture, colorations et normes ISO</title>
+<meta name="description" content="Encyclopedie ouverte de microbiologie : milieux de culture, protocoles de coloration Gram/Ziehl-Neelsen/Giemsa, resume des normes ISO et quiz QCM d'entrainement pour etudiants."/>
+<link rel="canonical" href="https://YOURDOMAIN.com/tools/micropedia.html"/>
+<meta property="og:type" content="website"/>
+<meta property="og:title" content="MicroPedia : Reference ouverte de microbiologie"/>
+<meta property="og:description" content="Milieux de culture, protocoles de coloration, normes ISO et quiz QCM."/>
+<meta property="og:url" content="https://YOURDOMAIN.com/tools/micropedia.html"/>
+<meta property="og:image" content="https://YOURDOMAIN.com/og-image.png"/>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "MicroPedia",
+  "url": "https://YOURDOMAIN.com/tools/micropedia.html",
+  "description": "Reference ouverte de microbiologie : milieux, colorations, normes ISO, quiz.",
+  "applicationCategory": "EducationalApplication",
+  "isPartOf": { "@type": "WebSite", "name": "MicroLab Pro", "url": "https://YOURDOMAIN.com/" }
+}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="icon" type="image/x-icon" href="../favicon.ico"/>
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png"/>
+<link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png"/>
+<link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png"/>
+<link rel="manifest" href="../site.webmanifest"/>
+<meta name="theme-color" content="#04080f"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="../style.css"/>
+</head>
+<body>
+
+<div class="loader-screen" id="loaderScreen">
+  <div class="loader-mascot">🦑</div>
+  <div class="loader-bar"><div class="loader-bar-fill"></div></div>
+  <div class="loader-text" data-i18n="loading_text">Chargement de la boite a outils</div>
+</div>
+
+<nav>
+  <a class="nav-logo" href="../index.html">Micro<span>Lab</span> Pro</a>
+  <ul class="nav-links">
+    <li><a href="../index.html" data-i18n="nav_home">Accueil</a></li>
+    <li><a href="microid.html" data-i18n="nav_microid">MicroID</a></li>
+    <li><a href="micropath.html" data-i18n="nav_micropath">MicroPath</a></li>
+    <li><a href="microcalc.html" data-i18n="nav_microcalc">MicroCalc</a></li>
+    <li><a href="micropedia.html" style="color:var(--accent4)" data-i18n="nav_micropedia">MicroPedia</a></li>
+    <li><a href="microsteril.html" data-i18n="nav_microsteril">MicroSteril</a></li>
+  </ul>
+  <div class="nav-right">
+    <div class="lang-switcher">
+      <button class="lang-btn" data-lang="ar" onclick="setLang('ar')">ع</button>
+      <button class="lang-btn" data-lang="fr" onclick="setLang('fr')">FR</button>
+      <button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
+    </div>
+  </div>
+  <button class="hamburger" onclick="toggleMenu()">&#9776;</button>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="../index.html" data-i18n="nav_home">Accueil</a>
+  <a href="microid.html" data-i18n="nav_microid">MicroID</a>
+  <a href="micropath.html" data-i18n="nav_micropath">MicroPath</a>
+  <a href="microcalc.html" data-i18n="nav_microcalc">MicroCalc</a>
+  <a href="micropedia.html" data-i18n="nav_micropedia">MicroPedia</a>
+  <a href="microsteril.html" data-i18n="nav_microsteril">MicroSteril</a>
+  <div class="lang-switcher" style="margin-top:1rem;">
+    <button class="lang-btn" data-lang="ar" onclick="setLang('ar');toggleMenu()">ع</button>
+    <button class="lang-btn" data-lang="fr" onclick="setLang('fr');toggleMenu()">FR</button>
+    <button class="lang-btn" data-lang="en" onclick="setLang('en');toggleMenu()">EN</button>
+  </div>
+</div>
+</div>
+
+<div class="tool-page-header">
+  <div class="tool-page-eyebrow" style="color:var(--accent4)"><span data-i18n="micropedia_eyebrow">📚 MicroPedia</span></div>
+  <h1 class="tool-page-title" style="color:var(--accent4)" data-i18n="micropedia_title">Reference ouverte</h1>
+  <p class="tool-page-sub" data-i18n="micropedia_sub">Fiches milieux de culture, protocoles de coloration, resumes de normes ISO, et quiz QCM d'entrainement.</p>
+</div>
+
+<div class="print-header">
+  <strong>MicroLab Pro</strong> &middot; <span id="printDate"></span>
+</div>
+<div class="tool-page-body">
+  <div style="text-align:right; margin-bottom:0.5rem;">
+    <button class="export-btn" onclick="printResult()">🖨 <span data-i18n="export_print">Exporter / Imprimer</span></button>
+  </div>
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab('media')" data-i18n="mped_tab_media">Milieux</button>
+    <button class="tab-btn" onclick="switchTab('staining')" data-i18n="mped_tab_stain">Colorations</button>
+    <button class="tab-btn" onclick="switchTab('norms')" data-i18n="mped_tab_norms">Normes ISO</button>
+    <button class="tab-btn" onclick="switchTab('qcm')" data-i18n="mped_tab_qcm">Quiz QCM</button>
+  </div>
+
+  <!-- MEDIA ENCYCLOPEDIA -->
+  <div class="tab-content active" id="tab-media">
+    <div class="calc-card">
+      <h3 data-i18n="mped_media_h3">Encyclopedie des milieux de culture</h3>
+      <div style="overflow-x:auto">
+      <table class="ref-table">
+        <thead><tr><th data-i18n="mped_media_th_name">Milieu</th><th data-i18n="mped_media_th_type">Type</th><th data-i18n="mped_media_th_use">Usage principal</th><th data-i18n="mped_media_th_comp">Composition cle</th></tr></thead>
+        <tbody id="mediaEncyBody"></tbody>
+      </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- STAINING PROTOCOLS -->
+  <div class="tab-content" id="tab-staining">
+    <div id="stainingContainer"></div>
+  </div>
+
+  <!-- ISO NORMS -->
+  <div class="tab-content" id="tab-norms">
+    <div class="calc-card">
+      <h3 data-i18n="mped_norms_h3">Resume des normes ISO en microbiologie</h3>
+      <div style="overflow-x:auto">
+      <table class="ref-table">
+        <thead><tr><th data-i18n="mped_norms_th_code">Norme</th><th data-i18n="mped_norms_th_obj">Objet</th><th data-i18n="mped_norms_th_domain">Domaine</th></tr></thead>
+        <tbody id="normsBody"></tbody>
+      </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- QCM QUIZ -->
+  <div class="tab-content" id="tab-qcm">
+    <div id="qcmContainer"></div>
+    <div id="qcmScoreBox" style="display:none" class="calc-card">
+      <div class="qcm-score" id="qcmScoreText"></div>
+      <div style="text-align:center"><button class="btn-reset" onclick="resetQuiz()">↺ <span data-i18n="mped_qcm_reset">Recommencer le quiz</span></button></div>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <span class="footer-logo">MicroLab Pro</span>
+  <a class="footer-social" href="https://www.linkedin.com/in/zekraouirabahallaaeddine" target="_blank" rel="noopener">
+    <svg viewBox="0 0 24 24"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.03-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.34V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.38-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12zM7.12 20.45H3.56V9h3.56v11.45z"/></svg>
+    <span data-i18n="follow_link">Suivre sur LinkedIn</span>
+  </a>
+  <p class="footer-copy" data-i18n="copyright">Tous droits reserves a Zekraoui Rabah AllaaEddine 🦑 © 2026</p>
+</footer>
+
+<script src="../lang.js"></script>
+<script src="../inquiry.js"></script>
+<script src="../widgets.js"></script>
+<script>
+function toggleMenu(){ document.getElementById('mobileMenu').classList.toggle('open'); }
+function switchTab(id){
+  const ids=['media','staining','norms','qcm'];
+  document.querySelectorAll('.tab-btn').forEach((b,i)=>b.classList.toggle('active', ids[i]===id));
+  document.querySelectorAll('.tab-content').forEach(t=>t.classList.toggle('active', t.id==='tab-'+id));
+}
+
+// ── MEDIA ENCYCLOPEDIA ──
+const MEDIA_ENCY = [
+  {name:'Gelose nutritive', type:{fr:'Usuel',en:'General purpose',ar:'عام'}, use:{fr:'Culture generale non selective',en:'Non-selective general culture',ar:'زرع عام غير انتقائي'}, comp:'Extrait de viande, peptone, agar'},
+  {name:'Gelose au sang', type:{fr:'Enrichi',en:'Enriched',ar:'مُغنى'}, use:{fr:'Etude hemolyse, streptocoques',en:'Hemolysis study, streptococci',ar:'دراسة الانحلال الدموي، المكورات السبحية'}, comp:'Base + 5-10% sang de mouton'},
+  {name:'Chapman (MSA)', type:{fr:'Selectif/Differentiel',en:'Selective/Differential',ar:'انتقائي/تفريقي'}, use:{fr:'Staphylococcus aureus',en:'Staphylococcus aureus',ar:'Staphylococcus aureus'}, comp:'NaCl 7.5%, mannitol, rouge de phenol'},
+  {name:'Baird-Parker', type:{fr:'Selectif',en:'Selective',ar:'انتقائي'}, use:{fr:'Staphylocoques a coagulase +',en:'Coagulase+ staphylococci',ar:'مكورات عنقودية موجبة الكواغولاز'}, comp:'Tellurite, jaune oeuf, glycine'},
+  {name:'MacConkey', type:{fr:'Selectif/Differentiel',en:'Selective/Differential',ar:'انتقائي/تفريقي'}, use:{fr:'Enterobacteries, Gram-',en:'Enterobacteria, Gram-',ar:'أمعائيات، غرام سلبية'}, comp:'Sels biliaires, lactose, rouge neutre'},
+  {name:'EMB (Eosine Bleu Methylene)', type:{fr:'Selectif/Differentiel',en:'Selective/Differential',ar:'انتقائي/تفريقي'}, use:{fr:'E. coli (reflet metallique)',en:'E. coli (metallic sheen)',ar:'E. coli (بريق معدني)'}, comp:'Eosine Y, bleu de methylene, lactose'},
+  {name:'XLD', type:{fr:'Selectif/Differentiel',en:'Selective/Differential',ar:'انتقائي/تفريقي'}, use:{fr:'Salmonella, Shigella',en:'Salmonella, Shigella',ar:'Salmonella، Shigella'}, comp:'Xylose, lysine, desoxycholate, thiosulfate'},
+  {name:'Hektoen', type:{fr:'Selectif/Differentiel',en:'Selective/Differential',ar:'انتقائي/تفريقي'}, use:{fr:'Salmonella, Shigella',en:'Salmonella, Shigella',ar:'Salmonella، Shigella'}, comp:'Sels biliaires, thiosulfate, citrate ferrique'},
+  {name:'TCBS', type:{fr:'Selectif',en:'Selective',ar:'انتقائي'}, use:{fr:'Vibrio cholerae',en:'Vibrio cholerae',ar:'Vibrio cholerae'}, comp:'Thiosulfate, citrate, sels biliaires, sucrose, pH 8.6'},
+  {name:'Sabouraud', type:{fr:'Selectif',en:'Selective',ar:'انتقائي'}, use:{fr:'Levures et moisissures',en:'Yeasts and molds',ar:'الخمائر والعفن'}, comp:'Glucose, peptone, pH acide (5.6), chloramphenicol'},
+  {name:'Löwenstein-Jensen', type:{fr:'Selectif',en:'Selective',ar:'انتقائي'}, use:{fr:'Mycobacterium tuberculosis',en:'Mycobacterium tuberculosis',ar:'Mycobacterium tuberculosis'}, comp:'Oeuf, glycerol, asparagine, vert malachite'},
+  {name:'Muller-Hinton', type:{fr:'Standard',en:'Standard',ar:'قياسي'}, use:{fr:'Antibiogramme (diffusion)',en:'Antibiogram (diffusion)',ar:'اختبار الحساسية (انتشار)'}, comp:'Infusion de viande, amidon, agar'},
+  {name:'TSI (Triple Sugar Iron)', type:{fr:'Identification',en:'Identification',ar:'تعريف'}, use:{fr:'Fermentation glucose/lactose/H2S',en:'Glucose/lactose/H2S fermentation',ar:'تخمر الجلوكوز/اللاكتوز/H2S'}, comp:'Glucose, lactose, saccharose, fer, thiosulfate'},
+  {name:'Mannitol Mobilite Nitrate', type:{fr:'Identification',en:'Identification',ar:'تعريف'}, use:{fr:'Mobilite, reduction nitrate',en:'Motility, nitrate reduction',ar:'الحركة، اختزال النترات'}, comp:'Mannitol, nitrate de potassium, agar mou'},
+  {name:'Citrate de Simmons', type:{fr:'Identification',en:'Identification',ar:'تعريف'}, use:{fr:'Utilisation du citrate',en:'Citrate utilization',ar:'استخدام السيترات'}, comp:'Citrate de sodium, bleu de bromothymol'},
+  {name:'ALOA', type:{fr:'Selectif/Chromogene',en:'Selective/Chromogenic',ar:'انتقائي/لوني'}, use:{fr:'Listeria monocytogenes',en:'Listeria monocytogenes',ar:'Listeria monocytogenes'}, comp:'Substrat chromogene, lecithine, polymyxine'},
+  {name:'Cetrimide', type:{fr:'Selectif',en:'Selective',ar:'انتقائي'}, use:{fr:'Pseudomonas aeruginosa',en:'Pseudomonas aeruginosa',ar:'Pseudomonas aeruginosa'}, comp:'Cetrimide, glycerol, pigment pyocyanine'},
+  {name:'Karmali', type:{fr:'Selectif',en:'Selective',ar:'انتقائي'}, use:{fr:'Campylobacter spp.',en:'Campylobacter spp.',ar:'Campylobacter spp.'}, comp:'Charbon, hemine, antibiotiques selectifs'},
+  {name:'Sabouraud + chloramphenicol', type:{fr:'Selectif',en:'Selective',ar:'انتقائي'}, use:{fr:'Levures, moisissures, dermatophytes',en:'Yeasts, molds, dermatophytes',ar:'الخمائر، العفن، الفطريات الجلدية'}, comp:'Glucose, peptone, pH acide, chloramphenicol'},
+  {name:'CHROMagar Candida', type:{fr:'Chromogene',en:'Chromogenic',ar:'لوني'}, use:{fr:'Identification presomptive des Candida',en:'Presumptive Candida identification',ar:'تعريف افتراضي للمبيضات'}, comp:'Substrats chromogenes specifiques par espece'},
+  {name:'Slanetz-Bartley', type:{fr:'Selectif',en:'Selective',ar:'انتقائي'}, use:{fr:'Enterococcus (eaux)',en:'Enterococcus (water)',ar:'Enterococcus (المياه)'}, comp:'Azide de sodium, TTC, tryptose'},
+  {name:'Bile Esculine Azide', type:{fr:'Selectif/Differentiel',en:'Selective/Differential',ar:'انتقائي/تفريقي'}, use:{fr:'Enterococcus, Streptococcus groupe D',en:'Enterococcus, group D Streptococcus',ar:'Enterococcus، المكورات السبحية المجموعة D'}, comp:'Esculine, citrate de fer, azide de sodium'},
+  {name:'CLED', type:{fr:'Differentiel',en:'Differential',ar:'تفريقي'}, use:{fr:'ECBU (empeche essaimage Proteus)',en:'Urine culture (prevents Proteus swarming)',ar:'زرع البول (يمنع انتشار Proteus)'}, comp:'Lactose, cystine, bleu de bromothymol, sans electrolytes'},
+  {name:'Thayer-Martin (VCN)', type:{fr:'Selectif',en:'Selective',ar:'انتقائي'}, use:{fr:'Neisseria gonorrhoeae',en:'Neisseria gonorrhoeae',ar:'Neisseria gonorrhoeae'}, comp:'Gelose chocolat + vancomycine, colistine, nystatine'},
+  {name:'Bordet-Gengou', type:{fr:'Selectif',en:'Selective',ar:'انتقائي'}, use:{fr:'Bordetella pertussis',en:'Bordetella pertussis',ar:'Bordetella pertussis'}, comp:'Pomme de terre, glycerol, sang defibrine'},
+  {name:'Skirrow', type:{fr:'Selectif',en:'Selective',ar:'انتقائي'}, use:{fr:'Campylobacter / Helicobacter',en:'Campylobacter / Helicobacter',ar:'Campylobacter / Helicobacter'}, comp:'Sang de cheval, vancomycine, polymyxine, trimethoprime'},
+  {name:'PEMBA', type:{fr:'Selectif',en:'Selective',ar:'انتقائي'}, use:{fr:'Bacillus cereus',en:'Bacillus cereus',ar:'Bacillus cereus'}, comp:'Polymyxine, jaune oeuf, mannitol, bleu de bromothymol'},
+  {name:'TSN', type:{fr:'Selectif',en:'Selective',ar:'انتقائي'}, use:{fr:'Clostridium perfringens',en:'Clostridium perfringens',ar:'Clostridium perfringens'}, comp:'Tryptose, sulfite, neomycine'},
+  {name:'DRBC', type:{fr:'Selectif',en:'Selective',ar:'انتقائي'}, use:{fr:'Levures et moisissures (denombrement)',en:'Yeasts and molds (enumeration)',ar:'الخمائر والعفن (العد)'}, comp:'Dichloran, rose bengale, chloramphenicol'},
+  {name:'Columbia + sang + antibiotiques', type:{fr:'Selectif',en:'Selective',ar:'انتقائي'}, use:{fr:'Anaerobies (Bacteroides)',en:'Anaerobes (Bacteroides)',ar:'اللاهوائيات (Bacteroides)'}, comp:'Sang, kanamycine, vancomycine'},
+  {name:'Gelose chocolat', type:{fr:'Enrichi',en:'Enriched',ar:'مُغنى'}, use:{fr:'Haemophilus, Neisseria',en:'Haemophilus, Neisseria',ar:'Haemophilus، Neisseria'}, comp:'Sang chauffe (facteurs X et V liberes)'},
+  {name:'BCYE (Buffered Charcoal Yeast Extract)', type:{fr:'Selectif',en:'Selective',ar:'انتقائي'}, use:{fr:'Legionella pneumophila',en:'Legionella pneumophila',ar:'Legionella pneumophila'}, comp:'Charbon actif, extrait de levure, L-cysteine, fer'}
+];
+function renderMediaEncy(){
+  const lang = currentLang || 'fr';
+  document.getElementById('mediaEncyBody').innerHTML = MEDIA_ENCY.map(m=>`
+    <tr><td style="font-weight:600">${m.name}</td><td style="color:var(--accent4)">${m.type[lang]}</td><td>${m.use[lang]}</td><td style="color:var(--muted);font-size:0.8rem">${m.comp}</td></tr>
+  `).join('');
+}
+renderMediaEncy();
+
+// ── STAINING PROTOCOLS ──
+const STAINING = [
+  {
+    id:'gram',
+    name:{fr:'Coloration de Gram',en:'Gram Staining',ar:'صبغة غرام'},
+    steps:{
+      fr:['Fixation du frottis a la chaleur (3 passages rapides)','Violet de gentiane (cristal violet) : 1 min, rincer',"Lugol (mordant) : 1 min, rincer","Decoloration a l'alcool-acetone : quelques secondes jusqu'a decoloration, rincer immediatement",'Safranine (contre-coloration) : 30 sec, rincer, secher'],
+      en:['Fix the smear with heat (3 quick passes)','Crystal violet: 1 min, rinse','Lugol\'s iodine (mordant): 1 min, rinse','Alcohol-acetone decolorization: a few seconds until decolorized, rinse immediately','Safranin (counterstain): 30 sec, rinse, dry'],
+      ar:['تثبيت المسحة بالحرارة (3 تمريرات سريعة)','بنفسج الجنطيانا: دقيقة واحدة، اشطف','لوغول (مثبت): دقيقة واحدة، اشطف','إزالة اللون بالكحول-أسيتون: بضع ثوانٍ حتى إزالة اللون، اشطف فوراً','سافرانين (صبغة مقابلة): 30 ثانية، اشطف، جفف']
+    },
+    stepColors: ['#e8dcc8', '#5b3a8e', '#4a2f73', '#8a7358', '#e8dcc8'],
+    stepDuration: [15, 60, 60, 8, 30],
+    dual: true,
+    resultColors: { pos:'#5b2a8e', neg:'#c94f6d' },
+    result:{fr:'Gram+ : violet fonce. Gram- : rose/rouge.',en:'Gram+: dark violet. Gram-: pink/red.',ar:'غرام+: بنفسجي داكن. غرام-: وردي/أحمر.'}
+  },
+  {
+    id:'ziehl',
+    name:{fr:'Coloration de Ziehl-Neelsen (BAAR)',en:'Ziehl-Neelsen Staining (AFB)',ar:'صبغة زيل-نيلسن (BAAR)'},
+    steps:{
+      fr:['Fixation a la chaleur','Fuchsine phenolee a chaud (tyndallisation) : 5 min',"Decoloration a l'alcool-acide (HCl 3% dans ethanol) : jusqu'a decoloration",'Bleu de methylene (contre-coloration) : 1 min'],
+      en:['Fix with heat','Hot phenolic fuchsin (tyndallization): 5 min','Acid-alcohol decolorization (3% HCl in ethanol): until decolorized','Methylene blue (counterstain): 1 min'],
+      ar:['تثبيت بالحرارة','فوشين فينولي ساخن: 5 دقائق','إزالة اللون بالكحول الحمضي (HCl 3% في الإيثانول): حتى إزالة اللون','أزرق الميثيلين (صبغة مقابلة): دقيقة واحدة']
+    },
+    stepColors: ['#e8dcc8', '#c9264f', '#b5714a', '#e8dcc8'],
+    stepDuration: [15, 300, 20, 60],
+    dual: true,
+    resultColors: { pos:'#c9264f', neg:'#3b6ea5' },
+    result:{fr:'BAAR+ (acido-alcoolo-resistant) : rouge fuchsia. Fond : bleu.',en:'AFB+ (acid-fast): fuchsia red. Background: blue.',ar:'BAAR+ (مقاوم للحمض والكحول): أحمر فوشيني. الخلفية: زرقاء.'}
+  },
+  {
+    id:'giemsa',
+    name:{fr:'Coloration de Giemsa',en:'Giemsa Staining',ar:'صبغة غيمزا'},
+    steps:{
+      fr:['Fixation au methanol : 2-3 min','Dilution Giemsa 1/10 dans eau tamponnee pH 7.2','Coloration : 20-30 min',"Rincage a l'eau tamponnee, sechage a l'air"],
+      en:['Methanol fixation: 2-3 min','Giemsa dilution 1/10 in buffered water pH 7.2','Staining: 20-30 min','Rinse with buffered water, air dry'],
+      ar:['تثبيت بالميثانول: 2-3 دقائق','تخفيف غيمزا 1/10 في ماء مؤقلن pH 7.2','التلوين: 20-30 دقيقة','اشطف بالماء المؤقلن، جفف في الهواء']
+    },
+    stepColors: ['#e8dcc8', '#8e6fa8', '#c26b9e', '#c26b9e'],
+    stepDuration: [150, 20, 1500, 30],
+    dual: false,
+    resultColors: { pos:'#c26b9e', neg:'#c26b9e' },
+    result:{fr:'Utilise pour hemoparasites, morphologie cellulaire, frottis sanguins.',en:'Used for blood parasites, cell morphology, blood smears.',ar:'يُستخدم للطفيليات الدموية، شكل الخلايا، مسحات الدم.'}
+  },
+  {
+    id:'spore',
+    name:{fr:'Coloration des spores (Schaeffer-Fulton)',en:'Spore Staining (Schaeffer-Fulton)',ar:'صبغة الجراثيم (شيفر-فولتون)'},
+    steps:{
+      fr:['Fixation a la chaleur','Vert de malachite a chaud (vapeur) : 5-10 min',"Rincage abondant a l'eau",'Safranine (contre-coloration) : 30 sec'],
+      en:['Fix with heat','Hot malachite green (steam): 5-10 min','Abundant rinse with water','Safranin (counterstain): 30 sec'],
+      ar:['تثبيت بالحرارة','الأخضر الملكيتي الساخن (بخار): 5-10 دقائق','شطف وفير بالماء','سافرانين (صبغة مقابلة): 30 ثانية']
+    },
+    stepColors: ['#e8dcc8', '#3a8e5b', '#6fa87f', '#c9788a'],
+    stepDuration: [15, 450, 15, 30],
+    dual: true,
+    resultColors: { pos:'#3a8e5b', neg:'#c9788a' },
+    result:{fr:'Spores : vertes. Corps vegetatif : rose/rouge.',en:'Spores: green. Vegetative body: pink/red.',ar:'الجراثيم: خضراء. الجسم الخضري: وردي/أحمر.'}
+  }
+];
+let stainState = {};
+function renderStaining(){
+  const lang = currentLang || 'fr';
+  document.getElementById('stainingContainer').innerHTML = STAINING.map(s=>{
+    if (stainState[s.id] === undefined) stainState[s.id] = 0;
+    return `
+    <div class="calc-card stain-card">
+      <h3>${s.name[lang]}</h3>
+      <div class="stain-visualizer" id="stain-vis-${s.id}">
+        ${renderStainSlide(s, stainState[s.id])}
+        <div class="stain-controls">
+          <button class="stain-nav-btn" onclick="stainStep('${s.id}',-1)" aria-label="Previous">&larr;</button>
+          <div class="stain-progress">
+            ${s.steps[lang].map((_,i)=>`<span class="stain-dot ${i===stainState[s.id]?'active':''} ${i<stainState[s.id]?'done':''}" onclick="stainGoto('${s.id}',${i})"></span>`).join('')}
+          </div>
+          <button class="stain-nav-btn" onclick="stainStep('${s.id}',1)" aria-label="Next">&rarr;</button>
+        </div>
+      </div>
+      <div class="stain-step-label" id="stain-label-${s.id}">${renderStainStepText(s, lang, stainState[s.id])}</div>
+      <ol class="stain-steplist">
+        ${s.steps[lang].map((st,i)=>`<li class="${i===stainState[s.id]?'current':''} ${i<stainState[s.id]?'past':''}" onclick="stainGoto('${s.id}',${i})">${st}</li>`).join('')}
+      </ol>
+      <div class="result-box show" style="display:block; margin-top:1rem;">
+        <div class="result-label">${LANG[lang].mped_stain_reading}</div>
+        <div style="font-size:0.9rem; display:flex; align-items:center; gap:0.6rem; flex-wrap:wrap;">
+          ${s.dual ? `<span class="stain-swatch" style="background:${s.resultColors.pos}"></span><span class="stain-swatch" style="background:${s.resultColors.neg}"></span>` : `<span class="stain-swatch" style="background:${s.resultColors.pos}"></span>`}
+          <span>${s.result[lang]}</span>
+        </div>
+      </div>
+    </div>
+  `;}).join('');
+}
+
+function renderStainSlide(s, stepIdx) {
+  const color = s.stepColors[stepIdx];
+  const isLast = stepIdx === s.steps.fr.length - 1;
+  if (s.dual && isLast) {
+    return `
+      <div class="stain-slide-pair">
+        <div class="stain-slide" style="background:${s.resultColors.pos}"><span class="stain-slide-tag">+</span></div>
+        <div class="stain-slide" style="background:${s.resultColors.neg}"><span class="stain-slide-tag">-</span></div>
+      </div>`;
+  }
+  return `<div class="stain-slide-single"><div class="stain-slide" style="background:${color}"></div></div>`;
+}
+
+function renderStainStepText(s, lang, stepIdx) {
+  const stepNum = stepIdx + 1;
+  const total = s.steps.fr.length;
+  return `<span class="stain-step-num">${stepNum}/${total}</span> ${s.steps[lang][stepIdx]}`;
+}
+
+function stainStep(id, delta) {
+  const s = STAINING.find(x => x.id === id);
+  const max = s.steps.fr.length - 1;
+  stainState[id] = Math.max(0, Math.min(max, (stainState[id]||0) + delta));
+  updateStainVisual(id);
+}
+function stainGoto(id, idx) {
+  stainState[id] = idx;
+  updateStainVisual(id);
+}
+function updateStainVisual(id) {
+  const s = STAINING.find(x => x.id === id);
+  const lang = currentLang || 'fr';
+  const stepIdx = stainState[id];
+  const visEl = document.getElementById(`stain-vis-${id}`);
+  const labelEl = document.getElementById(`stain-label-${id}`);
+  if (visEl) {
+    visEl.querySelector('.stain-slide-single, .stain-slide-pair')?.remove();
+    visEl.insertAdjacentHTML('afterbegin', renderStainSlide(s, stepIdx));
+  }
+  if (labelEl) labelEl.innerHTML = renderStainStepText(s, lang, stepIdx);
+  document.querySelectorAll(`#stain-vis-${id} .stain-dot`).forEach((dot, i) => {
+    dot.classList.toggle('active', i === stepIdx);
+    dot.classList.toggle('done', i < stepIdx);
+  });
+  const card = visEl.closest('.stain-card');
+  card.querySelectorAll('.stain-steplist li').forEach((li, i) => {
+    li.classList.toggle('current', i === stepIdx);
+    li.classList.toggle('past', i < stepIdx);
+  });
+}
+renderStaining();
+
+// ── ISO NORMS ──
+const NORMS = [
+  {code:'ISO 7218', obj:{fr:"Regles generales pour l'examen microbiologique",en:'General rules for microbiological examination',ar:'قواعد عامة للفحص الميكروبيولوجي'}, domain:{fr:'Methode generale',en:'General method',ar:'طريقة عامة'}},
+  {code:'ISO 6579-1', obj:{fr:'Recherche de Salmonella, methode horizontale',en:'Detection of Salmonella, horizontal method',ar:'الكشف عن Salmonella، طريقة أفقية'}, domain:{fr:'Alimentaire',en:'Food',ar:'غذائي'}},
+  {code:'ISO 11290-1/2', obj:{fr:'Recherche et denombrement de Listeria monocytogenes',en:'Detection and enumeration of Listeria monocytogenes',ar:'الكشف والعد لـ Listeria monocytogenes'}, domain:{fr:'Alimentaire',en:'Food',ar:'غذائي'}},
+  {code:'ISO 16649-1/2', obj:{fr:'Denombrement E. coli beta-glucuronidase positive',en:'Enumeration of beta-glucuronidase-positive E. coli',ar:'عد E. coli الموجبة لبيتا-غلوكورونيداز'}, domain:{fr:'Alimentaire',en:'Food',ar:'غذائي'}},
+  {code:'ISO 6888-1/2', obj:{fr:'Denombrement des staphylocoques a coagulase positive',en:'Enumeration of coagulase-positive staphylococci',ar:'عد المكورات العنقودية الموجبة الكواغولاز'}, domain:{fr:'Alimentaire',en:'Food',ar:'غذائي'}},
+  {code:'ISO 4831/4832', obj:{fr:'Recherche et denombrement des coliformes',en:'Detection and enumeration of coliforms',ar:'الكشف والعد للقولونيات'}, domain:{fr:'Alimentaire',en:'Food',ar:'غذائي'}},
+  {code:'ISO 7932', obj:{fr:'Denombrement de Bacillus cereus presume',en:'Enumeration of presumptive Bacillus cereus',ar:'عد Bacillus cereus الافتراضي'}, domain:{fr:'Alimentaire',en:'Food',ar:'غذائي'}},
+  {code:'ISO 7937', obj:{fr:'Denombrement de Clostridium perfringens',en:'Enumeration of Clostridium perfringens',ar:'عد Clostridium perfringens'}, domain:{fr:'Alimentaire',en:'Food',ar:'غذائي'}},
+  {code:'ISO 21527-1/2', obj:{fr:'Denombrement des levures et moisissures',en:'Enumeration of yeasts and molds',ar:'عد الخمائر والعفن'}, domain:{fr:'Alimentaire',en:'Food',ar:'غذائي'}},
+  {code:'ISO 10272-1/2', obj:{fr:'Recherche et denombrement de Campylobacter spp.',en:'Detection and enumeration of Campylobacter spp.',ar:'الكشف والعد لـ Campylobacter spp.'}, domain:{fr:'Alimentaire',en:'Food',ar:'غذائي'}},
+  {code:'ISO 2859-1', obj:{fr:"Plans d'echantillonnage pour controle par attributs",en:'Sampling plans for attribute control',ar:'خطط أخذ العينات للمراقبة بالسمات'}, domain:{fr:'Contrôle qualite',en:'Quality control',ar:'مراقبة الجودة'}},
+  {code:'ISO 17025', obj:{fr:'Exigences generales pour la competence des laboratoires',en:'General requirements for laboratory competence',ar:'المتطلبات العامة لكفاءة المختبرات'}, domain:{fr:'Accreditation',en:'Accreditation',ar:'اعتماد'}},
+  {code:'ISO 15189', obj:{fr:'Exigences pour la qualite des laboratoires de biologie medicale',en:'Quality requirements for medical laboratories',ar:'متطلبات جودة مختبرات التحاليل الطبية'}, domain:{fr:'Accreditation',en:'Accreditation',ar:'اعتماد'}},
+  {code:'ISO 21567', obj:{fr:'Recherche de Shigella spp.',en:'Detection of Shigella spp.',ar:'الكشف عن Shigella spp.'}, domain:{fr:'Alimentaire',en:'Food',ar:'غذائي'}},
+  {code:'ISO 21872-1', obj:{fr:'Recherche de Vibrio parahaemolyticus et V. cholerae',en:'Detection of Vibrio parahaemolyticus and V. cholerae',ar:'الكشف عن Vibrio parahaemolyticus وV. cholerae'}, domain:{fr:'Alimentaire',en:'Food',ar:'غذائي'}},
+  {code:'ISO 21528-1/2', obj:{fr:'Recherche et denombrement des Enterobacteriaceae',en:'Detection and enumeration of Enterobacteriaceae',ar:'الكشف والعد للأمعائيات'}, domain:{fr:'Alimentaire',en:'Food',ar:'غذائي'}},
+  {code:'ISO 9308-1/2', obj:{fr:'Denombrement E. coli et coliformes dans les eaux',en:'Enumeration of E. coli and coliforms in water',ar:'عد E. coli والقولونيات في المياه'}, domain:{fr:'Eau',en:'Water',ar:'مياه'}},
+  {code:'ISO 7899-1/2', obj:{fr:'Denombrement des enterocoques intestinaux dans les eaux',en:'Enumeration of intestinal enterococci in water',ar:'عد المكورات المعوية في المياه'}, domain:{fr:'Eau',en:'Water',ar:'مياه'}},
+  {code:'ISO 6461-1/2', obj:{fr:'Recherche des spores de bacteries anaerobies sulfito-reductrices',en:'Detection of sulfite-reducing anaerobic bacteria spores',ar:'الكشف عن جراثيم البكتيريا اللاهوائية المختزلة للكبريتيت'}, domain:{fr:'Eau',en:'Water',ar:'مياه'}},
+  {code:'ISO 16266', obj:{fr:'Detection et denombrement de Pseudomonas aeruginosa (eaux)',en:'Detection and enumeration of Pseudomonas aeruginosa (water)',ar:'الكشف والعد لـ Pseudomonas aeruginosa (المياه)'}, domain:{fr:'Eau',en:'Water',ar:'مياه'}},
+  {code:'ISO 18593', obj:{fr:'Methodes de prelevement sur les surfaces',en:'Surface sampling methods',ar:'طرق أخذ العينات من الأسطح'}, domain:{fr:'Environnement',en:'Environment',ar:'بيئة'}},
+  {code:'ISO 14698', obj:{fr:"Biocontamination de l'air, salles propres",en:'Air biocontamination, cleanrooms',ar:'التلوث الحيوي للهواء، الغرف النظيفة'}, domain:{fr:'Environnement',en:'Environment',ar:'بيئة'}},
+  {code:'ISO 11137', obj:{fr:'Sterilisation par irradiation des produits de sante',en:'Radiation sterilization of health products',ar:'التعقيم بالإشعاع للمنتجات الصحية'}, domain:{fr:'Sterilisation',en:'Sterilization',ar:'تعقيم'}},
+  {code:'ISO 11135', obj:{fr:"Sterilisation a l'oxyde d'ethylene",en:'Ethylene oxide sterilization',ar:'التعقيم بأكسيد الإيثيلين'}, domain:{fr:'Sterilisation',en:'Sterilization',ar:'تعقيم'}},
+  {code:'ISO 20387', obj:{fr:'Biobanques, exigences generales',en:'Biobanking, general requirements',ar:'البنوك الحيوية، المتطلبات العامة'}, domain:{fr:'Accreditation',en:'Accreditation',ar:'اعتماد'}},
+  {code:'ISO 22000', obj:{fr:'Systeme de management de la securite des denrees alimentaires',en:'Food safety management system',ar:'نظام إدارة سلامة الأغذية'}, domain:{fr:'Management qualite',en:'Quality management',ar:'إدارة الجودة'}},
+  {code:'ISO 9001', obj:{fr:'Systeme de management de la qualite, exigences generales',en:'Quality management system, general requirements',ar:'نظام إدارة الجودة، المتطلبات العامة'}, domain:{fr:'Management qualite',en:'Quality management',ar:'إدارة الجودة'}}
+];
+function renderNorms(){
+  const lang = currentLang || 'fr';
+  document.getElementById('normsBody').innerHTML = NORMS.map(n=>`
+    <tr><td style="font-family:var(--mono); color:var(--accent4); font-weight:600">${n.code}</td><td>${n.obj[lang]}</td><td style="color:var(--muted)">${n.domain[lang]}</td></tr>
+  `).join('');
+}
+renderNorms();
+
+// ── QCM QUIZ ──
+const QCM = [
+  {
+    q:{fr:"Quel test permet de differencier Staphylococcus aureus des autres staphylocoques ?",en:"Which test differentiates Staphylococcus aureus from other staphylococci?",ar:"ما الاختبار الذي يميز Staphylococcus aureus عن باقي المكورات العنقودية؟"},
+    opts:{fr:["Catalase","Coagulase","Oxydase","Indole"],en:["Catalase","Coagulase","Oxidase","Indole"],ar:["كاتالاز","كواغولاز","أوكسيداز","إندول"]},
+    correct:1,
+    exp:{fr:"La coagulase (libre ou liee) est le test de reference : S. aureus est coagulase positive, contrairement aux staphylocoques a coagulase negative (SCN).",en:"Coagulase (free or bound) is the reference test: S. aureus is coagulase positive, unlike coagulase-negative staphylococci (CoNS).",ar:"الكواغولاز (الحر أو المرتبط) هو الاختبار المرجعي: S. aureus موجب الكواغولاز، بخلاف المكورات العنقودية سلبية الكواغولاز."}
+  },
+  {
+    q:{fr:"Quelle est la limite m pour E. coli dans un produit RTE selon les criteres usuels ?",en:"What is the m limit for E. coli in an RTE product per usual criteria?",ar:"ما هو الحد m لـ E. coli في منتج جاهز للأكل وفق المعايير المعتادة؟"},
+    opts:{fr:["1 UFC/g","10 UFC/g","100 UFC/g","1000 UFC/g"],en:["1 CFU/g","10 CFU/g","100 CFU/g","1000 CFU/g"],ar:["1 CFU/g","10 CFU/g","100 CFU/g","1000 CFU/g"]},
+    correct:1,
+    exp:{fr:"Pour les produits prets a consommer, m = 10 UFC/g est une valeur seuil courante en reglementation alimentaire.",en:"For ready-to-eat products, m = 10 CFU/g is a common threshold value in food regulation.",ar:"للمنتجات الجاهزة للأكل، m = 10 CFU/g قيمة حدية شائعة في التنظيم الغذائي."}
+  },
+  {
+    q:{fr:"Quel milieu est selectif pour Listeria monocytogenes ?",en:"Which medium is selective for Listeria monocytogenes?",ar:"أي وسط انتقائي لـ Listeria monocytogenes؟"},
+    opts:{fr:["Chapman","XLD","ALOA","TCBS"],en:["Chapman","XLD","ALOA","TCBS"],ar:["Chapman","XLD","ALOA","TCBS"]},
+    correct:2,
+    exp:{fr:"ALOA (Agar Listeria Ottaviani-Agosti) est le milieu chromogene selectif de reference pour Listeria selon ISO 11290.",en:"ALOA (Agar Listeria Ottaviani-Agosti) is the reference selective chromogenic medium for Listeria per ISO 11290.",ar:"ALOA هو الوسط اللوني الانتقائي المرجعي لليستيريا وفق ISO 11290."}
+  },
+  {
+    q:{fr:"Dans le systeme IMViC, que signifie le profil + + - - ?",en:"In the IMViC system, what does the + + - - profile mean?",ar:"في نظام IMViC، ماذا يعني النمط + + - -؟"},
+    opts:{fr:["Salmonella typique","Escherichia coli typique","Klebsiella typique","Proteus typique"],en:["Typical Salmonella","Typical Escherichia coli","Typical Klebsiella","Typical Proteus"],ar:["Salmonella نموذجية","Escherichia coli نموذجية","Klebsiella نموذجية","Proteus نموذجية"]},
+    correct:1,
+    exp:{fr:"Le profil Indole+ / Rouge de methyle+ / Voges-Proskauer- / Citrate- est caracteristique d'E. coli.",en:"The Indole+ / Methyl Red+ / Voges-Proskauer- / Citrate- profile is characteristic of E. coli.",ar:"نمط إندول+ / أحمر الميثيل+ / فوجس-بروسكاور- / سيترات- مميز لـ E. coli."}
+  },
+  {
+    q:{fr:"Quelle temperature d'incubation est utilisee pour la recherche de Campylobacter ?",en:"What incubation temperature is used to detect Campylobacter?",ar:"ما درجة حرارة الحضانة المستخدمة للكشف عن Campylobacter؟"},
+    opts:{fr:["25°C","37°C","42°C","55°C"],en:["25°C","37°C","42°C","55°C"],ar:["25°C","37°C","42°C","55°C"]},
+    correct:2,
+    exp:{fr:"Campylobacter est thermophile et microaerophile : il est incube a 42°C en atmosphere controlee (5% O2, 10% CO2).",en:"Campylobacter is thermophilic and microaerophilic: incubated at 42°C in controlled atmosphere (5% O2, 10% CO2).",ar:"Campylobacter محب للحرارة وميكروهوائي: يُحضّن عند 42°C في جو متحكم به (5% O2، 10% CO2)."}
+  },
+  {
+    q:{fr:"Que mesure la valeur D en thermobacteriologie ?",en:"What does the D-value measure in thermobacteriology?",ar:"ماذا تقيس القيمة D في علم الأحياء الحراري؟"},
+    opts:{fr:["La temperature de sterilisation","Le temps necessaire pour reduire la population microbienne d'un facteur 10","Le pH optimal de croissance","La duree de conservation du produit"],en:["The sterilization temperature","The time needed to reduce the microbial population by a factor of 10","The optimal growth pH","The product shelf life"],ar:["حرارة التعقيم","الزمن اللازم لتخفيض التعداد الميكروبي بمعامل 10","الأس الهيدروجيني الأمثل للنمو","مدة صلاحية المنتج"]},
+    correct:1,
+    exp:{fr:"La valeur D (temps de reduction decimale) est le temps necessaire, a une temperature donnee, pour reduire la population microbienne de 90% (facteur 10).",en:"The D-value (decimal reduction time) is the time needed, at a given temperature, to reduce the microbial population by 90% (factor 10).",ar:"القيمة D (زمن التخفيض العشري) هي الزمن اللازم عند حرارة معينة لتخفيض التعداد الميكروبي بنسبة 90% (معامل 10)."}
+  },
+  {
+    q:{fr:"Quel antiseptique est utilise en coloration de Ziehl-Neelsen pour reveler les BAAR ?",en:"Which dye is used in Ziehl-Neelsen staining to reveal AFB?",ar:"أي صبغة تُستخدم في تلوين زيل-نيلسن للكشف عن BAAR؟"},
+    opts:{fr:["Violet de gentiane","Fuchsine phenolee","Bleu de methylene seul","Vert de malachite"],en:["Gentian violet","Phenolic fuchsin","Methylene blue alone","Malachite green"],ar:["البنفسج الجنطياني","الفوشين الفينولي","أزرق الميثيلين وحده","الأخضر الملكيتي"]},
+    correct:1,
+    exp:{fr:"La fuchsine phenolee, appliquee a chaud, penetre la paroi riche en acides mycoliques des mycobacteries et resiste a la decoloration acide.",en:"Phenolic fuchsin, applied hot, penetrates the mycolic acid-rich wall of mycobacteria and resists acid decolorization.",ar:"الفوشين الفينولي، يُطبق ساخناً، يخترق جدار الميكوباكتيريا الغني بالأحماض الميكوليك ويقاوم إزالة اللون الحمضي."}
+  },
+  {
+    q:{fr:"Un lot alimentaire avec n=5, c=1 a 2 unites non conformes est-il accepte ?",en:"Is a food lot with n=5, c=1 and 2 non-compliant units accepted?",ar:"هل تُقبل دفعة غذائية بـ n=5، c=1 مع وحدتين غير مطابقتين؟"},
+    opts:{fr:["Oui, car c=1 tolere jusqu'a 2 non conformites","Non, car le nombre de non-conformites depasse c","Oui, systematiquement","Cela depend uniquement de la valeur M"],en:["Yes, because c=1 tolerates up to 2 non-conformities","No, because the number of non-conformities exceeds c","Yes, always","It depends only on the M value"],ar:["نعم، لأن c=1 يسمح بحتى وحدتين غير مطابقتين","لا، لأن عدد الوحدات غير المطابقة يتجاوز c","نعم، دائماً","يعتمد فقط على قيمة M"]},
+    correct:1,
+    exp:{fr:"Avec c=1, un maximum d'une seule unite peut etre non conforme (entre m et M). Deux unites non conformes depassent la tolerance : le lot est rejete.",en:"With c=1, a maximum of one unit may be non-compliant (between m and M). Two non-compliant units exceed the tolerance: the lot is rejected.",ar:"مع c=1، يمكن لوحدة واحدة فقط أن تكون غير مطابقة (بين m و M). وحدتان غير مطابقتين يتجاوزان التسامح: تُرفض الدفعة."}
+  },
+  {
+    q:{fr:"Quel milieu est utilise pour la recherche de Vibrio cholerae ?",en:"Which medium is used to detect Vibrio cholerae?",ar:"أي وسط يُستخدم للكشف عن Vibrio cholerae؟"},
+    opts:{fr:["XLD","TCBS","Hektoen","Chapman"],en:["XLD","TCBS","Hektoen","Chapman"],ar:["XLD","TCBS","Hektoen","Chapman"]},
+    correct:1,
+    exp:{fr:"Le milieu TCBS (Thiosulfate Citrate Bile Sucrose), a pH alcalin 8.6, est selectif pour les vibrions qui y forment des colonies jaunes.",en:"TCBS medium (Thiosulfate Citrate Bile Sucrose), at alkaline pH 8.6, is selective for vibrios which form yellow colonies on it.",ar:"وسط TCBS، بدرجة حموضة قلوية 8.6، انتقائي للضمات التي تكوّن مستعمرات صفراء عليه."}
+  },
+  {
+    q:{fr:"Quelle est la fonction du Lugol dans la coloration de Gram ?",en:"What is the function of Lugol's iodine in Gram staining?",ar:"ما وظيفة لوغول في تلوين غرام؟"},
+    opts:{fr:["Colorant primaire","Mordant (fixe le complexe colorant)","Decolorant","Contre-colorant"],en:["Primary stain","Mordant (fixes the stain complex)","Decolorizer","Counterstain"],ar:["الصبغة الأساسية","المثبت (يثبت مركب الصبغة)","المزيل للون","الصبغة المقابلة"]},
+    correct:1,
+    exp:{fr:"Le Lugol agit comme mordant : il forme un complexe insoluble avec le violet de gentiane, retenu par la paroi epaisse des Gram positifs.",en:"Lugol's iodine acts as a mordant: it forms an insoluble complex with crystal violet, retained by the thick wall of Gram-positive bacteria.",ar:"يعمل لوغول كمثبت: يكوّن مركباً غير ذائب مع البنفسج الجنطياني، يُحتجز داخل الجدار السميك للبكتيريا الموجبة."}
+  },
+  {
+    q:{fr:"Quelle bacterie est associee a la maladie du legionnaire ?",en:"Which bacterium is associated with Legionnaires' disease?",ar:"أي بكتيريا مرتبطة بداء الفيالقة؟"},
+    opts:{fr:["Legionella pneumophila","Bordetella pertussis","Brucella melitensis","Pasteurella multocida"],en:["Legionella pneumophila","Bordetella pertussis","Brucella melitensis","Pasteurella multocida"],ar:["Legionella pneumophila","Bordetella pertussis","Brucella melitensis","Pasteurella multocida"]},
+    correct:0,
+    exp:{fr:"Legionella pneumophila cause une pneumopathie severe, transmise par aerosols d'eau contaminee (climatisation, tours de refroidissement).",en:"Legionella pneumophila causes severe pneumonia, transmitted by aerosols of contaminated water (air conditioning, cooling towers).",ar:"تسبب Legionella pneumophila التهاباً رئوياً حاداً، تنتقل عبر رذاذ المياه الملوثة (التكييف، أبراج التبريد)."}
+  },
+  {
+    q:{fr:"Quel test biochimique differencie Klebsiella d'Escherichia coli ?",en:"Which biochemical test differentiates Klebsiella from Escherichia coli?",ar:"أي اختبار بيوكيميائي يميز Klebsiella عن Escherichia coli؟"},
+    opts:{fr:["Catalase","Test de l'uree et mobilite","Gram","Oxydase"],en:["Catalase","Urease and motility test","Gram","Oxidase"],ar:["كاتالاز","اختبار اليورياز والحركة","غرام","أوكسيداز"]},
+    correct:1,
+    exp:{fr:"Klebsiella est immobile et uree positive, tandis qu'E. coli est generalement mobile et uree negative. Le profil IMViC les differencie egalement (- - + + vs + + - -).",en:"Klebsiella is non-motile and urease positive, while E. coli is generally motile and urease negative. The IMViC profile also differentiates them (- - + + vs + + - -).",ar:"Klebsiella غير متحركة وموجبة اليورياز، بينما E. coli متحركة عموماً وسلبية اليورياز. نمط IMViC يميزهما أيضاً."}
+  },
+  {
+    q:{fr:"Quelle est la limite M (rejet) habituelle pour Staphylococcus aureus dans un produit RTE ?",en:"What is the usual M (rejection) limit for Staphylococcus aureus in an RTE product?",ar:"ما هو الحد M المعتاد (الرفض) لـ Staphylococcus aureus في منتج جاهز للأكل؟"},
+    opts:{fr:["10 UFC/g","100 UFC/g","1000 UFC/g","10000 UFC/g"],en:["10 CFU/g","100 CFU/g","1000 CFU/g","10000 CFU/g"],ar:["10 CFU/g","100 CFU/g","1000 CFU/g","10000 CFU/g"]},
+    correct:2,
+    exp:{fr:"Pour les staphylocoques a coagulase positive dans les produits prets a consommer, M = 1000 UFC/g est une valeur seuil courante avant rejet.",en:"For coagulase-positive staphylococci in ready-to-eat products, M = 1000 CFU/g is a common threshold before rejection.",ar:"للمكورات العنقودية الموجبة الكواغولاز في المنتجات الجاهزة، M = 1000 CFU/g قيمة حدية شائعة قبل الرفض."}
+  },
+  {
+    q:{fr:"Quel colorant revele les spores bacteriennes dans la coloration de Schaeffer-Fulton ?",en:"Which dye reveals bacterial spores in Schaeffer-Fulton staining?",ar:"أي صبغة تكشف الجراثيم البكتيرية في تلوين شيفر-فولتون؟"},
+    opts:{fr:["Safranine","Vert de malachite","Bleu de methylene","Fuchsine"],en:["Safranin","Malachite green","Methylene blue","Fuchsin"],ar:["السافرانين","الأخضر الملكيتي","أزرق الميثيلين","الفوشين"]},
+    correct:1,
+    exp:{fr:"Le vert de malachite, applique a chaud (vapeur), penetre la paroi resistante des spores qui apparaissent vertes, le corps vegetatif restant rose apres contre-coloration.",en:"Malachite green, applied hot (steam), penetrates the resistant spore wall which appears green, the vegetative body remaining pink after counterstaining.",ar:"الأخضر الملكيتي، يُطبق ساخناً (بخار)، يخترق جدار الجراثيم المقاوم فتظهر خضراء، ويبقى الجسم الخضري وردياً بعد الصبغة المقابلة."}
+  },
+  {
+    q:{fr:"Quel est le role du facteur X et du facteur V pour Haemophilus influenzae ?",en:"What is the role of factor X and factor V for Haemophilus influenzae?",ar:"ما دور العامل X والعامل V لـ Haemophilus influenzae؟"},
+    opts:{fr:["Facteurs de virulence uniquement","Nutriments essentiels a la croissance (hemine et NAD)","Facteurs de resistance aux antibiotiques","Antigenes de surface"],en:["Virulence factors only","Essential growth nutrients (hemin and NAD)","Antibiotic resistance factors","Surface antigens"],ar:["عوامل ضراوة فقط","مغذيات أساسية للنمو (الهيمين وNAD)","عوامل مقاومة المضادات الحيوية","مستضدات سطحية"]},
+    correct:1,
+    exp:{fr:"Haemophilus influenzae est un germe exigeant necessitant l'hemine (facteur X) et le NAD (facteur V), presents dans le sang chauffe de la gelose chocolat.",en:"Haemophilus influenzae is a fastidious organism requiring hemin (factor X) and NAD (factor V), present in the heated blood of chocolate agar.",ar:"Haemophilus influenzae كائن دقيق نزق يحتاج الهيمين (العامل X) وNAD (العامل V)، الموجودين في الدم المسخن لأجار الشوكولاتة."}
+  },
+  {
+    q:{fr:"Quelle enzyme produite par certaines Klebsiella confere une resistance aux beta-lactamines ?",en:"Which enzyme produced by some Klebsiella confers resistance to beta-lactams?",ar:"أي إنزيم تنتجه بعض Klebsiella يمنح مقاومة للبيتا-لاكتام؟"},
+    opts:{fr:["Coagulase","Beta-lactamase a spectre etendu (BLSE)","Catalase","Uréase"],en:["Coagulase","Extended-spectrum beta-lactamase (ESBL)","Catalase","Urease"],ar:["كواغولاز","بيتا-لاكتاماز واسع الطيف (BLSE)","كاتالاز","يورياز"]},
+    correct:1,
+    exp:{fr:"Les BLSE hydrolysent la plupart des penicillines et cephalosporines, representant un enjeu majeur de resistance bacterienne en milieu hospitalier.",en:"ESBLs hydrolyze most penicillins and cephalosporins, representing a major bacterial resistance issue in hospital settings.",ar:"تحلل BLSE معظم البنسلينات والسيفالوسبورينات، وتمثل تحدياً كبيراً لمقاومة البكتيريا في المستشفيات."}
+  },
+  {
+    q:{fr:"Sur quel milieu observe-t-on le test de la corde pour identifier Vibrio cholerae ?",en:"On which medium is the string test performed to identify Vibrio cholerae?",ar:"على أي وسط يُجرى اختبار الخيط لتحديد Vibrio cholerae؟"},
+    opts:{fr:["Gelose nutritive avec desoxycholate de sodium","MacConkey","Chapman","Sabouraud"],en:["Nutrient agar with sodium deoxycholate","MacConkey","Chapman","Sabouraud"],ar:["أجار مغذي مع ديوكسيكولات الصوديوم","MacConkey","Chapman","Sabouraud"]},
+    correct:0,
+    exp:{fr:"Le test de la corde (mucoid string test) utilise le desoxycholate de sodium a 0.5% : une colonie de Vibrio forme un filet visqueux caracteristique en presence de ce reactif.",en:"The string test uses 0.5% sodium deoxycholate: a Vibrio colony forms a characteristic viscous strand in the presence of this reagent.",ar:"يستخدم اختبار الخيط ديوكسيكولات الصوديوم 0.5%: تكوّن مستعمرة الضمة خيطاً لزجاً مميزاً بوجود هذا الكاشف."}
+  },
+  {
+    q:{fr:"Quelle est la difference entre les criteres m et M dans un plan d'echantillonnage ?",en:"What is the difference between the m and M criteria in a sampling plan?",ar:"ما الفرق بين معياري m وM في خطة أخذ العينات؟"},
+    opts:{fr:["m est le seuil de rejet, M le seuil satisfaisant","m est le seuil satisfaisant, M le seuil de rejet absolu","Il n'y a pas de difference","m s'applique aux liquides, M aux solides"],en:["m is the rejection threshold, M the satisfactory threshold","m is the satisfactory threshold, M the absolute rejection threshold","There is no difference","m applies to liquids, M to solids"],ar:["m هو حد الرفض، M الحد المُرضي","m هو الحد المُرضي، M حد الرفض المطلق","لا يوجد فرق","m يُطبق على السوائل، M على الصلبة"]},
+    correct:1,
+    exp:{fr:"m est la limite en dessous de laquelle le resultat est satisfaisant. M est la limite absolue : au-dela, le produit est toujours rejete, quel que soit c.",en:"m is the limit below which the result is satisfactory. M is the absolute limit: beyond it, the product is always rejected, regardless of c.",ar:"m هو الحد الذي دونه تكون النتيجة مُرضية. M هو الحد المطلق: فوقه يُرفض المنتج دائماً بغض النظر عن c."}
+  },
+  {
+    q:{fr:"Quel champignon est responsable de la production d'aflatoxines dans les cereales mal stockees ?",en:"Which fungus produces aflatoxins in poorly stored cereals?",ar:"أي فطر مسؤول عن إنتاج الأفلاتوكسين في الحبوب سيئة التخزين؟"},
+    opts:{fr:["Aspergillus fumigatus","Aspergillus flavus","Candida albicans","Mucor sp."],en:["Aspergillus fumigatus","Aspergillus flavus","Candida albicans","Mucor sp."],ar:["Aspergillus fumigatus","Aspergillus flavus","Candida albicans","Mucor sp."]},
+    correct:1,
+    exp:{fr:"Aspergillus flavus produit des aflatoxines, des mycotoxines cancerigenes, particulierement problematiques dans les arachides et cereales stockees en milieu humide.",en:"Aspergillus flavus produces aflatoxins, carcinogenic mycotoxins, particularly problematic in peanuts and cereals stored in humid conditions.",ar:"ينتج Aspergillus flavus الأفلاتوكسين، وهو سموم فطرية مسرطنة، تمثل مشكلة خاصة في الفول السوداني والحبوب المخزنة في بيئة رطبة."}
+  },
+  {
+    q:{fr:"Quelle technique permet de confirmer une mucormycose invasive ?",en:"Which technique confirms invasive mucormycosis?",ar:"أي تقنية تؤكد داء الفطر الطحلبي الغازي؟"},
+    opts:{fr:["Coloration de Gram simple","Observation d'hyphes larges non cloisonnes en anatomopathologie","Antibiogramme","Test de coagulase"],en:["Simple Gram stain","Observation of wide non-septate hyphae in histopathology","Antibiogram","Coagulase test"],ar:["تلوين غرام بسيط","ملاحظة خيوط عريضة غير مقسمة في الفحص النسيجي","اختبار الحساسية للمضادات","اختبار الكواغولاز"]},
+    correct:1,
+    exp:{fr:"Les Mucorales (Mucor, Rhizopus) presentent des hyphes larges, irreguliers, non cloisonnes, visibles en histopathologie, caracteristique cle du diagnostic.",en:"Mucorales (Mucor, Rhizopus) show wide, irregular, non-septate hyphae, visible in histopathology, a key diagnostic feature.",ar:"تُظهر الفطريات الطحلبية (Mucor، Rhizopus) خيوطاً عريضة غير منتظمة وغير مقسمة، تظهر في الفحص النسيجي، وهي سمة تشخيصية أساسية."}
+  },
+  {
+    q:{fr:"Quel est l'agent causal de la coqueluche ?",en:"What is the causative agent of whooping cough?",ar:"ما العامل المسبب للسعال الديكي؟"},
+    opts:{fr:["Bordetella pertussis","Corynebacterium diphtheriae","Neisseria meningitidis","Haemophilus influenzae"],en:["Bordetella pertussis","Corynebacterium diphtheriae","Neisseria meningitidis","Haemophilus influenzae"],ar:["Bordetella pertussis","Corynebacterium diphtheriae","Neisseria meningitidis","Haemophilus influenzae"]},
+    correct:0,
+    exp:{fr:"Bordetella pertussis, coccobacille Gram- fastidieux, provoque la coqueluche caracterisee par une toux quinteuse prolongee, prevenue par le vaccin DTCaP.",en:"Bordetella pertussis, a fastidious Gram- coccobacillus, causes whooping cough characterized by prolonged paroxysmal coughing, prevented by the DTaP vaccine.",ar:"تسبب Bordetella pertussis، وهي مكورة عصوية غرام سلبية نزقة، السعال الديكي المتميز بسعال نوبي طويل، ويُمنع باللقاح DTCaP."}
+  },
+  {
+    q:{fr:"Pourquoi Enterococcus est-il un indicateur de qualite des eaux de baignade ?",en:"Why is Enterococcus a bathing water quality indicator?",ar:"لماذا يُعد Enterococcus مؤشراً لجودة مياه السباحة؟"},
+    opts:{fr:["Il est pathogene pour les poissons","Il indique une contamination fecale recente et resiste au milieu marin","Il produit des toxines dans l'eau","Il n'est pas utilise comme indicateur"],en:["It is pathogenic to fish","It indicates recent fecal contamination and survives in marine environments","It produces toxins in water","It is not used as an indicator"],ar:["إنه ممرض للأسماك","يدل على تلوث برازي حديث ويقاوم البيئة البحرية","ينتج سموماً في الماء","لا يُستخدم كمؤشر"]},
+    correct:1,
+    exp:{fr:"Les enterocoques survivent mieux que les coliformes en milieu marin sale, ce qui en fait un indicateur fiable de contamination fecale pour les eaux de baignade.",en:"Enterococci survive better than coliforms in salty marine environments, making them a reliable fecal contamination indicator for bathing water.",ar:"تبقى المكورات المعوية حية بشكل أفضل من القولونيات في البيئة البحرية المالحة، مما يجعلها مؤشراً موثوقاً للتلوث البرازي لمياه السباحة."}
+  },
+  {
+    q:{fr:"Quelle est la particularite de Nocardia en coloration de Ziehl-Neelsen modifiee ?",en:"What is distinctive about Nocardia in modified Ziehl-Neelsen staining?",ar:"ما الخاصية المميزة لـ Nocardia في تلوين زيل-نيلسن المعدل؟"},
+    opts:{fr:["Acido-resistance totale comme les mycobacteries","Acido-resistance partielle (Ziehl modifie a l'acide faible)","Aucune acido-resistance","Coloration Gram negative uniquement"],en:["Full acid-fastness like mycobacteria","Partial acid-fastness (modified Ziehl with weak acid)","No acid-fastness","Gram-negative staining only"],ar:["مقاومة كاملة للحمض مثل الميكوباكتيريا","مقاومة جزئية للحمض (زيل معدل بحمض ضعيف)","لا مقاومة للحمض","تلوين غرام سلبي فقط"]},
+    correct:1,
+    exp:{fr:"Nocardia presente une acido-alcoolo-resistance partielle, revelee par une methode de Ziehl-Neelsen modifiee utilisant un acide plus faible que pour les mycobacteries.",en:"Nocardia shows partial acid-fastness, revealed by a modified Ziehl-Neelsen method using a weaker acid than for mycobacteria.",ar:"تُظهر Nocardia مقاومة جزئية للحمض والكحول، تُكشف بطريقة زيل-نيلسن المعدلة باستخدام حمض أضعف من المستخدم للميكوباكتيريا."}
+  }
+];
+let qcmScore = 0;
+let qcmAnswered = new Array(QCM.length).fill(false);
+
+function renderQCM(){
+  const container = document.getElementById('qcmContainer');
+  const lang = currentLang || 'fr';
+  container.innerHTML = QCM.map((item, qi)=>`
+    <div class="qcm-card">
+      <div class="qcm-q">${qi+1}. ${item.q[lang]}</div>
+      <div class="qcm-options">
+        ${item.opts[lang].map((opt,oi)=>`<button class="qcm-opt" id="qcm-${qi}-${oi}" onclick="answerQCM(${qi},${oi})">${opt}</button>`).join('')}
+      </div>
+      <div class="qcm-explain" id="qcm-exp-${qi}">${item.exp[lang]}</div>
+    </div>
+  `).join('');
+  document.getElementById('qcmScoreBox').style.display='none';
+  qcmScore = 0;
+  qcmAnswered = new Array(QCM.length).fill(false);
+}
+
+function answerQCM(qi, oi){
+  if(qcmAnswered[qi]) return;
+  qcmAnswered[qi] = true;
+  const item = QCM[qi];
+  document.getElementById(`qcm-${qi}-${oi}`).classList.add(oi===item.correct ? 'correct' : 'wrong');
+  if(oi===item.correct) qcmScore++;
+  else document.getElementById(`qcm-${qi}-${item.correct}`).classList.add('correct');
+  document.getElementById(`qcm-exp-${qi}`).style.display='block';
+
+  if(qcmAnswered.every(a=>a)){
+    document.getElementById('qcmScoreBox').style.display='block';
+    document.getElementById('qcmScoreText').textContent = LANG[currentLang || 'fr'].mped_qcm_score_text.replace('{score}',qcmScore).replace('{total}',QCM.length);
+  }
+}
+function resetQuiz(){ renderQCM(); }
+
+window.addEventListener('load', ()=>{
+  initLang(); renderQCM();
+  const loader = document.getElementById('loaderScreen');
+  setTimeout(() => { loader.classList.add('hidden'); setTimeout(() => loader.remove(), 600); }, 500);
+  window.CHEATSHEET_DATA = {
+    title: 'MicroPedia Cheat Sheet',
+    sections: [
+      { heading: 'Culture media quick reference', headers: ['Medium','Type','Main use'],
+        rows: MEDIA_ENCY.map(m=>[m.name, m.type[currentLang]||m.type.fr, m.use[currentLang]||m.use.fr]) },
+      { heading: 'Key ISO norms', headers: ['Norm','Purpose'],
+        rows: NORMS.map(n=>[n.code, n.obj[currentLang]||n.obj.fr]) }
+    ]
+  };
+  injectCheatSheetButton('.tool-page-body > div:first-child');
+});
+window.addEventListener('langchange', () => {
+  renderStaining(); renderQCM(); renderMediaEncy(); renderNorms();
+  window.CHEATSHEET_DATA.sections[0].rows = MEDIA_ENCY.map(m=>[m.name, m.type[currentLang]||m.type.fr, m.use[currentLang]||m.use.fr]);
+  window.CHEATSHEET_DATA.sections[1].rows = NORMS.map(n=>[n.code, n.obj[currentLang]||n.obj.fr]);
+});
+</script>
+</body>
+</html>

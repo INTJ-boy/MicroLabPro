@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>MicroPath : Antibiogramme, milieux de culture et verdict CQ</title>
+<meta name="description" content="Interpretez un antibiogramme selon CASFM/EUCAST, trouvez le milieu de culture adapte a chaque germe et evaluez un resultat de controle qualite alimentaire selon les normes ISO et Codex."/>
+<link rel="canonical" href="https://YOURDOMAIN.com/tools/micropath.html"/>
+<meta property="og:type" content="website"/>
+<meta property="og:title" content="MicroPath : Diagnostic microbiologique"/>
+<meta property="og:description" content="Antibiogramme CASFM/EUCAST, recommandation de milieux, verdict de contamination."/>
+<meta property="og:url" content="https://YOURDOMAIN.com/tools/micropath.html"/>
+<meta property="og:image" content="https://YOURDOMAIN.com/og-image.png"/>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "MicroPath",
+  "url": "https://YOURDOMAIN.com/tools/micropath.html",
+  "description": "Assistant de diagnostic microbiologique clinique et alimentaire.",
+  "applicationCategory": "EducationalApplication",
+  "isPartOf": { "@type": "WebSite", "name": "MicroLab Pro", "url": "https://YOURDOMAIN.com/" }
+}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="icon" type="image/x-icon" href="../favicon.ico"/>
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png"/>
+<link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png"/>
+<link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png"/>
+<link rel="manifest" href="../site.webmanifest"/>
+<meta name="theme-color" content="#04080f"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="../style.css"/>
+</head>
+<body>
+
+<div class="loader-screen" id="loaderScreen">
+  <div class="loader-mascot">🦑</div>
+  <div class="loader-bar"><div class="loader-bar-fill"></div></div>
+  <div class="loader-text" data-i18n="loading_text">Chargement de la boite a outils</div>
+</div>
+
+<nav>
+  <a class="nav-logo" href="../index.html">Micro<span>Lab</span> Pro</a>
+  <ul class="nav-links">
+    <li><a href="../index.html" data-i18n="nav_home">Accueil</a></li>
+    <li><a href="microid.html" data-i18n="nav_microid">MicroID</a></li>
+    <li><a href="micropath.html" style="color:var(--accent2)" data-i18n="nav_micropath">MicroPath</a></li>
+    <li><a href="microcalc.html" data-i18n="nav_microcalc">MicroCalc</a></li>
+    <li><a href="micropedia.html" data-i18n="nav_micropedia">MicroPedia</a></li>
+    <li><a href="microsteril.html" data-i18n="nav_microsteril">MicroSteril</a></li>
+  </ul>
+  <div class="nav-right">
+    <div class="lang-switcher">
+      <button class="lang-btn" data-lang="ar" onclick="setLang('ar')">ع</button>
+      <button class="lang-btn" data-lang="fr" onclick="setLang('fr')">FR</button>
+      <button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
+    </div>
+  </div>
+  <button class="hamburger" onclick="toggleMenu()">&#9776;</button>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="../index.html" data-i18n="nav_home">Accueil</a>
+  <a href="microid.html" data-i18n="nav_microid">MicroID</a>
+  <a href="micropath.html" data-i18n="nav_micropath">MicroPath</a>
+  <a href="microcalc.html" data-i18n="nav_microcalc">MicroCalc</a>
+  <a href="micropedia.html" data-i18n="nav_micropedia">MicroPedia</a>
+  <a href="microsteril.html" data-i18n="nav_microsteril">MicroSteril</a>
+  <div class="lang-switcher" style="margin-top:1rem;">
+    <button class="lang-btn" data-lang="ar" onclick="setLang('ar');toggleMenu()">ع</button>
+    <button class="lang-btn" data-lang="fr" onclick="setLang('fr');toggleMenu()">FR</button>
+    <button class="lang-btn" data-lang="en" onclick="setLang('en');toggleMenu()">EN</button>
+  </div>
+</div>
+</div>
+
+<div class="tool-page-header">
+  <div class="tool-page-eyebrow" style="color:var(--accent2)"><span data-i18n="micropath_eyebrow">🔬 MicroPath</span></div>
+  <h1 class="tool-page-title" style="color:var(--accent2)" data-i18n="micropath_title">Assistant de diagnostic</h1>
+  <p class="tool-page-sub" data-i18n="micropath_sub">Antibiogramme CASFM/EUCAST · Recommandation de milieux · Verdict de contamination alimentaire</p>
+</div>
+
+<div class="print-header">
+  <strong>MicroLab Pro</strong> &middot; <span id="printDate"></span>
+</div>
+<div class="tool-page-body">
+  <div style="text-align:right; margin-bottom:0.5rem;">
+    <button class="export-btn" onclick="printResult()">🖨 <span data-i18n="export_print">Exporter / Imprimer</span></button>
+  </div>
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab('antibiogram')" data-i18n="mp_tab_ab">Antibiogramme</button>
+    <button class="tab-btn" onclick="switchTab('media')" data-i18n="mp_tab_media">Milieux de culture</button>
+    <button class="tab-btn" onclick="switchTab('qcverdict')" data-i18n="mp_tab_qc">Verdict CQ alimentaire</button>
+  </div>
+
+  <!-- ── ANTIBIOGRAMME ── -->
+  <div class="tab-content active" id="tab-antibiogram">
+    <div class="calc-card">
+      <h3 data-i18n="mp_ab_h3">Interprétation antibiogramme (CASFM/EUCAST 2024)</h3>
+      <div class="field-row">
+        <div class="field">
+          <label data-i18n="mp_ab_bact">Bactérie</label>
+          <select id="abBacteria" onchange="populateAbx()">
+            <option value="s_aureus">Staphylococcus aureus</option>
+            <option value="e_coli">Escherichia coli</option>
+            <option value="klebsiella">Klebsiella pneumoniae</option>
+            <option value="pseudomonas">Pseudomonas aeruginosa</option>
+            <option value="s_pneumoniae">Streptococcus pneumoniae</option>
+            <option value="enterococcus">Enterococcus sp.</option>
+            <option value="acinetobacter">Acinetobacter baumannii</option>
+            <option value="proteus">Proteus mirabilis</option>
+            <option value="salmonella">Salmonella sp.</option>
+            <option value="streptoA">Streptococcus pyogenes</option>
+          </select>
+        </div>
+        <div class="field">
+          <label data-i18n="mp_ab_abx">Antibiotique</label>
+          <select id="abAntibiotic" onchange="updateAbxInfo()"></select>
+        </div>
+      </div>
+      <div class="field-row" style="align-items:center">
+        <div class="field" style="max-width:180px">
+          <label data-i18n="mp_ab_diam">Diametre d'inhibition (mm)</label>
+          <input type="number" id="abDiameter" min="0" max="60" placeholder="ex: 22" oninput="interpretAbx()"/>
+        </div>
+        <div style="padding-top:1.4rem; color:var(--muted); font-size:0.8rem; font-family:var(--mono)">
+          <span id="abxInfo"></span>
+        </div>
+      </div>
+      <div class="result-box" id="abResult">
+        <div class="result-label" data-i18n="mp_ab_result">Résultat CASFM/EUCAST</div>
+        <div id="abVerdict"></div>
+        <div class="result-sub" id="abInterpret"></div>
+      </div>
+    </div>
+
+    <div class="calc-card" style="margin-top:0">
+      <h3 data-i18n="mp_ab_ref_h3">Tableau de référence rapide</h3>
+      <div style="overflow-x:auto">
+      <table class="ref-table" id="refTable">
+        <thead><tr><th data-i18n="mp_ab_th_abx">Antibiotique</th><th data-i18n="mp_ab_th_charge">Charge (µg)</th><th data-i18n="mp_ab_th_s">S ≥ (mm)</th><th data-i18n="mp_ab_th_r">R &lt; (mm)</th></tr></thead>
+        <tbody id="refTableBody"></tbody>
+      </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── MILIEUX ── -->
+  <div class="tab-content" id="tab-media">
+    <div class="calc-card">
+      <h3 data-i18n="mp_media_h3">Recommandation de milieux de culture</h3>
+      <div class="field-row">
+        <div class="field">
+          <label data-i18n="mp_media_germ">Germe recherché</label>
+          <select id="mediaGerm" onchange="showMedia()">
+            <option value="" data-i18n="mp_media_choose_opt">-- Choisir un germe --</option>
+            <option value="salmonella">Salmonella sp.</option>
+            <option value="listeria">Listeria monocytogenes</option>
+            <option value="ecoli">E. coli</option>
+            <option value="staph">Staphylococcus aureus</option>
+            <option value="campylobacter">Campylobacter sp.</option>
+            <option value="clostridium">Clostridium perfringens</option>
+            <option value="coliformes" data-i18n="mp_media_opt_coliformes">Coliformes totaux / fecaux</option>
+            <option value="moisissures" data-i18n="mp_media_opt_moisissures">Levures et moisissures</option>
+            <option value="pseudomonas">Pseudomonas aeruginosa</option>
+            <option value="vibrio">Vibrio cholerae</option>
+            <option value="shigella">Shigella sp.</option>
+            <option value="bacillus">Bacillus cereus</option>
+            <option value="enterococcus">Enterococcus sp.</option>
+            <option value="klebsiella">Klebsiella pneumoniae</option>
+            <option value="proteus">Proteus sp.</option>
+            <option value="streptoA">Streptococcus pyogenes</option>
+            <option value="neisseria">Neisseria sp.</option>
+            <option value="haemophilus">Haemophilus influenzae</option>
+            <option value="mycobact">Mycobacterium tuberculosis</option>
+            <option value="helicobacter">Helicobacter pylori</option>
+            <option value="acinetobacter">Acinetobacter baumannii</option>
+            <option value="candida">Candida albicans</option>
+            <option value="anaerobes" data-i18n="mp_media_opt_anaerobes">Anaerobies stricts (Bacteroides)</option>
+          </select>
+        </div>
+        <div class="field">
+          <label data-i18n="mp_media_matrix">Matrice / contexte</label>
+          <select id="mediaMatrix" onchange="showMedia()">
+            <option value="food" data-i18n="mp_media_food">Alimentaire</option>
+            <option value="clinical" data-i18n="mp_media_clinical">Clinique</option>
+            <option value="water" data-i18n="mp_media_water">Eau</option>
+            <option value="env" data-i18n="mp_media_env">Environnemental</option>
+          </select>
+        </div>
+      </div>
+      <div class="result-box show" id="mediaResult" style="display:block">
+        <div style="color:var(--muted); font-size:0.9rem;" data-i18n="mp_media_choose">Choisissez un germe pour afficher les recommandations.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── VERDICT CQ ── -->
+  <div class="tab-content" id="tab-qcverdict">
+    <div class="calc-card">
+      <h3 data-i18n="mp_qc_h3">Verdict microbiologique (Codex Alimentarius / JORA)</h3>
+      <div class="field-row">
+        <div class="field">
+          <label data-i18n="mp_qc_germ">Germe / Critère</label>
+          <select id="vcGerm" onchange="updateVcLimits()">
+            <option value="aerobic" data-i18n="mp_qc_opt_aerobic">Flore totale aérobie mésophile (FTAM)</option>
+            <option value="coliforms" data-i18n="mp_qc_opt_coliforms">Coliformes totaux</option>
+            <option value="ecoli" data-i18n="mp_qc_opt_ecoli">E. coli</option>
+            <option value="staph" data-i18n="mp_qc_opt_staph">Staphylocoques pathogènes</option>
+            <option value="salmonella" data-i18n="mp_qc_opt_salmonella">Salmonella (présence/absence)</option>
+            <option value="listeria" data-i18n="mp_qc_opt_listeria">Listeria monocytogenes</option>
+            <option value="yeast" data-i18n="mp_qc_opt_yeast">Levures et moisissures</option>
+            <option value="bcereus" data-i18n="mp_qc_opt_bcereus">Bacillus cereus</option>
+            <option value="cperfringens" data-i18n="mp_qc_opt_cperfringens">Clostridium perfringens</option>
+            <option value="enterococcus" data-i18n="mp_qc_opt_enterococcus">Enterococcus (eaux de baignade)</option>
+            <option value="anaerobies" data-i18n="mp_qc_opt_anaerobies">Anaerobies sulfito-reducteurs</option>
+          </select>
+        </div>
+        <div class="field">
+          <label data-i18n="mp_qc_product">Type de produit</label>
+          <select id="vcProduct" onchange="updateVcLimits()">
+            <option value="rte" data-i18n="mp_qc_rte">Prêt à consommer (RTE)</option>
+            <option value="raw" data-i18n="mp_qc_raw">Produit cru</option>
+            <option value="heat" data-i18n="mp_qc_heat">Traité thermiquement</option>
+            <option value="dairy" data-i18n="mp_qc_dairy">Produit laitier</option>
+          </select>
+        </div>
+      </div>
+      <div class="field-row" id="vcCountRow">
+        <div class="field" style="max-width:200px">
+          <label data-i18n="mp_qc_count">Résultat (UFC/g ou UFC/mL)</label>
+          <input type="number" id="vcCount" min="0" placeholder="ex: 5000" oninput="interpretVc()"/>
+        </div>
+        <div class="field" id="vcLimitsDisplay" style="max-width:300px; justify-content:flex-end">
+          <label data-i18n="mp_qc_limits">Limites applicables</label>
+          <div id="vcLimitsText" style="font-family:var(--mono);font-size:0.78rem;color:var(--muted);padding:0.55rem 0;"></div>
+        </div>
+      </div>
+      <div class="result-box" id="vcResult">
+        <div class="result-label" data-i18n="mp_qc_verdict">Verdict</div>
+        <div id="vcVerdict"></div>
+        <div class="result-sub" id="vcSub"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <span class="footer-logo">MicroLab Pro</span>
+  <a class="footer-social" href="https://www.linkedin.com/in/zekraouirabahallaaeddine" target="_blank" rel="noopener">
+    <svg viewBox="0 0 24 24"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.03-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.34V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.38-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12zM7.12 20.45H3.56V9h3.56v11.45z"/></svg>
+    <span data-i18n="follow_link">Suivre sur LinkedIn</span>
+  </a>
+  <p class="footer-copy" data-i18n="copyright">Tous droits réservés à Zekraoui Rabah AllaaEddine 🦑 © 2026</p>
+</footer>
+
+<script src="../lang.js"></script>
+<script src="../inquiry.js"></script>
+<script src="../widgets.js"></script>
+<script>
+function toggleMenu(){ document.getElementById('mobileMenu').classList.toggle('open'); }
+function switchTab(id){
+  document.querySelectorAll('.tab-btn').forEach((b,i)=>{
+    const ids=['antibiogram','media','qcverdict'];
+    b.classList.toggle('active', ids[i]===id);
+  });
+  document.querySelectorAll('.tab-content').forEach(t=>{ t.classList.toggle('active', t.id==='tab-'+id); });
+}
+
+// ── ANTIBIOGRAM DATA ──────────────────────────────────────────────────────────
+const ABX_DATA = {
+  s_aureus: [
+    {name:'Pénicilline G',charge:'1 UI',s:29,r:28,disc:'Péni'},
+    {name:'Oxacilline',charge:'1',s:22,r:21,disc:'OX'},
+    {name:'Céfoxitine (détection SARM)',charge:'30',s:22,r:21,disc:'FOX'},
+    {name:'Vancomycine (CMI)',charge:'CMI',s:null,r:null,disc:'VA',cmi:true},
+    {name:'Gentamicine',charge:'10',s:18,r:17,disc:'GEN'},
+    {name:'Érythromycine',charge:'15',s:21,r:17,disc:'ERY'},
+    {name:'Tétracycline',charge:'30',s:19,r:14,disc:'TET'},
+    {name:'Triméthoprime-Sulfaméthoxazole',charge:'25',s:16,r:13,disc:'SXT'},
+    {name:'Rifampicine',charge:'5',s:20,r:19,disc:'RIF'},
+    {name:'Clindamycine',charge:'2',s:21,r:14,disc:'CLI'}
+  ],
+  e_coli: [
+    {name:'Ampicilline',charge:'10',s:17,r:13,disc:'AMP'},
+    {name:'Amoxicilline-Acide clavulanique',charge:'20/10',s:19,r:13,disc:'AMC'},
+    {name:'Céfotaxime',charge:'5',s:20,r:17,disc:'CTX'},
+    {name:'Céftazidime',charge:'10',s:21,r:17,disc:'CAZ'},
+    {name:'Imipénème',charge:'10',s:22,r:21,disc:'IMP'},
+    {name:'Gentamicine',charge:'10',s:15,r:12,disc:'GEN'},
+    {name:'Ciprofloxacine',charge:'5',s:25,r:21,disc:'CIP'},
+    {name:'Triméthoprime-Sulfaméthoxazole',charge:'25',s:16,r:13,disc:'SXT'},
+    {name:'Nitrofurantoïne',charge:'100',s:13,r:12,disc:'NIT'},
+    {name:'Fosfomycine',charge:'200',s:16,r:12,disc:'FOS'}
+  ],
+  klebsiella: [
+    {name:'Ampicilline',charge:'10',s:null,r:null,disc:'AMP',note:'Résistance naturelle'},
+    {name:'Amoxicilline-Acide clavulanique',charge:'20/10',s:18,r:13,disc:'AMC'},
+    {name:'Céfotaxime',charge:'5',s:20,r:17,disc:'CTX'},
+    {name:'Céftazidime',charge:'10',s:21,r:17,disc:'CAZ'},
+    {name:'Imipénème',charge:'10',s:22,r:21,disc:'IMP'},
+    {name:'Gentamicine',charge:'10',s:15,r:12,disc:'GEN'},
+    {name:'Ciprofloxacine',charge:'5',s:25,r:21,disc:'CIP'},
+    {name:'Colistine (CMI)',charge:'CMI',s:null,r:null,cmi:true,disc:'CST'}
+  ],
+  pseudomonas: [
+    {name:'Ticarcilline',charge:'75',s:21,r:17,disc:'TIC'},
+    {name:'Pipéracilline-Tazobactam',charge:'100/10',s:21,r:17,disc:'TZP'},
+    {name:'Céftazidime',charge:'10',s:21,r:17,disc:'CAZ'},
+    {name:'Imipénème',charge:'10',s:20,r:19,disc:'IMP'},
+    {name:'Méropénème',charge:'10',s:21,r:17,disc:'MEM'},
+    {name:'Gentamicine',charge:'10',s:15,r:12,disc:'GEN'},
+    {name:'Amikacine',charge:'30',s:17,r:14,disc:'AMK'},
+    {name:'Ciprofloxacine',charge:'5',s:25,r:21,disc:'CIP'},
+    {name:'Colistine',charge:'CMI',s:null,r:null,cmi:true,disc:'CST'}
+  ],
+  s_pneumoniae: [
+    {name:'Oxacilline (criblage)',charge:'1',s:20,r:19,disc:'OX'},
+    {name:'Pénicilline G (CMI)',charge:'CMI',s:null,r:null,cmi:true,disc:'Péni'},
+    {name:'Amoxicilline',charge:'2',s:22,r:19,disc:'AMX'},
+    {name:'Céfotaxime',charge:'5',s:20,r:17,disc:'CTX'},
+    {name:'Vancomycine',charge:'5',s:17,r:16,disc:'VA'},
+    {name:'Érythromycine',charge:'15',s:21,r:17,disc:'ERY'},
+    {name:'Tétracycline',charge:'30',s:19,r:14,disc:'TET'}
+  ],
+  enterococcus: [
+    {name:'Ampicilline',charge:'2',s:17,r:16,disc:'AMP'},
+    {name:'Vancomycine',charge:'5',s:17,r:14,disc:'VA'},
+    {name:'Teicoplanine',charge:'30',s:14,r:13,disc:'TEC'},
+    {name:'Linézolide',charge:'10',s:21,r:20,disc:'LZD'},
+    {name:'Nitrofurantoïne',charge:'100',s:13,r:12,disc:'NIT'},
+    {name:'Gentamicine HN (synergie)',charge:'120',s:10,r:9,disc:'GEN-HN'}
+  ],
+  acinetobacter: [
+    {name:'Ticarcilline-Acide clavulanique',charge:'75/10',s:20,r:14,disc:'TCC'},
+    {name:'Ceftazidime',charge:'10',s:18,r:14,disc:'CAZ'},
+    {name:'Imipeneme',charge:'10',s:22,r:16,disc:'IMP'},
+    {name:'Amikacine',charge:'30',s:17,r:14,disc:'AMK'},
+    {name:'Ciprofloxacine',charge:'5',s:21,r:15,disc:'CIP'},
+    {name:'Colistine',charge:'CMI',s:null,r:null,cmi:true,disc:'CST'}
+  ],
+  proteus: [
+    {name:'Ampicilline',charge:'10',s:17,r:13,disc:'AMP'},
+    {name:'Amoxicilline-Acide clavulanique',charge:'20/10',s:19,r:13,disc:'AMC'},
+    {name:'Cefotaxime',charge:'5',s:20,r:17,disc:'CTX'},
+    {name:'Gentamicine',charge:'10',s:15,r:12,disc:'GEN'},
+    {name:'Ciprofloxacine',charge:'5',s:25,r:21,disc:'CIP'},
+    {name:'Trimethoprime-Sulfamethoxazole',charge:'25',s:16,r:13,disc:'SXT'}
+  ],
+  salmonella: [
+    {name:'Ampicilline',charge:'10',s:17,r:13,disc:'AMP'},
+    {name:'Cefotaxime',charge:'5',s:20,r:17,disc:'CTX'},
+    {name:'Ciprofloxacine',charge:'5',s:25,r:21,disc:'CIP'},
+    {name:'Trimethoprime-Sulfamethoxazole',charge:'25',s:16,r:13,disc:'SXT'},
+    {name:'Chloramphenicol',charge:'30',s:23,r:19,disc:'CHL'},
+    {name:'Azithromycine',charge:'15',s:13,r:11,disc:'AZM'}
+  ],
+  streptoA: [
+    {name:'Penicilline G',charge:'1 UI',s:24,r:0,disc:'Peni',note:'Resistance exceptionnelle, jamais rapportee cliniquement'},
+    {name:'Amoxicilline',charge:'2',s:22,r:19,disc:'AMX'},
+    {name:'Erythromycine',charge:'15',s:21,r:17,disc:'ERY'},
+    {name:'Clindamycine',charge:'2',s:21,r:14,disc:'CLI'},
+    {name:'Vancomycine',charge:'5',s:17,r:16,disc:'VA'}
+  ]
+};
+
+function populateAbx(){
+  const bact = document.getElementById('abBacteria').value;
+  const sel = document.getElementById('abAntibiotic');
+  sel.innerHTML = ABX_DATA[bact].map((a,i)=>`<option value="${i}">${a.name}</option>`).join('');
+  updateAbxInfo();
+  interpretAbx();
+}
+function updateAbxInfo(){
+  const bact = document.getElementById('abBacteria').value;
+  const idx = +document.getElementById('abAntibiotic').value;
+  const a = ABX_DATA[bact][idx];
+  const infoEl = document.getElementById('abxInfo');
+  const t = LANG[currentLang || 'fr'];
+  if(a.note){ infoEl.textContent = a.note; document.getElementById('abResult').classList.remove('show'); return; }
+  if(a.cmi){ infoEl.textContent = t.mp_ab_cmi_note; document.getElementById('abResult').classList.remove('show'); return; }
+  infoEl.textContent = t.mp_ab_disc_info.replace('{disc}',a.disc).replace('{charge}',a.charge).replace('{s}',a.s).replace('{r}',a.r);
+}
+function interpretAbx(){
+  const bact = document.getElementById('abBacteria').value;
+  const idx = +document.getElementById('abAntibiotic').value;
+  const a = ABX_DATA[bact][idx];
+  const diam = +document.getElementById('abDiameter').value;
+  const resBox = document.getElementById('abResult');
+  const verdict = document.getElementById('abVerdict');
+  const interpret = document.getElementById('abInterpret');
+  const t = LANG[currentLang || 'fr'];
+  if(!diam || a.cmi || a.note){ resBox.classList.remove('show'); return; }
+  resBox.classList.add('show');
+  if(diam >= a.s){
+    verdict.innerHTML = `<span class="badge-s">${t.mp_ab_s_label}</span>`;
+    interpret.textContent = t.mp_ab_s_text.replace('{d}',diam).replace('{s}',a.s);
+  } else if(diam < a.r){
+    verdict.innerHTML = `<span class="badge-r">${t.mp_ab_r_label}</span>`;
+    interpret.textContent = t.mp_ab_r_text.replace('{d}',diam).replace('{r}',a.r);
+  } else {
+    verdict.innerHTML = `<span class="badge-i">${t.mp_ab_i_label}</span>`;
+    interpret.textContent = t.mp_ab_i_text.replace('{d}',diam).replace('{r}',a.r).replace('{s}',a.s);
+  }
+}
+
+function buildRefTable(){
+  const bact = document.getElementById('abBacteria').value;
+  const tbody = document.getElementById('refTableBody');
+  tbody.innerHTML = ABX_DATA[bact].map(a=> `<tr>
+    <td>${a.name}</td>
+    <td style="font-family:var(--mono);font-size:0.8rem">${a.charge}${a.cmi?'':' µg'}</td>
+    <td>${a.s!=null ? '<span class="badge-s">≥'+a.s+'</span>' : '<span style="color:var(--muted)">CMI</span>'}</td>
+    <td>${a.r!=null ? '<span class="badge-r"><'+a.r+'</span>' : '<span style="color:var(--muted)">CMI</span>'}</td>
+  </tr>`).join('');
+}
+document.getElementById('abBacteria').addEventListener('change', buildRefTable);
+
+// ── MEDIA DATA (matrix-aware: food / clinical / water / env) ──────────────────
+const MEDIA_DATA = {
+  salmonella: {
+    enrichment: { fr:['Eau peptonee tamponnee (ETP) : 37°C/18h', 'Bouillon Rappaport-Vassiliadis (RV) : 41.5°C/24h', 'Bouillon Muller-Kauffmann (MKTTn)'], en:['Buffered peptone water (BPW): 37°C/18h', 'Rappaport-Vassiliadis broth (RV): 41.5°C/24h', 'Muller-Kauffmann broth (MKTTn)'], ar:['ماء ببتوني مؤقلن: 37°C/18 ساعة', 'مرق Rappaport-Vassiliadis: 41.5°C/24 ساعة', 'مرق Muller-Kauffmann'] },
+    selective: { fr:['Xylose Lysine Desoxycholate (XLD) : colonies roses/noires avec halo', 'Hektoen : colonies vertes/bleues avec centre noir', 'MSRV (mobilite)'], en:['Xylose Lysine Deoxycholate (XLD): pink/black colonies with halo', 'Hektoen: green/blue colonies with black center', 'MSRV (motility)'], ar:['XLD: مستعمرات وردية/سوداء بهالة', 'Hektoen: مستعمرات خضراء/زرقاء بمركز أسود', 'MSRV (الحركة)'] },
+    confirmation: { fr:['TSI : Lac-/Glu+/H2S+', 'Urease -', 'Lysine +', 'Serotypage O/H/Vi'], en:['TSI: Lac-/Glu+/H2S+', 'Urease -', 'Lysine +', 'O/H/Vi serotyping'], ar:['TSI: لاكتوز-/غلوكوز+/H2S+', 'يورياز -', 'ليسين +', 'تصنيف مصلي O/H/Vi'] },
+    norm: { food:'ISO 6579-1:2017', clinical:{fr:'Copro-culture standard, hemoculture si typhoide',en:'Standard stool culture, blood culture if typhoid',ar:'زرع براز قياسي، زرع دم عند الاشتباه بالتيفوئيد'}, water:'ISO 19250', env:{fr:'ISO 6579-1 adaptee surfaces',en:'ISO 6579-1 adapted for surfaces',ar:'ISO 6579-1 مكيّف للأسطح'} },
+    incubation: { fr:'37°C, 18-24h (selectifs)', en:'37°C, 18-24h (selective media)', ar:'37°C، 18-24 ساعة (الوسائط الانتقائية)' },
+    matrixNote: { food:{fr:'Recherche obligatoire par lot (absence/25g)',en:'Mandatory testing per lot (absence/25g)',ar:'الفحص إلزامي لكل دفعة (غياب/25غ)'}, clinical:{fr:'Coprocultures, hemocultures en cas de fievre typhoide',en:'Stool and blood cultures in typhoid fever cases',ar:'زرع البراز والدم في حالات حمى التيفوئيد'}, water:{fr:'Concentration prealable par membrane filtrante',en:'Prior concentration by membrane filtration',ar:'تركيز مسبق بالترشيح الغشائي'}, env:{fr:'Ecouvillonnage de surfaces, tapis roulants, plans de travail',en:'Swabbing of surfaces, conveyor belts, work surfaces',ar:'مسح الأسطح، الأحزمة الناقلة، أسطح العمل'} }
+  },
+  listeria: {
+    enrichment: { fr:['Fraser demi-concentration : 30°C/24h', 'Fraser complet : 37°C/48h'], en:['Half-Fraser broth: 30°C/24h', 'Full Fraser broth: 37°C/48h'], ar:['فريزر نصف مركّز: 30°C/24 ساعة', 'فريزر كامل: 37°C/48 ساعة'] },
+    selective: { fr:['ALOA (agar Listeria Ottaviani-Agosti) : colonies bleues avec halo opaque', 'Oxford : colonies grises avec aureole noire', 'RAPID L.mono : colonies bleues'], en:['ALOA (Listeria Ottaviani-Agosti agar): blue colonies with opaque halo', 'Oxford: gray colonies with black halo', "RAPID L.mono: blue colonies"], ar:['ALOA: مستعمرات زرقاء بهالة معتمة', 'Oxford: مستعمرات رمادية بهالة سوداء', 'RAPID L.mono: مستعمرات زرقاء'] },
+    confirmation: { fr:['Hemolyse beta', 'CAMP test +', 'Mobilite en culbute a 25°C', 'Coloration Gram : bacille court'], en:['Beta-hemolysis', 'CAMP test +', 'Tumbling motility at 25°C', 'Gram stain: short bacillus'], ar:['انحلال دموي بيتا', 'اختبار CAMP +', 'حركة تدحرجية عند 25°C', 'صبغة غرام: عصية قصيرة'] },
+    norm: { food:'ISO 11290-1/2:2017', clinical:{fr:'Hemoculture, LCR si meningite',en:'Blood culture, CSF if meningitis',ar:'زرع الدم، السائل الدماغي الشوكي عند التهاب السحايا'}, water:{fr:'ISO 11290 adaptee',en:'ISO 11290 adapted',ar:'ISO 11290 مكيّف'}, env:{fr:'Ecouvillonnage environnemental industrie agroalimentaire',en:'Environmental swabbing in food industry',ar:'مسح بيئي في الصناعة الغذائية'} },
+    incubation: { fr:'30°C ou 37°C selon etape', en:'30°C or 37°C depending on step', ar:'30°C أو 37°C حسب المرحلة' },
+    matrixNote: { food:{fr:'Critique pour produits RTE, absence/25g',en:'Critical for RTE products, absence/25g',ar:'حرج للمنتجات الجاهزة للأكل، غياب/25غ'}, clinical:{fr:'Listeriose : grossesse, immunodeprimes, meningite neonatale',en:'Listeriosis: pregnancy, immunocompromised, neonatal meningitis',ar:'داء الليستريات: الحمل، ضعف المناعة، التهاب سحايا الوليد'}, water:{fr:'Rare, controle des eaux de process',en:'Rare, process water control',ar:'نادر، مراقبة مياه العمليات'}, env:{fr:'Points critiques : sols, canalisations, chambres froides',en:'Critical points: floors, drains, cold rooms',ar:'نقاط حرجة: الأرضيات، الأنابيب، غرف التبريد'} }
+  },
+  ecoli: {
+    enrichment: { fr:['Eau peptonee (dilutions decimales)'], en:['Peptone water (decimal dilutions)'], ar:['ماء ببتوني (تخفيفات عشرية)'] },
+    selective: { fr:['TBX (Tryptone Bile X-glucuronide) : colonies bleues, 44°C/18-24h', 'EMB (Eosine Bleu de Methylene) : reflet metallique', 'MacConkey : colonies roses'], en:['TBX (Tryptone Bile X-glucuronide): blue colonies, 44°C/18-24h', 'EMB (Eosin Methylene Blue): metallic sheen', 'MacConkey: pink colonies'], ar:['TBX: مستعمرات زرقاء، 44°C/18-24 ساعة', 'EMB: بريق معدني', 'MacConkey: مستعمرات وردية'] },
+    confirmation: { fr:['IMViC : + + - -', 'Indole +', 'Test glucuronidase +'], en:['IMViC: + + - -', 'Indole +', 'Glucuronidase test +'], ar:['IMViC: + + - -', 'إندول +', 'اختبار غلوكورونيداز +'] },
+    norm: { food:'ISO 16649-1/2:2001', clinical:{fr:'ECBU, coproculture',en:'Urine culture, stool culture',ar:'زرع البول، زرع البراز'}, water:{fr:'ISO 9308-1 (E. coli et coliformes)',en:'ISO 9308-1 (E. coli and coliforms)',ar:'ISO 9308-1 (E. coli والقولونيات)'}, env:{fr:'ISO 16649 adaptee surfaces',en:'ISO 16649 adapted for surfaces',ar:'ISO 16649 مكيّف للأسطح'} },
+    incubation: { fr:'37°C ou 44°C selon protocole', en:'37°C or 44°C depending on protocol', ar:'37°C أو 44°C حسب البروتوكول' },
+    matrixNote: { food:{fr:"Indicateur d'hygiene, denombrement UFC/g",en:'Hygiene indicator, CFU/g enumeration',ar:'مؤشر نظافة، عد CFU/g'}, clinical:{fr:"Premiere cause d'infection urinaire (ECBU)",en:'Leading cause of urinary tract infection',ar:'السبب الأول لالتهاب المسالك البولية'}, water:{fr:'Indicateur reglementaire de potabilite',en:'Regulatory potability indicator',ar:'مؤشر تنظيمي لصلاحية الشرب'}, env:{fr:'Controle hygiene des mains et surfaces',en:'Hand and surface hygiene control',ar:'مراقبة نظافة اليدين والأسطح'} }
+  },
+  staph: {
+    enrichment: { fr:['Bouillon BPW + NaCl 10%'], en:['BPW broth + 10% NaCl'], ar:['مرق BPW + 10% NaCl'] },
+    selective: { fr:['Chapman (MSA) : colonies jaunes sur fond jaune', 'Baird-Parker : colonies noires brillantes avec halo', 'Rabbit Plasma Fibrinogen (RPF)'], en:['Chapman (MSA): yellow colonies on yellow background', 'Baird-Parker: shiny black colonies with halo', 'Rabbit Plasma Fibrinogen (RPF)'], ar:['Chapman: مستعمرات صفراء على خلفية صفراء', 'Baird-Parker: مستعمرات سوداء لامعة بهالة', 'RPF'] },
+    confirmation: { fr:['Coagulase +', 'DNase +', 'Thermonuclease +'], en:['Coagulase +', 'DNase +', 'Thermonuclease +'], ar:['كواغولاز +', 'DNase +', 'نوكلياز حراري +'] },
+    norm: { food:'ISO 6888-1/2:1999', clinical:{fr:'Hemoculture, pus, ECBU',en:'Blood culture, pus, urine culture',ar:'زرع الدم، القيح، زرع البول'}, water:{fr:'Non standard (rare)',en:'Not standardized (rare)',ar:'غير معياري (نادر)'}, env:{fr:'Ecouvillonnage mains, surfaces de contact',en:'Hand and contact surface swabbing',ar:'مسح اليدين وأسطح التلامس'} },
+    incubation: { fr:'37°C/24-48h', en:'37°C/24-48h', ar:'37°C/24-48 ساعة' },
+    matrixNote: { food:{fr:'Toxine thermostable, intoxination rapide',en:'Heat-stable toxin, rapid intoxication',ar:'سم مقاوم للحرارة، تسمم سريع'}, clinical:{fr:'Infections cutanees, septicemies, endocardites',en:'Skin infections, sepsis, endocarditis',ar:'التهابات جلدية، تعفن الدم، التهاب الشغاف'}, water:{fr:'Peu pertinent hors contexte particulier',en:'Not very relevant outside specific contexts',ar:'غير ذي صلة كبيرة خارج سياقات محددة'}, env:{fr:'Indicateur de contamination manuportee',en:'Hand-transmitted contamination indicator',ar:'مؤشر تلوث منقول باليد'} }
+  },
+  campylobacter: {
+    enrichment: { fr:['Bouillon Preston : 42°C/48h microaerophile'], en:['Preston broth: 42°C/48h microaerophilic'], ar:['مرق Preston: 42°C/48 ساعة ميكروهوائي'] },
+    selective: { fr:['Karmali : colonies grises brillantes', 'CCDA (Charcoal Cefoperazone Deoxycholate Agar)', 'mCCDA'], en:['Karmali: shiny gray colonies', 'CCDA (Charcoal Cefoperazone Deoxycholate Agar)', 'mCCDA'], ar:['Karmali: مستعمرات رمادية لامعة', 'CCDA', 'mCCDA'] },
+    confirmation: { fr:['Oxydase +', 'Croissance 42°C', 'Pas de croissance 25°C', 'Aspect spirale en Gram'], en:['Oxidase +', 'Growth at 42°C', 'No growth at 25°C', 'Spiral shape on Gram stain'], ar:['أوكسيداز +', 'نمو عند 42°C', 'لا نمو عند 25°C', 'شكل حلزوني بصبغة غرام'] },
+    norm: { food:'ISO 10272-1/2:2017', clinical:{fr:'Coproculture selective',en:'Selective stool culture',ar:'زرع براز انتقائي'}, water:'ISO 17995', env:{fr:'Ecouvillonnage abattoirs volailles',en:'Poultry slaughterhouse swabbing',ar:'مسح مسالخ الدواجن'} },
+    incubation: { fr:'42°C, microaerophile (5% O2, 10% CO2)', en:'42°C, microaerophilic (5% O2, 10% CO2)', ar:'42°C، ميكروهوائي (5% O2، 10% CO2)' },
+    matrixNote: { food:{fr:'Volailles principal reservoir, cuisson essentielle',en:'Poultry main reservoir, cooking essential',ar:'الدواجن المستودع الرئيسي، الطهي ضروري'}, clinical:{fr:'Gastro-enterite, diarrhees sanglantes',en:'Gastroenteritis, bloody diarrhea',ar:'التهاب معوي، إسهال دموي'}, water:{fr:'Contamination des eaux de surface',en:'Surface water contamination',ar:'تلوث المياه السطحية'}, env:{fr:"Chaine d'abattage volaille critique",en:'Poultry slaughter chain critical',ar:'سلسلة ذبح الدواجن حرجة'} }
+  },
+  clostridium: {
+    enrichment: { fr:['Choc thermique 80°C/10min (selection des spores)', 'Thioglycolate'], en:['Heat shock 80°C/10min (spore selection)', 'Thioglycolate'], ar:['صدمة حرارية 80°C/10 دقائق (اختيار الجراثيم)', 'ثيوغليكولات'] },
+    selective: { fr:['TSN (Tryptose Sulfite Neomycine) : colonies noires', 'SPS Agar', 'Litmus Milk'], en:['TSN (Tryptose Sulfite Neomycin): black colonies', 'SPS Agar', 'Litmus Milk'], ar:['TSN: مستعمرات سوداء', 'SPS Agar', 'Litmus Milk'] },
+    confirmation: { fr:['Gram+ sporule anaerobie', 'Lecithinase +', 'Absence de mobilite (C. perfringens)'], en:['Gram+ anaerobic sporulator', 'Lecithinase +', 'Non-motile (C. perfringens)'], ar:['غرام+ لاهوائي متبوغ', 'ليسيثيناز +', 'غير متحرك (C. perfringens)'] },
+    norm: { food:'ISO 7937:2004', clinical:{fr:'Coproculture anaerobie',en:'Anaerobic stool culture',ar:'زرع براز لاهوائي'}, water:{fr:'ISO 6461 (spores sulfito-reductrices)',en:'ISO 6461 (sulfite-reducing spores)',ar:'ISO 6461 (جراثيم مختزلة للكبريتيت)'}, env:{fr:'Prelevements sols/poussieres',en:'Soil/dust sampling',ar:'أخذ عينات من التربة/الغبار'} },
+    incubation: { fr:'37°C, anaerobiose stricte, 20-24h', en:'37°C, strict anaerobiosis, 20-24h', ar:'37°C، لاهوائية صارمة، 20-24 ساعة' },
+    matrixNote: { food:{fr:'Plats cuisines refroidis lentement a risque',en:'Slowly cooled cooked dishes at risk',ar:'الأطباق المطهية المبردة ببطء معرضة للخطر'}, clinical:{fr:'Gangrene gazeuse, colite (C. difficile)',en:'Gas gangrene, colitis (C. difficile)',ar:'الغرغرينا الغازية، التهاب القولون (C. difficile)'}, water:{fr:'Indicateur de contamination fecale ancienne',en:'Indicator of past fecal contamination',ar:'مؤشر تلوث برازي قديم'}, env:{fr:"Persistance des spores dans l'environnement",en:'Spore persistence in the environment',ar:'استمرارية الجراثيم في البيئة'} }
+  },
+  coliformes: {
+    enrichment: { fr:['Eau peptonee : dilutions decimales'], en:['Peptone water: decimal dilutions'], ar:['ماء ببتوني: تخفيفات عشرية'] },
+    selective: { fr:['VRBL (Violet Red Bile Lactose) : 30°C ou 44°C', 'MacConkey', 'Lactose bouillon (tubes fermentation)'], en:['VRBL (Violet Red Bile Lactose): 30°C or 44°C', 'MacConkey', 'Lactose broth (fermentation tubes)'], ar:['VRBL: 30°C أو 44°C', 'MacConkey', 'مرق اللاكتوز (أنابيب التخمر)'] },
+    confirmation: { fr:['Lactose + avec production de gaz', 'Test ONPG +'], en:['Lactose + with gas production', 'ONPG test +'], ar:['لاكتوز + مع إنتاج غاز', 'اختبار ONPG +'] },
+    norm: { food:'ISO 4831/4832', clinical:{fr:'Non pertinent en clinique de routine',en:'Not relevant in routine clinical practice',ar:'غير ذي صلة في الممارسة السريرية الروتينية'}, water:'ISO 9308-1/2', env:{fr:'ISO 4832 adaptee surfaces',en:'ISO 4832 adapted for surfaces',ar:'ISO 4832 مكيّف للأسطح'} },
+    incubation: { fr:'30°C/24h (totaux) ou 44°C/24h (fecaux)', en:'30°C/24h (total) or 44°C/24h (fecal)', ar:'30°C/24 ساعة (كلية) أو 44°C/24 ساعة (برازية)' },
+    matrixNote: { food:{fr:"Indicateur global d'hygiene de fabrication",en:'Overall manufacturing hygiene indicator',ar:'مؤشر شامل لنظافة التصنيع'}, clinical:{fr:'Utilise rarement, contexte digestif specifique',en:'Rarely used, specific digestive context',ar:'يُستخدم نادراً، سياق هضمي محدد'}, water:{fr:'Critere reglementaire de potabilite majeur',en:'Major regulatory potability criterion',ar:'معيار تنظيمي رئيسي لصلاحية الشرب'}, env:{fr:'Controle du nettoyage-desinfection',en:'Cleaning-disinfection control',ar:'مراقبة التنظيف والتطهير'} }
+  },
+  moisissures: {
+    enrichment: { fr:['Dilutions decimales dans eau peptonee sterile'], en:['Decimal dilutions in sterile peptone water'], ar:['تخفيفات عشرية في ماء ببتوني معقم'] },
+    selective: { fr:['OGA (Oxytetracycline Glucose Agar) : 25°C/5j', 'DRBC (Dichloran Rose Bengal Chloramphenicol)', 'DG18 (produits a faible aw)'], en:['OGA (Oxytetracycline Glucose Agar): 25°C/5d', 'DRBC (Dichloran Rose Bengal Chloramphenicol)', 'DG18 (low aw products)'], ar:['OGA: 25°C/5 أيام', 'DRBC', 'DG18 (منتجات منخفضة النشاط المائي)'] },
+    confirmation: { fr:['Microscopie : conidies, hyphes, sporanges', 'Identification par cle morphologique'], en:['Microscopy: conidia, hyphae, sporangia', 'Identification via morphological key'], ar:['فحص مجهري: أبواغ، خيوط، أكياس بوغية', 'التعريف عبر مفتاح شكلي'] },
+    norm: { food:'ISO 21527-1/2:2008', clinical:{fr:'Prelevement cutane/unguéal, milieu Sabouraud',en:'Skin/nail sampling, Sabouraud medium',ar:'أخذ عينة جلدية/ظفرية، وسط Sabouraud'}, water:{fr:'Non standardise',en:'Not standardized',ar:'غير معياري'}, env:{fr:'Ecouvillonnage air/surfaces humides',en:'Air/humid surface swabbing',ar:'مسح الهواء/الأسطح الرطبة'} },
+    incubation: { fr:'25°C, 5 jours, obscurite', en:'25°C, 5 days, darkness', ar:'25°C، 5 أيام، في الظلام' },
+    matrixNote: { food:{fr:'Alteration produits secs, confitures, fruits',en:'Spoilage of dry products, jams, fruits',ar:'فساد المنتجات الجافة، المربى، الفواكه'}, clinical:{fr:'Mycoses cutanees, aspergillose',en:'Skin mycoses, aspergillosis',ar:'الفطريات الجلدية، داء الرشاشيات'}, water:{fr:"Biofilms de reseaux d'eau",en:'Water network biofilms',ar:'الأغشية الحيوية في شبكات المياه'}, env:{fr:"Qualite de l'air interieur, moisissures batiment",en:'Indoor air quality, building mold',ar:'جودة الهواء الداخلي، عفن المباني'} }
+  },
+  pseudomonas: {
+    enrichment: { fr:['Bouillon asparagine (selection)'], en:['Asparagine broth (selection)'], ar:['مرق الأسباراجين (اختيار)'] },
+    selective: { fr:['Cetrimide agar : pigment pyocyanine', 'King A / King B : pigments diffusibles'], en:['Cetrimide agar: pyocyanin pigment', 'King A / King B: diffusible pigments'], ar:['أجار Cetrimide: صبغة البيوسيانين', 'King A / King B: أصباغ منتشرة'] },
+    confirmation: { fr:['Oxydase +', 'Pigment bleu-vert', 'Odeur caracteristique de fleur', 'Croissance 42°C'], en:['Oxidase +', 'Blue-green pigment', 'Characteristic floral odor', 'Growth at 42°C'], ar:['أوكسيداز +', 'صبغة زرقاء-خضراء', 'رائحة زهرية مميزة', 'نمو عند 42°C'] },
+    norm: { food:{fr:'ISO 13720 (viandes)',en:'ISO 13720 (meats)',ar:'ISO 13720 (اللحوم)'}, clinical:{fr:'ECBU, prelevements plaies/brulures',en:'Urine culture, wound/burn samples',ar:'زرع البول، عينات الجروح/الحروق'}, water:'ISO 16266', env:{fr:'Controle reseaux hospitaliers',en:'Hospital network control',ar:'مراقبة الشبكات الاستشفائية'} },
+    incubation: { fr:'37°C/24-48h, aerobie strict', en:'37°C/24-48h, strict aerobe', ar:'37°C/24-48 ساعة، هوائي صارم' },
+    matrixNote: { food:{fr:'Alteration des viandes et produits refrigeres',en:'Spoilage of meats and refrigerated products',ar:'فساد اللحوم والمنتجات المبردة'}, clinical:{fr:'Infections nosocomiales graves, mucoviscidose',en:'Severe nosocomial infections, cystic fibrosis',ar:'التهابات مستشفوية خطيرة، التليف الكيسي'}, water:{fr:'Critere de qualite eaux embouteillees et piscines',en:'Quality criterion for bottled water and pools',ar:'معيار جودة المياه المعبأة وحمامات السباحة'}, env:{fr:"Colonisation des points d'eau hospitaliers",en:'Colonization of hospital water points',ar:'استعمار نقاط المياه الاستشفائية'} }
+  },
+  vibrio: {
+    enrichment: { fr:['Eau peptonee alcaline pH 8.6 : 37°C/6-8h'], en:['Alkaline peptone water pH 8.6: 37°C/6-8h'], ar:['ماء ببتوني قلوي pH 8.6: 37°C/6-8 ساعات'] },
+    selective: { fr:['TCBS (Thiosulfate Citrate Bile Sucrose) : colonies jaunes'], en:['TCBS (Thiosulfate Citrate Bile Sucrose): yellow colonies'], ar:['TCBS: مستعمرات صفراء'] },
+    confirmation: { fr:['Oxydase +', 'Test de la corde', 'Agglutination antiserum O1/O139'], en:['Oxidase +', 'String test', 'O1/O139 antiserum agglutination'], ar:['أوكسيداز +', 'اختبار الخيط', 'تلازن بالمصل المضاد O1/O139'] },
+    norm: { food:'ISO 21872-1', clinical:{fr:'Coproculture urgente si suspicion cholera',en:'Urgent stool culture if cholera suspected',ar:'زرع براز عاجل عند الاشتباه بالكوليرا'}, water:{fr:'ISO 21872 adaptee',en:'ISO 21872 adapted',ar:'ISO 21872 مكيّف'}, env:{fr:'Eaux cotieres, fruits de mer',en:'Coastal waters, seafood',ar:'المياه الساحلية، المأكولات البحرية'} },
+    incubation: { fr:'37°C/18-24h', en:'37°C/18-24h', ar:'37°C/18-24 ساعة' },
+    matrixNote: { food:{fr:'Fruits de mer crus, coquillages a risque',en:'Raw seafood, shellfish at risk',ar:'المأكولات البحرية النيئة، المحار المعرض للخطر'}, clinical:{fr:'Cholera : rehydratation urgente vitale',en:'Cholera: urgent vital rehydration',ar:'الكوليرا: إعادة الإماهة العاجلة الحيوية'}, water:{fr:'Eaux de baignade et estuaires tropicaux',en:'Bathing waters and tropical estuaries',ar:'مياه السباحة والمصبات الاستوائية'}, env:{fr:'Surveillance zones conchylicoles',en:'Shellfish farming area monitoring',ar:'مراقبة مناطق تربية المحار'} }
+  },
+  shigella: {
+    enrichment: { fr:['Eau peptonee tamponnee'], en:['Buffered peptone water'], ar:['ماء ببتوني مؤقلن'] },
+    selective: { fr:['Hektoen', 'SS Agar (Salmonella-Shigella)'], en:['Hektoen', 'SS Agar (Salmonella-Shigella)'], ar:['Hektoen', 'SS Agar'] },
+    confirmation: { fr:['TSI : Lac-/H2S-', 'Immobile', 'Test serologique groupes A-D'], en:['TSI: Lac-/H2S-', 'Non-motile', 'Serological test groups A-D'], ar:['TSI: لاكتوز-/H2S-', 'غير متحرك', 'اختبار مصلي المجموعات A-D'] },
+    norm: { food:'ISO 21567', clinical:{fr:'Coproculture',en:'Stool culture',ar:'زرع البراز'}, water:{fr:'Non standard courant',en:'Not commonly standardized',ar:'غير معياري شائع'}, env:{fr:"Rare hors contexte epidemique",en:'Rare outside epidemic context',ar:'نادر خارج السياق الوبائي'} },
+    incubation: { fr:'37°C/18-24h', en:'37°C/18-24h', ar:'37°C/18-24 ساعة' },
+    matrixNote: { food:{fr:'Transmission feco-orale via aliments contamines',en:'Fecal-oral transmission via contaminated food',ar:'انتقال برازي فموي عبر أغذية ملوثة'}, clinical:{fr:'Dysenterie bacillaire, toxine de Shiga (S. dysenteriae)',en:'Bacillary dysentery, Shiga toxin (S. dysenteriae)',ar:'الزحار العصوي، سم شيغا (S. dysenteriae)'}, water:{fr:'Eaux souillees en zones a hygiene precaire',en:'Contaminated water in poor hygiene areas',ar:'مياه ملوثة في مناطق ضعيفة النظافة'}, env:{fr:"Investigation en cas de toxi-infection collective",en:'Investigation in collective food poisoning cases',ar:'التحقيق في حالات التسمم الغذائي الجماعي'} }
+  },
+  bacillus: {
+    enrichment: { fr:['Sans enrichissement (denombrement direct)'], en:['No enrichment (direct enumeration)'], ar:['بدون إثراء (عد مباشر)'] },
+    selective: { fr:['PEMBA (Polymyxin Egg Yolk Mannitol Bromothymol Agar) : colonies bleu-vert', 'MYP Agar'], en:['PEMBA (Polymyxin Egg Yolk Mannitol Bromothymol Agar): blue-green colonies', 'MYP Agar'], ar:['PEMBA: مستعمرات زرقاء-خضراء', 'MYP Agar'] },
+    confirmation: { fr:['Lecithinase +', 'Mannitol -', 'Gram+ sporule aerobie'], en:['Lecithinase +', 'Mannitol -', 'Gram+ aerobic sporulator'], ar:['ليسيثيناز +', 'مانيتول -', 'غرام+ هوائي متبوغ'] },
+    norm: { food:'ISO 7932:2004', clinical:{fr:'Hemoculture (rare, immunodeprimes)',en:'Blood culture (rare, immunocompromised)',ar:'زرع الدم (نادر، ضعف المناعة)'}, water:{fr:'Non standard courant',en:'Not commonly standardized',ar:'غير معياري شائع'}, env:{fr:'Poussieres, sols agricoles',en:'Dust, agricultural soils',ar:'الغبار، التربة الزراعية'} },
+    incubation: { fr:'30°C/18-24h', en:'30°C/18-24h', ar:'30°C/18-24 ساعة' },
+    matrixNote: { food:{fr:'Riz et feculents mal refroidis, toxine emetique',en:'Poorly cooled rice and starches, emetic toxin',ar:'الأرز والنشويات سيئة التبريد، سم مقيء'}, clinical:{fr:'Rarement pathogene sauf terrain fragilise',en:'Rarely pathogenic except in weakened hosts',ar:'نادراً ما يكون ممرضاً إلا في المرضى الضعفاء'}, water:{fr:'Peu pertinent',en:'Not very relevant',ar:'غير ذي صلة كبيرة'}, env:{fr:'Ubiquitaire dans sols et poussieres',en:'Ubiquitous in soils and dust',ar:'منتشر في التربة والغبار'} }
+  },
+  enterococcus: {
+    enrichment: { fr:['Bouillon Azide (selectif Gram+)'], en:['Azide broth (Gram+ selective)'], ar:['مرق الآزيد (انتقائي غرام+)'] },
+    selective: { fr:['Slanetz-Bartley : colonies rouges/roses', 'Bile Esculine Azide'], en:['Slanetz-Bartley: red/pink colonies', 'Bile Esculin Azide'], ar:['Slanetz-Bartley: مستعمرات حمراء/وردية', 'Bile Esculine Azide'] },
+    confirmation: { fr:['Croissance 45°C et NaCl 6.5%', 'Esculine +', 'PYR +'], en:['Growth at 45°C and 6.5% NaCl', 'Esculin +', 'PYR +'], ar:['نمو عند 45°C و6.5% NaCl', 'إسكولين +', 'PYR +'] },
+    norm: { food:{fr:'ISO 7899-2 (eaux)',en:'ISO 7899-2 (water)',ar:'ISO 7899-2 (المياه)'}, clinical:{fr:'ECBU, hemoculture',en:'Urine culture, blood culture',ar:'زرع البول، زرع الدم'}, water:'ISO 7899-1/2', env:{fr:'Indicateur de contamination fecale',en:'Fecal contamination indicator',ar:'مؤشر تلوث برازي'} },
+    incubation: { fr:'37°C ou 44°C/24-48h', en:'37°C or 44°C/24-48h', ar:'37°C أو 44°C/24-48 ساعة' },
+    matrixNote: { food:{fr:'Indicateur de contamination fecale ancienne',en:'Indicator of past fecal contamination',ar:'مؤشر تلوث برازي قديم'}, clinical:{fr:'Infections urinaires, endocardites, ERV emergent',en:'UTIs, endocarditis, emerging VRE',ar:'التهابات بولية، التهاب الشغاف، ERV الناشئ'}, water:{fr:'Indicateur reglementaire eaux de baignade',en:'Regulatory bathing water indicator',ar:'مؤشر تنظيمي لمياه السباحة'}, env:{fr:'Marqueur de contamination fecale environnementale',en:'Environmental fecal contamination marker',ar:'علامة تلوث برازي بيئي'} }
+  },
+  klebsiella: {
+    enrichment: { fr:['Eau peptonee simple'], en:['Simple peptone water'], ar:['ماء ببتوني بسيط'] },
+    selective: { fr:['MacConkey : colonies roses mucoides', 'Milieu chromogene BLSE'], en:['MacConkey: mucoid pink colonies', 'ESBL chromogenic medium'], ar:['MacConkey: مستعمرات وردية مخاطية', 'وسط لوني لـBLSE'] },
+    confirmation: { fr:['IMViC : - - + +', 'Uree +', 'Capsule volumineuse'], en:['IMViC: - - + +', 'Urease +', 'Large capsule'], ar:['IMViC: - - + +', 'يورياز +', 'محفظة كبيرة'] },
+    norm: { food:{fr:'ISO 21528 (Enterobacteriaceae)',en:'ISO 21528 (Enterobacteriaceae)',ar:'ISO 21528 (الأمعائيات)'}, clinical:{fr:'ECBU, prelevements respiratoires',en:'Urine culture, respiratory samples',ar:'زرع البول، عينات تنفسية'}, water:{fr:'ISO 21528 adaptee',en:'ISO 21528 adapted',ar:'ISO 21528 مكيّف'}, env:{fr:'Ecouvillonnage surfaces hospitalieres',en:'Hospital surface swabbing',ar:'مسح الأسطح الاستشفائية'} },
+    incubation: { fr:'37°C/18-24h', en:'37°C/18-24h', ar:'37°C/18-24 ساعة' },
+    matrixNote: { food:{fr:"Indicateur d'hygiene generale",en:'General hygiene indicator',ar:'مؤشر نظافة عام'}, clinical:{fr:'Pneumonies nosocomiales, BLSE preoccupante',en:'Nosocomial pneumonia, concerning ESBL',ar:'التهاب رئوي مستشفوي، BLSE مقلق'}, water:{fr:'Contamination des reseaux',en:'Network contamination',ar:'تلوث الشبكات'}, env:{fr:'Reservoir hospitalier important',en:'Significant hospital reservoir',ar:'مستودع استشفائي هام'} }
+  },
+  proteus: {
+    enrichment: { fr:['Eau peptonee simple'], en:['Simple peptone water'], ar:['ماء ببتوني بسيط'] },
+    selective: { fr:["Milieu CLED (empeche l'essaimage)", 'Hektoen'], en:['CLED medium (prevents swarming)', 'Hektoen'], ar:['وسط CLED (يمنع الانتشار)', 'Hektoen'] },
+    confirmation: { fr:['Uree +++ rapide', 'Essaimage caracteristique sur gelose', 'TSI : H2S+'], en:['Rapid urease +++', 'Characteristic swarming on agar', 'TSI: H2S+'], ar:['يورياز +++ سريع', 'انتشار مميز على الأجار', 'TSI: H2S+'] },
+    norm: { food:'ISO 21528', clinical:{fr:'ECBU',en:'Urine culture',ar:'زرع البول'}, water:{fr:'Non standard courant',en:'Not commonly standardized',ar:'غير معياري شائع'}, env:{fr:'Ecouvillonnage sols/canalisations',en:'Floor/drain swabbing',ar:'مسح الأرضيات/الأنابيب'} },
+    incubation: { fr:'37°C/18-24h', en:'37°C/18-24h', ar:'37°C/18-24 ساعة' },
+    matrixNote: { food:{fr:'Alteration des proteines, odeurs putrides',en:'Protein spoilage, putrid odors',ar:'فساد البروتينات، روائح عفنة'}, clinical:{fr:'Infections urinaires recidivantes, lithiases',en:'Recurrent UTIs, kidney stones',ar:'التهابات بولية متكررة، حصى'}, water:{fr:'Peu surveille specifiquement',en:'Not specifically monitored',ar:'غير مراقب بشكل خاص'}, env:{fr:'Frequent dans environnements humides',en:'Common in humid environments',ar:'شائع في البيئات الرطبة'} }
+  },
+  streptoA: {
+    enrichment: { fr:['Bouillon Todd-Hewitt'], en:['Todd-Hewitt broth'], ar:['مرق Todd-Hewitt'] },
+    selective: { fr:['Gelose au sang de mouton 5%', "Milieu selectif a l'acide nalidixique"], en:['5% sheep blood agar', 'Nalidixic acid selective medium'], ar:['أجار دم الأغنام 5%', 'وسط انتقائي بحمض الناليديكسيك'] },
+    confirmation: { fr:['Beta-hemolyse', 'Bacitracine sensible', 'Test de detection rapide antigenique (TDR)'], en:['Beta-hemolysis', 'Bacitracin sensitive', 'Rapid antigen detection test (RADT)'], ar:['انحلال دموي بيتا', 'حساس للباسيتراسين', 'اختبار الكشف السريع عن المستضد'] },
+    norm: { food:{fr:'Non pertinent (pathogene strict humain)',en:'Not relevant (strict human pathogen)',ar:'غير ذي صلة (ممرض بشري صارم)'}, clinical:{fr:'Prelevement de gorge, TDR angine',en:'Throat swab, rapid strep test',ar:'مسحة حلقية، اختبار سريع للحمى القرمزية'}, water:{fr:'Non pertinent',en:'Not relevant',ar:'غير ذي صلة'}, env:{fr:'Non pertinent',en:'Not relevant',ar:'غير ذي صلة'} },
+    incubation: { fr:'37°C/18-24h, CO2 5% ameliore la croissance', en:'37°C/18-24h, 5% CO2 improves growth', ar:'37°C/18-24 ساعة، 5% CO2 يحسّن النمو' },
+    matrixNote: { food:{fr:'Non applicable',en:'Not applicable',ar:'غير قابل للتطبيق'}, clinical:{fr:'Angine streptococcique, scarlatine, RAA en absence de traitement',en:'Strep throat, scarlet fever, rheumatic fever if untreated',ar:'التهاب حلقي عقدي، الحمى القرمزية، الحمى الروماتيزمية دون علاج'}, water:{fr:'Non applicable',en:'Not applicable',ar:'غير قابل للتطبيق'}, env:{fr:'Non applicable',en:'Not applicable',ar:'غير قابل للتطبيق'} }
+  },
+  neisseria: {
+    enrichment: { fr:['Milieu de transport Amies au charbon'], en:['Amies charcoal transport medium'], ar:['وسط نقل Amies الفحمي'] },
+    selective: { fr:['Thayer-Martin (VCN)', 'Gelose chocolat enrichie'], en:['Thayer-Martin (VCN)', 'Enriched chocolate agar'], ar:['Thayer-Martin (VCN)', 'أجار شوكولاتة مُغنى'] },
+    confirmation: { fr:['Oxydase +', 'Diplocoque Gram- intracellulaire', 'Fermentation glucose (gonocoque) vs glucose+maltose (meningocoque)'], en:['Oxidase +', 'Intracellular Gram- diplococcus', 'Glucose fermentation (gonococcus) vs glucose+maltose (meningococcus)'], ar:['أوكسيداز +', 'ثنائي مكورات غرام سلبية داخل خلوية', 'تخمر الغلوكوز (سيلاني) مقابل غلوكوز+مالتوز (سحائي)'] },
+    norm: { food:{fr:'Non pertinent',en:'Not relevant',ar:'غير ذي صلة'}, clinical:{fr:'Prelevement genital ou LCR selon suspicion',en:'Genital or CSF sample depending on suspicion',ar:'عينة تناسلية أو سائل شوكي حسب الاشتباه'}, water:{fr:'Non pertinent',en:'Not relevant',ar:'غير ذي صلة'}, env:{fr:'Non pertinent',en:'Not relevant',ar:'غير ذي صلة'} },
+    incubation: { fr:"37°C/24-48h, CO2 5%, tres fragile a l'air", en:'37°C/24-48h, 5% CO2, very fragile in air', ar:'37°C/24-48 ساعة، 5% CO2، هش جداً في الهواء' },
+    matrixNote: { food:{fr:'Non applicable',en:'Not applicable',ar:'غير قابل للتطبيق'}, clinical:{fr:'Gonorrhee (IST) ou meningite (urgence vitale)',en:'Gonorrhea (STI) or meningitis (vital emergency)',ar:'السيلان أو التهاب السحايا (طارئ حيوي)'}, water:{fr:'Non applicable',en:'Not applicable',ar:'غير قابل للتطبيق'}, env:{fr:'Non applicable',en:'Not applicable',ar:'غير قابل للتطبيق'} }
+  },
+  haemophilus: {
+    enrichment: { fr:['Milieu de transport approprie, ensemencement rapide'], en:['Appropriate transport medium, rapid plating'], ar:['وسط نقل مناسب، زرع سريع'] },
+    selective: { fr:['Gelose chocolat + facteurs X et V', 'Test de satellitisme autour de Staphylococcus'], en:['Chocolate agar + factors X and V', 'Satellite test around Staphylococcus'], ar:['أجار شوكولاتة + العاملان X وV', 'اختبار التوابع حول Staphylococcus'] },
+    confirmation: { fr:['Necessite hemine (X) et NAD (V)', 'Coloration Gram : petit coccobacille'], en:['Requires hemin (X) and NAD (V)', 'Gram stain: small coccobacillus'], ar:['يحتاج الهيمين (X) وNAD (V)', 'صبغة غرام: مكورة عصوية صغيرة'] },
+    norm: { food:{fr:'Non pertinent',en:'Not relevant',ar:'غير ذي صلة'}, clinical:{fr:'LCR, hemoculture, prelevements ORL',en:'CSF, blood culture, ENT samples',ar:'سائل شوكي، زرع دم، عينات أنف وأذن وحنجرة'}, water:{fr:'Non pertinent',en:'Not relevant',ar:'غير ذي صلة'}, env:{fr:'Non pertinent',en:'Not relevant',ar:'غير ذي صلة'} },
+    incubation: { fr:'37°C/24-48h, CO2 5%', en:'37°C/24-48h, 5% CO2', ar:'37°C/24-48 ساعة، 5% CO2' },
+    matrixNote: { food:{fr:'Non applicable',en:'Not applicable',ar:'غير قابل للتطبيق'}, clinical:{fr:'Meningites infantiles, otites, sinusites',en:'Childhood meningitis, otitis, sinusitis',ar:'التهاب سحايا الأطفال، التهاب الأذن، الجيوب'}, water:{fr:'Non applicable',en:'Not applicable',ar:'غير قابل للتطبيق'}, env:{fr:'Non applicable',en:'Not applicable',ar:'غير قابل للتطبيق'} }
+  },
+  mycobact: {
+    enrichment: { fr:['Decontamination NALC-NaOH des prelevements'], en:['NALC-NaOH sample decontamination'], ar:['إزالة تلوث العينات بـNALC-NaOH'] },
+    selective: { fr:['Lowenstein-Jensen (oeuf)', 'Milieu liquide automatise (MGIT)'], en:['Lowenstein-Jensen (egg-based)', 'Automated liquid medium (MGIT)'], ar:['Lowenstein-Jensen (بيضي)', 'وسط سائل آلي (MGIT)'] },
+    confirmation: { fr:['Ziehl-Neelsen : BAAR+', 'Croissance lente 3-8 semaines', 'Tests moleculaires (PCR, GeneXpert)'], en:['Ziehl-Neelsen: AFB+', 'Slow growth 3-8 weeks', 'Molecular tests (PCR, GeneXpert)'], ar:['زيل-نيلسن: BAAR+', 'نمو بطيء 3-8 أسابيع', 'اختبارات جزيئية (PCR، GeneXpert)'] },
+    norm: { food:{fr:'Non pertinent (lait cru : M. bovis possible)',en:'Not relevant (raw milk: M. bovis possible)',ar:'غير ذي صلة (الحليب الخام: M. bovis محتمل)'}, clinical:{fr:'Crachats, tubage gastrique, biopsies',en:'Sputum, gastric tubing, biopsies',ar:'بلغم، أنبوب معدي، خزعات'}, water:{fr:'Non standard courant',en:'Not commonly standardized',ar:'غير معياري شائع'}, env:{fr:'Non pertinent',en:'Not relevant',ar:'غير ذي صلة'} },
+    incubation: { fr:'37°C, 3 a 8 semaines', en:'37°C, 3 to 8 weeks', ar:'37°C، 3 إلى 8 أسابيع' },
+    matrixNote: { food:{fr:'Lait cru non pasteurise a risque (rare)',en:'Unpasteurized raw milk at risk (rare)',ar:'الحليب الخام غير المبستر معرض للخطر (نادر)'}, clinical:{fr:'Tuberculose : diagnostic et suivi therapeutique',en:'Tuberculosis: diagnosis and therapeutic monitoring',ar:'السل: التشخيص والمتابعة العلاجية'}, water:{fr:'Mycobacteries atypiques dans reseaux',en:'Atypical mycobacteria in networks',ar:'ميكوباكتيريا غير نمطية في الشبكات'}, env:{fr:'Non applicable en routine',en:'Not routinely applicable',ar:'غير قابل للتطبيق روتينياً'} }
+  },
+  helicobacter: {
+    enrichment: { fr:['Transport rapide en milieu de Stuart'], en:['Rapid transport in Stuart medium'], ar:['نقل سريع في وسط Stuart'] },
+    selective: { fr:['Skirrow modifie', 'Milieu selectif au sang de cheval'], en:['Modified Skirrow', 'Horse blood selective medium'], ar:['Skirrow معدّل', 'وسط انتقائي بدم الحصان'] },
+    confirmation: { fr:['Test rapide uree (biopsie)', 'Uréase +++', 'Aspect spirale caracteristique'], en:['Rapid urease test (biopsy)', 'Urease +++', 'Characteristic spiral shape'], ar:['اختبار اليورياز السريع (خزعة)', 'يورياز +++', 'شكل حلزوني مميز'] },
+    norm: { food:{fr:'Non pertinent',en:'Not relevant',ar:'غير ذي صلة'}, clinical:{fr:'Biopsie gastrique, test respiratoire C13',en:'Gastric biopsy, C13 breath test',ar:'خزعة معدية، اختبار التنفس C13'}, water:{fr:'Transmission hydrique suspectee',en:'Suspected waterborne transmission',ar:'انتقال مائي مشتبه به'}, env:{fr:'Non pertinent',en:'Not relevant',ar:'غير ذي صلة'} },
+    incubation: { fr:'37°C/3-7 jours, microaerophile', en:'37°C/3-7 days, microaerophilic', ar:'37°C/3-7 أيام، ميكروهوائي' },
+    matrixNote: { food:{fr:'Non applicable',en:'Not applicable',ar:'غير قابل للتطبيق'}, clinical:{fr:'Gastrite chronique, ulceres, risque de cancer gastrique',en:'Chronic gastritis, ulcers, gastric cancer risk',ar:'التهاب معدة مزمن، قرح، خطر سرطان المعدة'}, water:{fr:'Voie de transmission etudiee dans pays a faible hygiene',en:'Transmission route studied in low-hygiene countries',ar:'طريق انتقال مدروس في دول ضعيفة النظافة'}, env:{fr:'Non applicable',en:'Not applicable',ar:'غير قابل للتطبيق'} }
+  },
+  acinetobacter: {
+    enrichment: { fr:['Sans enrichissement specifique'], en:['No specific enrichment'], ar:['بدون إثراء خاص'] },
+    selective: { fr:['Milieu de Leeds', 'CHROMagar Acinetobacter'], en:['Leeds medium', 'CHROMagar Acinetobacter'], ar:['وسط Leeds', 'CHROMagar Acinetobacter'] },
+    confirmation: { fr:['Oxydase -', 'Immobile', 'Coccobacille Gram- resistant a la dessication'], en:['Oxidase -', 'Non-motile', 'Desiccation-resistant Gram- coccobacillus'], ar:['أوكسيداز -', 'غير متحرك', 'مكورة عصوية غرام سلبية مقاومة للجفاف'] },
+    norm: { food:{fr:'Non standard courant',en:'Not commonly standardized',ar:'غير معياري شائع'}, clinical:{fr:'Prelevements respiratoires, hemoculture',en:'Respiratory samples, blood culture',ar:'عينات تنفسية، زرع الدم'}, water:{fr:'Non standard courant',en:'Not commonly standardized',ar:'غير معياري شائع'}, env:{fr:'Ecouvillonnage surfaces hospitalieres',en:'Hospital surface swabbing',ar:'مسح الأسطح الاستشفائية'} },
+    incubation: { fr:'37°C/24-48h', en:'37°C/24-48h', ar:'37°C/24-48 ساعة' },
+    matrixNote: { food:{fr:'Peu pertinent',en:'Not very relevant',ar:'غير ذي صلة كبيرة'}, clinical:{fr:'Infections nosocomiales multiresistantes graves',en:'Severe multidrug-resistant nosocomial infections',ar:'التهابات مستشفوية متعددة المقاومة خطيرة'}, water:{fr:'Peu surveille',en:'Not well monitored',ar:'غير مراقب جيداً'}, env:{fr:'Persistance longue sur surfaces seches, reservoir hospitalier',en:'Long persistence on dry surfaces, hospital reservoir',ar:'استمرارية طويلة على الأسطح الجافة، مستودع استشفائي'} }
+  },
+  candida: {
+    enrichment: { fr:['Sans enrichissement (culture directe)'], en:['No enrichment (direct culture)'], ar:['بدون إثراء (زرع مباشر)'] },
+    selective: { fr:['Sabouraud + chloramphenicol', 'CHROMagar Candida (identification par couleur)'], en:['Sabouraud + chloramphenicol', 'CHROMagar Candida (color identification)'], ar:['Sabouraud + كلورامفينيكول', 'CHROMagar Candida (تعريف باللون)'] },
+    confirmation: { fr:['Test de blastese (germ tube) : C. albicans', 'Morphologie en chlamydospores'], en:['Germ tube test: C. albicans', 'Chlamydospore morphology'], ar:['اختبار الأنبوب الجرثومي: C. albicans', 'شكل الأبواغ الكلاميدية'] },
+    norm: { food:{fr:'ISO 21527 (levures generales)',en:'ISO 21527 (general yeasts)',ar:'ISO 21527 (الخمائر العامة)'}, clinical:{fr:'Prelevements muqueux, hemoculture',en:'Mucosal samples, blood culture',ar:'عينات مخاطية، زرع الدم'}, water:{fr:'Non standard courant',en:'Not commonly standardized',ar:'غير معياري شائع'}, env:{fr:'Ecouvillonnage surfaces humides',en:'Humid surface swabbing',ar:'مسح الأسطح الرطبة'} },
+    incubation: { fr:'30-37°C/24-48h', en:'30-37°C/24-48h', ar:'30-37°C/24-48 ساعة' },
+    matrixNote: { food:{fr:'Alteration produits sucres, jus, produits laitiers',en:'Spoilage of sugary products, juices, dairy',ar:'فساد المنتجات السكرية، العصائر، الألبان'}, clinical:{fr:"Candidoses cutaneo-muqueuses, candidemies chez l'immunodeprime",en:'Cutaneomucosal candidiasis, candidemia in immunocompromised',ar:'داء المبيضات الجلدي المخاطي، داء المبيضات الدموي عند ضعاف المناعة'}, water:{fr:'Peu pertinent',en:'Not very relevant',ar:'غير ذي صلة كبيرة'}, env:{fr:'Environnements humides, salles de bain',en:'Humid environments, bathrooms',ar:'بيئات رطبة، الحمامات'} }
+  },
+  anaerobes: {
+    enrichment: { fr:['Milieu de transport anaerobie (Portagerm)'], en:['Anaerobic transport medium (Portagerm)'], ar:['وسط نقل لاهوائي (Portagerm)'] },
+    selective: { fr:['Gelose Columbia + sang + antibiotiques selectifs (kanamycine-vancomycine)', 'Bile Esculine'], en:['Columbia agar + blood + selective antibiotics (kanamycin-vancomycin)', 'Bile Esculin'], ar:['أجار Columbia + دم + مضادات انتقائية (كاناميسين-فانكومايسين)', 'Bile Esculine'] },
+    confirmation: { fr:['Croissance strictement anaerobie', 'Identification par galeries biochimiques ou MALDI-TOF'], en:['Strictly anaerobic growth', 'Identification via biochemical panels or MALDI-TOF'], ar:['نمو لاهوائي صارم', 'التعريف عبر لوحات بيوكيميائية أو MALDI-TOF'] },
+    norm: { food:{fr:'Non standard courant',en:'Not commonly standardized',ar:'غير معياري شائع'}, clinical:{fr:"Prelevements profonds proteges de l'air",en:'Deep samples protected from air',ar:'عينات عميقة محمية من الهواء'}, water:{fr:'Non pertinent',en:'Not relevant',ar:'غير ذي صلة'}, env:{fr:'Non pertinent en routine',en:'Not routinely relevant',ar:'غير ذي صلة روتينياً'} },
+    incubation: { fr:'37°C/48-72h, jarre anaerobie', en:'37°C/48-72h, anaerobic jar', ar:'37°C/48-72 ساعة، وعاء لاهوائي' },
+    matrixNote: { food:{fr:'Non applicable en routine',en:'Not routinely applicable',ar:'غير قابل للتطبيق روتينياً'}, clinical:{fr:'Abces profonds, infections dentaires, flore digestive',en:'Deep abscesses, dental infections, gut flora',ar:'خراجات عميقة، التهابات سنية، فلورا هضمية'}, water:{fr:'Non applicable',en:'Not applicable',ar:'غير قابل للتطبيق'}, env:{fr:'Non applicable',en:'Not applicable',ar:'غير قابل للتطبيق'} }
+  }
+};
+
+function resolveLangValue(val, lang){
+  if(val === null || val === undefined) return '';
+  if(typeof val === 'string') return val;
+  return val[lang] !== undefined ? val[lang] : (val.fr || '');
+}
+function showMedia(){
+  const germ = document.getElementById('mediaGerm').value;
+  const matrix = document.getElementById('mediaMatrix').value;
+  const box = document.getElementById('mediaResult');
+  const lang = currentLang || 'fr';
+  const t = LANG[lang];
+  if(!germ){ box.innerHTML = `<div style="color:var(--muted)">${t.mp_media_choose}</div>`; return; }
+  const d = MEDIA_DATA[germ];
+  const matrixLabels = { food:t.mp_media_food, clinical:t.mp_media_clinical, water:t.mp_media_water, env:t.mp_media_env };
+  const enrichment = d.enrichment[lang] || d.enrichment.fr;
+  const selective = d.selective[lang] || d.selective.fr;
+  const confirmation = d.confirmation[lang] || d.confirmation.fr;
+  const incubation = resolveLangValue(d.incubation, lang);
+  box.innerHTML = `
+    <div style="display:grid;gap:0.75rem">
+      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.5rem;">
+        <div><span class="result-label">${t.mp_media_norm_ref} (${matrixLabels[matrix]})</span><div style="font-family:var(--mono);color:var(--accent2);font-weight:600;font-size:0.9rem">${resolveLangValue(d.norm[matrix], lang)}</div></div>
+      </div>
+      <div style="background:rgba(59,130,246,0.07); border:1px solid rgba(59,130,246,0.2); border-radius:8px; padding:0.75rem 1rem;">
+        <span class="result-label">${t.mp_media_context} ${matrixLabels[matrix]}</span>
+        <div style="font-size:0.87rem; margin-top:0.25rem;">${resolveLangValue(d.matrixNote[matrix], lang)}</div>
+      </div>
+      <div><span class="result-label">${t.mp_media_enrichment}</span>${enrichment.map(m=>`<div style="padding:0.3rem 0;border-bottom:1px solid var(--border);font-size:0.85rem">${m}</div>`).join('')}</div>
+      <div><span class="result-label">${t.mp_media_selective}</span>${selective.map(m=>`<div style="padding:0.3rem 0;border-bottom:1px solid var(--border);font-size:0.85rem">${m}</div>`).join('')}</div>
+      <div><span class="result-label">${t.mp_media_confirmation}</span>${confirmation.map(m=>`<div style="padding:0.3rem 0;font-size:0.85rem;color:var(--muted)">${m}</div>`).join('')}</div>
+      <div><span class="result-label">${t.mp_media_incubation}</span><div style="font-size:0.85rem;color:var(--muted)">${incubation}</div></div>
+    </div>`;
+}
+
+// ── QC VERDICT DATA ───────────────────────────────────────────────────────────
+const VC_DATA = {
+  aerobic:    { rte:{m:1e5,M:1e6}, raw:{m:1e6,M:1e7}, heat:{m:1e4,M:1e5}, dairy:{m:5e4,M:5e5} },
+  coliforms:  { rte:{m:10,M:100}, raw:{m:100,M:1000}, heat:{m:10,M:100}, dairy:{m:10,M:100} },
+  ecoli:      { rte:{m:10,M:100}, raw:{m:100,M:1000}, heat:{m:1,M:10}, dairy:{m:1,M:10} },
+  staph:      { rte:{m:100,M:1000}, raw:{m:500,M:5000}, heat:{m:100,M:1000}, dairy:{m:100,M:1000} },
+  salmonella: null,
+  listeria:   null,
+  yeast:      { rte:{m:100,M:1000}, raw:{m:1000,M:10000}, heat:{m:100,M:1000}, dairy:{m:500,M:5000} },
+  bcereus:    { rte:{m:1e3,M:1e4}, raw:{m:1e4,M:1e5}, heat:{m:1e3,M:1e4}, dairy:{m:1e3,M:1e4} },
+  cperfringens: { rte:{m:100,M:1000}, raw:{m:1000,M:10000}, heat:{m:100,M:1000}, dairy:{m:100,M:1000} },
+  enterococcus: { rte:{m:100,M:400}, raw:{m:100,M:400}, heat:{m:100,M:400}, dairy:{m:100,M:400} },
+  anaerobies: { rte:{m:1,M:5}, raw:{m:1,M:5}, heat:{m:1,M:5}, dairy:{m:1,M:5} }
+};
+
+function fmtNum(n){ if(n>=1e9) return (n/1e9).toFixed(1)+'×10⁹'; if(n>=1e6) return (n/1e6).toFixed(1)+'×10⁶'; if(n>=1e3) return (n/1e3).toFixed(1)+'×10³'; return n; }
+
+function updateVcLimits(){
+  const germ = document.getElementById('vcGerm').value;
+  const prod = document.getElementById('vcProduct').value;
+  const limText = document.getElementById('vcLimitsText');
+  const countRow = document.getElementById('vcCountRow');
+  const t = LANG[currentLang || 'fr'];
+  if(germ==='salmonella'||germ==='listeria'){
+    limText.textContent = t.mp_qc_absence;
+    countRow.style.display='none';
+    document.getElementById('vcResult').classList.remove('show');
+    return;
+  }
+  countRow.style.display='flex';
+  const d = VC_DATA[germ][prod];
+  limText.textContent = `m = ${fmtNum(d.m)} UFC/g  |  M = ${fmtNum(d.M)} UFC/g`;
+  interpretVc();
+}
+
+function interpretVc(){
+  const germ = document.getElementById('vcGerm').value;
+  const prod = document.getElementById('vcProduct').value;
+  if(germ==='salmonella'||germ==='listeria') return;
+  const count = +document.getElementById('vcCount').value;
+  const box = document.getElementById('vcResult');
+  const vEl = document.getElementById('vcVerdict');
+  const sub = document.getElementById('vcSub');
+  const t = LANG[currentLang || 'fr'];
+  if(!count){ box.classList.remove('show'); return; }
+  const d = VC_DATA[germ][prod];
+  box.classList.add('show');
+  if(count <= d.m){
+    vEl.innerHTML = `<span class="verdict ok">${t.mp_qc_ok}</span>`;
+    sub.textContent = t.mp_qc_ok_text.replace('{count}',fmtNum(count)).replace('{m}',fmtNum(d.m));
+  } else if(count <= d.M){
+    vEl.innerHTML = `<span class="verdict warn">${t.mp_qc_warn}</span>`;
+    sub.textContent = t.mp_qc_warn_text.replace('{m}',fmtNum(d.m)).replace('{count}',fmtNum(count)).replace('{M}',fmtNum(d.M));
+  } else {
+    vEl.innerHTML = `<span class="verdict fail">${t.mp_qc_fail}</span>`;
+    sub.textContent = t.mp_qc_fail_text.replace('{count}',fmtNum(count)).replace('{M}',fmtNum(d.M));
+  }
+}
+
+window.addEventListener('load',()=>{
+  initLang(); populateAbx(); buildRefTable(); updateVcLimits();
+  const loader = document.getElementById('loaderScreen');
+  setTimeout(() => { loader.classList.add('hidden'); setTimeout(() => loader.remove(), 600); }, 500);
+  window.CHEATSHEET_DATA = {
+    title: 'MicroPath Cheat Sheet',
+    sections: [
+      { heading: 'Staphylococcus aureus : breakpoints (mm)', headers: ['Antibiotic','S &ge;','R <'],
+        rows: ABX_DATA.s_aureus.filter(a=>!a.cmi&&!a.note).map(a=>[a.name, a.s, a.r]) },
+      { heading: 'Escherichia coli : breakpoints (mm)', headers: ['Antibiotic','S &ge;','R <'],
+        rows: ABX_DATA.e_coli.filter(a=>!a.cmi&&!a.note).map(a=>[a.name, a.s, a.r]) },
+      { heading: 'Pseudomonas aeruginosa : breakpoints (mm)', headers: ['Antibiotic','S &ge;','R <'],
+        rows: ABX_DATA.pseudomonas.filter(a=>!a.cmi&&!a.note).map(a=>[a.name, a.s, a.r]) },
+      { heading: 'Food QC thresholds (CFU/g, RTE products)', headers: ['Organism','m','M'],
+        rows: [['Total aerobic flora','1&times;10&#8309;','1&times;10&#8310;'],['Total coliforms','10','100'],['E. coli','10','100'],['S. aureus','100','1000'],['Yeasts/molds','100','1000']]
+      }
+    ]
+  };
+  injectCheatSheetButton('.tool-page-body > div:first-child');
+});
+window.addEventListener('langchange', () => {
+  updateAbxInfo(); interpretAbx(); buildRefTable(); showMedia(); updateVcLimits();
+});
+</script>
+</body>
+</html>

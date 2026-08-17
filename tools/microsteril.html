@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>MicroSteril : Sterilisation, desinfection et autoclave</title>
+<meta name="description" content="Reference gratuite de sterilisation microbiologique : cycles d'autoclave, calculateur de dilution de desinfectants, chaleur seche, UV germicide et indicateurs biologiques."/>
+<meta name="author" content="Zekraoui Rabah AllaaEddine"/>
+<link rel="canonical" href="https://YOURDOMAIN.com/tools/microsteril.html"/>
+<meta property="og:type" content="website"/>
+<meta property="og:site_name" content="MicroLab Pro"/>
+<meta property="og:title" content="MicroSteril : Sterilisation et desinfection"/>
+<meta property="og:description" content="Cycles d'autoclave, calculateur de dilution de desinfectants, chaleur seche, UV germicide et indicateurs biologiques."/>
+<meta property="og:url" content="https://YOURDOMAIN.com/tools/microsteril.html"/>
+<meta property="og:image" content="https://YOURDOMAIN.com/og-image.png"/>
+<meta property="og:image:width" content="1200"/>
+<meta property="og:image:height" content="630"/>
+<meta property="og:image:alt" content="MicroLab Pro : boite a outils gratuite de microbiologie"/>
+<meta property="og:locale" content="fr_FR"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:title" content="MicroSteril : Sterilisation et desinfection"/>
+<meta name="twitter:description" content="Cycles d'autoclave, dilution de desinfectants, chaleur seche et indicateurs biologiques."/>
+<meta name="twitter:image" content="https://YOURDOMAIN.com/og-image.png"/>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "MicroSteril",
+  "url": "https://YOURDOMAIN.com/tools/microsteril.html",
+  "description": "Reference de sterilisation et desinfection pour laboratoires de microbiologie.",
+  "applicationCategory": "EducationalApplication",
+  "isPartOf": { "@type": "WebSite", "name": "MicroLab Pro", "url": "https://YOURDOMAIN.com/" }
+}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="icon" type="image/x-icon" href="../favicon.ico"/>
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png"/>
+<link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png"/>
+<link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png"/>
+<link rel="manifest" href="../site.webmanifest"/>
+<meta name="theme-color" content="#04080f"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="../style.css"/>
+</head>
+<body>
+
+<div class="loader-screen" id="loaderScreen">
+  <div class="loader-mascot">🦑</div>
+  <div class="loader-bar"><div class="loader-bar-fill"></div></div>
+  <div class="loader-text" data-i18n="loading_text">Chargement de la boite a outils</div>
+</div>
+
+<nav>
+  <a class="nav-logo" href="../index.html">Micro<span>Lab</span> Pro</a>
+  <ul class="nav-links">
+    <li><a href="../index.html" data-i18n="nav_home">Accueil</a></li>
+    <li><a href="microid.html" data-i18n="nav_microid">MicroID</a></li>
+    <li><a href="micropath.html" data-i18n="nav_micropath">MicroPath</a></li>
+    <li><a href="microcalc.html" data-i18n="nav_microcalc">MicroCalc</a></li>
+    <li><a href="micropedia.html" data-i18n="nav_micropedia">MicroPedia</a></li>
+    <li><a href="microsteril.html" style="color:#ef4444" data-i18n="nav_microsteril">MicroSteril</a></li>
+  </ul>
+  <div class="nav-right">
+    <div class="lang-switcher">
+      <button class="lang-btn" data-lang="ar" onclick="setLang('ar')">ع</button>
+      <button class="lang-btn" data-lang="fr" onclick="setLang('fr')">FR</button>
+      <button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
+    </div>
+  </div>
+  <button class="hamburger" onclick="toggleMenu()">&#9776;</button>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="../index.html" data-i18n="nav_home">Accueil</a>
+  <a href="microid.html" data-i18n="nav_microid">MicroID</a>
+  <a href="micropath.html" data-i18n="nav_micropath">MicroPath</a>
+  <a href="microcalc.html" data-i18n="nav_microcalc">MicroCalc</a>
+  <a href="micropedia.html" data-i18n="nav_micropedia">MicroPedia</a>
+  <a href="microsteril.html" data-i18n="nav_microsteril">MicroSteril</a>
+  <div class="lang-switcher" style="margin-top:1rem;">
+    <button class="lang-btn" data-lang="ar" onclick="setLang('ar');toggleMenu()">ع</button>
+    <button class="lang-btn" data-lang="fr" onclick="setLang('fr');toggleMenu()">FR</button>
+    <button class="lang-btn" data-lang="en" onclick="setLang('en');toggleMenu()">EN</button>
+  </div>
+</div>
+
+<div class="tool-page-header">
+  <div class="tool-page-eyebrow" style="color:#ef4444" data-i18n="microsteril_eyebrow">🧴 MicroSteril</div>
+  <h1 class="tool-page-title" style="color:#ef4444" data-i18n="microsteril_title">Sterilisation et desinfection</h1>
+  <p class="tool-page-sub" data-i18n="microsteril_sub">Cycles d'autoclave, calculateur de dilution de desinfectants, parametres chaleur seche et UV, guide des indicateurs biologiques.</p>
+</div>
+
+<div class="print-header">
+  <strong>MicroLab Pro</strong> &middot; <span id="printDate"></span>
+</div>
+<div class="tool-page-body">
+  <div style="text-align:right; margin-bottom:0.5rem;">
+    <button class="export-btn" onclick="printResult()">🖨 <span data-i18n="export_print">Exporter / Imprimer</span></button>
+  </div>
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab('autoclave')" data-i18n="ms_tab_autoclave">Autoclave</button>
+    <button class="tab-btn" onclick="switchTab('disinfect')" data-i18n="ms_tab_disinfect">Desinfectants</button>
+    <button class="tab-btn" onclick="switchTab('dryheat')" data-i18n="ms_tab_dryheat">Chaleur seche / UV</button>
+    <button class="tab-btn" onclick="switchTab('indicators')" data-i18n="ms_tab_indicators">Indicateurs</button>
+  </div>
+
+  <!-- AUTOCLAVE -->
+  <div class="tab-content active" id="tab-autoclave">
+    <div class="calc-card">
+      <h3 data-i18n="ms_auto_h3">Reference des cycles d'autoclave</h3>
+      <div style="overflow-x:auto">
+      <table class="ref-table">
+        <thead><tr>
+          <th data-i18n="ms_auto_th_material">Materiel / charge</th>
+          <th data-i18n="ms_auto_th_temp">Temperature</th>
+          <th data-i18n="ms_auto_th_time">Temps de plateau</th>
+          <th data-i18n="ms_auto_th_pressure">Pression</th>
+        </tr></thead>
+        <tbody id="autoclaveBody"></tbody>
+      </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- DISINFECTANTS -->
+  <div class="tab-content" id="tab-disinfect">
+    <div class="calc-card">
+      <h3 data-i18n="ms_dis_h3">Calculateur de dilution de desinfectant</h3>
+      <div class="field-row">
+        <div class="field">
+          <label data-i18n="ms_dis_product">Desinfectant</label>
+          <select id="disProduct"></select>
+        </div>
+        <div class="field">
+          <label data-i18n="ms_dis_stock">Concentration mere (%)</label>
+          <input type="number" id="disStock" step="any" oninput="calcDisinfect()"/>
+        </div>
+        <div class="field">
+          <label data-i18n="ms_dis_target">Concentration cible (%)</label>
+          <input type="number" id="disTarget" step="any" oninput="calcDisinfect()"/>
+        </div>
+        <div class="field">
+          <label data-i18n="ms_dis_volume">Volume final souhaite (mL)</label>
+          <input type="number" id="disVolume" oninput="calcDisinfect()"/>
+        </div>
+      </div>
+      <div class="result-box" id="disResult">
+        <div class="result-label" data-i18n="ms_dis_result">Volume de solution mere a prelever</div>
+        <div class="result-value" id="disValue"></div>
+        <div class="result-sub" id="disSub"></div>
+      </div>
+    </div>
+    <div class="calc-card">
+      <h3 data-i18n="ms_dis_table_h3">Reference des desinfectants courants</h3>
+      <div style="overflow-x:auto">
+      <table class="ref-table">
+        <thead><tr>
+          <th data-i18n="ms_dis_th_name">Produit</th>
+          <th data-i18n="ms_dis_th_conc">Concentration d'usage</th>
+          <th data-i18n="ms_dis_th_contact">Temps de contact</th>
+          <th data-i18n="ms_dis_th_use">Spectre</th>
+        </tr></thead>
+        <tbody id="disinfectBody"></tbody>
+      </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- DRY HEAT / UV -->
+  <div class="tab-content" id="tab-dryheat">
+    <div class="calc-card">
+      <h3 data-i18n="ms_dry_h3">Sterilisation par chaleur seche (four Poupinel)</h3>
+      <div style="overflow-x:auto">
+      <table class="ref-table">
+        <thead><tr>
+          <th data-i18n="ms_dry_th_temp">Temperature</th>
+          <th data-i18n="ms_dry_th_time">Temps minimum</th>
+          <th data-i18n="ms_dry_th_use">Usage typique</th>
+        </tr></thead>
+        <tbody id="dryHeatBody"></tbody>
+      </table>
+      </div>
+    </div>
+    <div class="calc-card">
+      <h3 data-i18n="ms_uv_h3">Desinfection germicide UV</h3>
+      <p style="color:var(--muted); font-size:0.85rem; margin-bottom:1rem;" data-i18n="ms_uv_p1">Les UV-C (254nm) inactivent les micro-organismes en endommageant l'ADN/ARN.</p>
+      <div style="overflow-x:auto">
+      <table class="ref-table">
+        <thead><tr>
+          <th data-i18n="ms_uv_th_app">Application</th>
+          <th data-i18n="ms_uv_th_dose">Dose typique</th>
+          <th data-i18n="ms_uv_th_note">Remarque</th>
+        </tr></thead>
+        <tbody id="uvBody"></tbody>
+      </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- INDICATORS -->
+  <div class="tab-content" id="tab-indicators">
+    <div class="calc-card">
+      <h3 data-i18n="ms_ind_h3">Guide des indicateurs biologiques et chimiques</h3>
+      <div style="overflow-x:auto">
+      <table class="ref-table">
+        <thead><tr>
+          <th data-i18n="ms_ind_th_type">Type d'indicateur</th>
+          <th data-i18n="ms_ind_th_organism">Organisme test / classe</th>
+          <th data-i18n="ms_ind_th_use">Verifie</th>
+        </tr></thead>
+        <tbody id="indicatorsBody"></tbody>
+      </table>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <span class="footer-logo">MicroLab Pro</span>
+  <a class="footer-social" href="https://www.linkedin.com/in/zekraouirabahallaaeddine" target="_blank" rel="noopener">
+    <svg viewBox="0 0 24 24"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.03-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.34V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.38-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12zM7.12 20.45H3.56V9h3.56v11.45z"/></svg>
+    <span data-i18n="follow_link">Suivre sur LinkedIn</span>
+  </a>
+  <p class="footer-copy" data-i18n="copyright">Tous droits reserves a Zekraoui Rabah AllaaEddine 🦑 © 2026</p>
+</footer>
+
+<script src="../lang.js"></script>
+<script src="../inquiry.js"></script>
+<script src="../widgets.js"></script>
+<script>
+function toggleMenu(){ document.getElementById('mobileMenu').classList.toggle('open'); }
+function switchTab(id){
+  const ids=['autoclave','disinfect','dryheat','indicators'];
+  document.querySelectorAll('.tab-btn').forEach((b,i)=>b.classList.toggle('active', ids[i]===id));
+  document.querySelectorAll('.tab-content').forEach(t=>t.classList.toggle('active', t.id==='tab-'+id));
+}
+
+// ── AUTOCLAVE DATA ──
+const AUTOCLAVE = {
+  fr: [
+    {material:'Milieux de culture (bouillon, gelose)', temp:'121°C', time:'15-20 min', pressure:'1 bar (1 atm)'},
+    {material:'Instruments metalliques non tranchants', temp:'134°C', time:'3-18 min', pressure:'2 bar'},
+    {material:'Verrerie de laboratoire', temp:'121°C', time:'15-30 min', pressure:'1 bar'},
+    {material:'Dechets biologiques (DASRI)', temp:'121°C', time:'30-60 min', pressure:'1 bar'},
+    {material:'Solutions aqueuses (grand volume)', temp:'121°C', time:'20-40 min (selon volume)', pressure:'1 bar'},
+    {material:'Textiles et champs operatoires', temp:'134°C', time:'5-18 min', pressure:'2 bar'},
+    {material:'Dispositifs medicaux thermosensibles', temp:'121°C', time:'15-20 min', pressure:'1 bar'},
+    {material:'Prions suspectes (protocole renforce)', temp:'134°C', time:'18 min minimum', pressure:'2 bar'}
+  ],
+  en: [
+    {material:'Culture media (broth, agar)', temp:'121°C', time:'15-20 min', pressure:'1 bar (1 atm)'},
+    {material:'Non-sharp metal instruments', temp:'134°C', time:'3-18 min', pressure:'2 bar'},
+    {material:'Laboratory glassware', temp:'121°C', time:'15-30 min', pressure:'1 bar'},
+    {material:'Biological waste (DASRI)', temp:'121°C', time:'30-60 min', pressure:'1 bar'},
+    {material:'Aqueous solutions (large volume)', temp:'121°C', time:'20-40 min (volume dependent)', pressure:'1 bar'},
+    {material:'Textiles and surgical drapes', temp:'134°C', time:'5-18 min', pressure:'2 bar'},
+    {material:'Heat-sensitive medical devices', temp:'121°C', time:'15-20 min', pressure:'1 bar'},
+    {material:'Suspected prions (enhanced protocol)', temp:'134°C', time:'18 min minimum', pressure:'2 bar'}
+  ],
+  ar: [
+    {material:'أوساط الزرع (مرق، أجار)', temp:'121°C', time:'15-20 دقيقة', pressure:'1 بار'},
+    {material:'أدوات معدنية غير حادة', temp:'134°C', time:'3-18 دقيقة', pressure:'2 بار'},
+    {material:'أدوات زجاجية مخبرية', temp:'121°C', time:'15-30 دقيقة', pressure:'1 بار'},
+    {material:'نفايات بيولوجية', temp:'121°C', time:'30-60 دقيقة', pressure:'1 بار'},
+    {material:'محاليل مائية (حجم كبير)', temp:'121°C', time:'20-40 دقيقة', pressure:'1 بار'},
+    {material:'أقمشة وحقول جراحية', temp:'134°C', time:'5-18 دقيقة', pressure:'2 بار'},
+    {material:'أجهزة طبية حساسة للحرارة', temp:'121°C', time:'15-20 دقيقة', pressure:'1 بار'},
+    {material:'بريونات مشتبهة (بروتوكول معزز)', temp:'134°C', time:'18 دقيقة على الأقل', pressure:'2 بار'}
+  ]
+};
+
+// ── DISINFECTANTS DATA ──
+const DISINFECT_PRODUCTS = [
+  {id:'javel', name:{fr:'Eau de Javel (hypochlorite)',en:'Bleach (sodium hypochlorite)',ar:'ماء جافيل (هيبوكلوريت)'}, stock:9.6},
+  {id:'ethanol', name:{fr:'Ethanol',en:'Ethanol',ar:'إيثانول'}, stock:96},
+  {id:'ammoniumq', name:{fr:"Ammonium quaternaire",en:'Quaternary ammonium',ar:'أمونيوم رباعي'}, stock:10},
+  {id:'h2o2', name:{fr:'Peroxyde d\'hydrogene',en:'Hydrogen peroxide',ar:'بيروكسيد الهيدروجين'}, stock:30},
+  {id:'iode', name:{fr:'Iode/Povidone',en:'Iodine/Povidone',ar:'يود/بوفيدون'}, stock:10}
+];
+const DISINFECT_TABLE = {
+  fr: [
+    {name:'Eau de Javel', conc:'0.5% (5000 ppm) surfaces / 0.1% mains', contact:'10-30 min', use:'Bacteries, virus, spores (large spectre)'},
+    {name:'Ethanol 70%', conc:'70% (v/v)', contact:'1-2 min', use:'Bacteries vegetatives, virus enveloppes (pas les spores)'},
+    {name:'Ammonium quaternaire', conc:'0.1-0.5%', contact:'10-15 min', use:'Bacteries, champignons (pas les spores ni tous virus)'},
+    {name:'Peroxyde d\'hydrogene', conc:'3-6%', contact:'10-30 min', use:'Large spectre incluant spores a forte concentration'},
+    {name:'Glutaraldehyde', conc:'2%', contact:'20-90 min', use:'Desinfection de haut niveau, dispositifs thermosensibles'},
+    {name:'Alcool isopropylique', conc:'70-90%', contact:'1-2 min', use:'Surfaces, peau, pas efficace sur spores'}
+  ],
+  en: [
+    {name:'Bleach', conc:'0.5% (5000 ppm) surfaces / 0.1% hands', contact:'10-30 min', use:'Bacteria, viruses, spores (broad spectrum)'},
+    {name:'Ethanol 70%', conc:'70% (v/v)', contact:'1-2 min', use:'Vegetative bacteria, enveloped viruses (not spores)'},
+    {name:'Quaternary ammonium', conc:'0.1-0.5%', contact:'10-15 min', use:'Bacteria, fungi (not spores or all viruses)'},
+    {name:'Hydrogen peroxide', conc:'3-6%', contact:'10-30 min', use:'Broad spectrum including spores at high concentration'},
+    {name:'Glutaraldehyde', conc:'2%', contact:'20-90 min', use:'High-level disinfection, heat-sensitive devices'},
+    {name:'Isopropyl alcohol', conc:'70-90%', contact:'1-2 min', use:'Surfaces, skin, not effective on spores'}
+  ],
+  ar: [
+    {name:'ماء جافيل', conc:'0.5% للأسطح / 0.1% لليدين', contact:'10-30 دقيقة', use:'بكتيريا، فيروسات، جراثيم (طيف واسع)'},
+    {name:'إيثانول 70%', conc:'70%', contact:'1-2 دقيقة', use:'بكتيريا نباتية، فيروسات مغلفة (ليس الجراثيم)'},
+    {name:'أمونيوم رباعي', conc:'0.1-0.5%', contact:'10-15 دقيقة', use:'بكتيريا، فطريات (ليس الجراثيم أو كل الفيروسات)'},
+    {name:'بيروكسيد الهيدروجين', conc:'3-6%', contact:'10-30 دقيقة', use:'طيف واسع يشمل الجراثيم بتركيز عالٍ'},
+    {name:'غلوتارالدهيد', conc:'2%', contact:'20-90 دقيقة', use:'تطهير عالي المستوى، أجهزة حساسة للحرارة'},
+    {name:'كحول إيزوبروبيلي', conc:'70-90%', contact:'1-2 دقيقة', use:'أسطح، جلد، غير فعال على الجراثيم'}
+  ]
+};
+
+// ── DRY HEAT DATA ──
+const DRYHEAT = {
+  fr: [
+    {temp:'160°C', time:'2 heures', use:'Verrerie, instruments metalliques resistants'},
+    {temp:'170°C', time:'1 heure', use:'Instruments et poudres thermostables'},
+    {temp:'180°C', time:'30 minutes', use:'Sterilisation rapide de petit materiel'}
+  ],
+  en: [
+    {temp:'160°C', time:'2 hours', use:'Glassware, resistant metal instruments'},
+    {temp:'170°C', time:'1 hour', use:'Heat-stable instruments and powders'},
+    {temp:'180°C', time:'30 minutes', use:'Rapid sterilization of small equipment'}
+  ],
+  ar: [
+    {temp:'160°C', time:'ساعتان', use:'زجاجيات، أدوات معدنية مقاومة'},
+    {temp:'170°C', time:'ساعة واحدة', use:'أدوات ومساحيق مقاومة للحرارة'},
+    {temp:'180°C', time:'30 دقيقة', use:'تعقيم سريع لأدوات صغيرة'}
+  ]
+};
+
+// ── UV DATA ──
+const UV_DATA = {
+  fr: [
+    {app:'Postes de securite microbiologique (PSM)', dose:'253.7nm, 15-30 min avant usage', note:'Ne remplace pas le nettoyage, agit en surface directe uniquement'},
+    {app:'Traitement de l\'eau', dose:'40 mJ/cm²', note:'Efficace sur bacteries, virus, protozoaires'},
+    {app:'Desinfection de l\'air ambiant', dose:'Variable selon debit d\'air', note:'Necessite exposition directe, ombres = zones non traitees'},
+    {app:'Surfaces de laboratoire', dose:'15-30 min a courte distance', note:'Risque pour les yeux et la peau, ne pas s\'exposer directement'}
+  ],
+  en: [
+    {app:'Biosafety cabinets (BSC)', dose:'253.7nm, 15-30 min before use', note:'Does not replace cleaning, acts only on directly exposed surfaces'},
+    {app:'Water treatment', dose:'40 mJ/cm²', note:'Effective against bacteria, viruses, protozoa'},
+    {app:'Ambient air disinfection', dose:'Variable by airflow', note:'Requires direct exposure, shadows = untreated zones'},
+    {app:'Laboratory surfaces', dose:'15-30 min at short distance', note:'Eye and skin hazard, avoid direct exposure'}
+  ],
+  ar: [
+    {app:'خزائن السلامة الحيوية (PSM)', dose:'253.7 نانومتر، 15-30 دقيقة قبل الاستخدام', note:'لا يغني عن التنظيف، يعمل فقط على الأسطح المعرضة مباشرة'},
+    {app:'معالجة المياه', dose:'40 mJ/cm²', note:'فعال ضد البكتيريا والفيروسات والأوليات'},
+    {app:'تطهير الهواء المحيط', dose:'متغير حسب تدفق الهواء', note:'يتطلب تعرضاً مباشراً، الظلال = مناطق غير معالجة'},
+    {app:'أسطح المختبر', dose:'15-30 دقيقة من مسافة قريبة', note:'خطر على العين والجلد، تجنب التعرض المباشر'}
+  ]
+};
+
+// ── INDICATORS DATA ──
+const INDICATORS = {
+  fr: [
+    {type:'Indicateur biologique (autoclave 121°C)', organism:'Geobacillus stearothermophilus (spores)', use:'Efficacite reelle du cycle de sterilisation vapeur'},
+    {type:'Indicateur biologique (chaleur seche)', organism:'Bacillus atrophaeus (spores)', use:'Efficacite du cycle chaleur seche'},
+    {type:'Indicateur biologique (oxyde d\'ethylene)', organism:'Bacillus atrophaeus (spores)', use:'Efficacite de sterilisation a l\'oxyde d\'ethylene'},
+    {type:'Indicateur chimique classe 1', organism:'Ruban adhesif indicateur', use:'Distinction traite/non traite (passage dans l\'autoclave)'},
+    {type:'Indicateur chimique classe 4-6', organism:'Bandelette multiparametrique', use:'Verification de plusieurs parametres (temps, temperature, pression)'},
+    {type:'Test de Bowie-Dick', organism:'Feuille indicatrice specifique', use:'Verification de la penetration de la vapeur (elimination d\'air)'}
+  ],
+  en: [
+    {type:'Biological indicator (autoclave 121°C)', organism:'Geobacillus stearothermophilus (spores)', use:'Real effectiveness of the steam sterilization cycle'},
+    {type:'Biological indicator (dry heat)', organism:'Bacillus atrophaeus (spores)', use:'Dry heat cycle effectiveness'},
+    {type:'Biological indicator (ethylene oxide)', organism:'Bacillus atrophaeus (spores)', use:'Ethylene oxide sterilization effectiveness'},
+    {type:'Chemical indicator class 1', organism:'Indicator adhesive tape', use:'Distinguishes processed/unprocessed (passed through autoclave)'},
+    {type:'Chemical indicator class 4-6', organism:'Multi-parameter strip', use:'Verification of multiple parameters (time, temperature, pressure)'},
+    {type:'Bowie-Dick test', organism:'Specific indicator sheet', use:'Verifies steam penetration (air removal)'}
+  ],
+  ar: [
+    {type:'مؤشر بيولوجي (أوتوكلاف 121°C)', organism:'Geobacillus stearothermophilus (جراثيم)', use:'الفعالية الحقيقية لدورة التعقيم بالبخار'},
+    {type:'مؤشر بيولوجي (حرارة جافة)', organism:'Bacillus atrophaeus (جراثيم)', use:'فعالية دورة الحرارة الجافة'},
+    {type:'مؤشر بيولوجي (أكسيد الإيثيلين)', organism:'Bacillus atrophaeus (جراثيم)', use:'فعالية التعقيم بأكسيد الإيثيلين'},
+    {type:'مؤشر كيميائي فئة 1', organism:'شريط لاصق مؤشر', use:'تمييز المعالج من غير المعالج (مرّ بالأوتوكلاف)'},
+    {type:'مؤشر كيميائي فئة 4-6', organism:'شريط متعدد المعايير', use:'التحقق من عدة معايير (الزمن، الحرارة، الضغط)'},
+    {type:'اختبار Bowie-Dick', organism:'ورقة مؤشر خاصة', use:'التحقق من تغلغل البخار (إزالة الهواء)'}
+  ]
+};
+
+function renderMSData(){
+  const lang = currentLang || 'fr';
+  document.getElementById('autoclaveBody').innerHTML = AUTOCLAVE[lang].map(r=>`
+    <tr><td>${r.material}</td><td style="font-family:var(--mono);color:#ef4444">${r.temp}</td><td>${r.time}</td><td>${r.pressure}</td></tr>
+  `).join('');
+  document.getElementById('disinfectBody').innerHTML = DISINFECT_TABLE[lang].map(r=>`
+    <tr><td style="font-weight:600">${r.name}</td><td style="font-family:var(--mono);font-size:0.8rem">${r.conc}</td><td>${r.contact}</td><td style="color:var(--muted)">${r.use}</td></tr>
+  `).join('');
+  document.getElementById('dryHeatBody').innerHTML = DRYHEAT[lang].map(r=>`
+    <tr><td style="font-family:var(--mono);color:#ef4444;font-weight:600">${r.temp}</td><td>${r.time}</td><td style="color:var(--muted)">${r.use}</td></tr>
+  `).join('');
+  document.getElementById('uvBody').innerHTML = UV_DATA[lang].map(r=>`
+    <tr><td style="font-weight:600">${r.app}</td><td style="font-family:var(--mono);font-size:0.8rem">${r.dose}</td><td style="color:var(--muted)">${r.note}</td></tr>
+  `).join('');
+  document.getElementById('indicatorsBody').innerHTML = INDICATORS[lang].map(r=>`
+    <tr><td style="font-weight:600">${r.type}</td><td style="font-style:italic">${r.organism}</td><td style="color:var(--muted)">${r.use}</td></tr>
+  `).join('');
+  const sel = document.getElementById('disProduct');
+  sel.innerHTML = DISINFECT_PRODUCTS.map(p=>`<option value="${p.id}" data-stock="${p.stock}">${p.name[lang]}</option>`).join('');
+  updateStockField();
+}
+
+function updateStockField(){
+  const sel = document.getElementById('disProduct');
+  const opt = sel.options[sel.selectedIndex];
+  if(opt) document.getElementById('disStock').value = opt.dataset.stock;
+  calcDisinfect();
+}
+document.getElementById('disProduct')?.addEventListener('change', updateStockField);
+
+function calcDisinfect(){
+  const stock = +document.getElementById('disStock').value;
+  const target = +document.getElementById('disTarget').value;
+  const volume = +document.getElementById('disVolume').value;
+  const box = document.getElementById('disResult');
+  if(!stock || !target || !volume || target > stock){ box.classList.remove('show'); return; }
+  const volStock = (target * volume) / stock;
+  const volDiluent = volume - volStock;
+  box.classList.add('show');
+  document.getElementById('disValue').textContent = volStock.toFixed(1) + ' mL';
+  const lang = currentLang || 'fr';
+  const subTexts = {
+    fr: `Prelever ${volStock.toFixed(1)}mL de solution mere et completer avec ${volDiluent.toFixed(1)}mL d'eau pour obtenir ${volume}mL a ${target}%.`,
+    en: `Take ${volStock.toFixed(1)}mL of stock solution and top up with ${volDiluent.toFixed(1)}mL of water to obtain ${volume}mL at ${target}%.`,
+    ar: `خذ ${volStock.toFixed(1)} مل من المحلول الأصلي وأكمل بـ ${volDiluent.toFixed(1)} مل من الماء للحصول على ${volume} مل بتركيز ${target}%.`
+  };
+  document.getElementById('disSub').textContent = subTexts[lang];
+}
+
+function buildSterilCheatsheet(){
+  const lang = currentLang || 'fr';
+  window.CHEATSHEET_DATA = {
+    title: 'MicroSteril Cheat Sheet',
+    sections: [
+      { heading: 'Autoclave cycles', headers: ['Material','Temperature','Time','Pressure'],
+        rows: AUTOCLAVE[lang].map(r=>[r.material, r.temp, r.time, r.pressure]) },
+      { heading: 'Common disinfectants', headers: ['Product','Usage concentration','Contact time'],
+        rows: DISINFECT_TABLE[lang].map(r=>[r.name, r.conc, r.contact]) },
+      { heading: 'Dry heat sterilization', headers: ['Temperature','Minimum time'],
+        rows: DRYHEAT[lang].map(r=>[r.temp, r.time]) }
+    ]
+  };
+}
+window.addEventListener('load', () => {
+  initLang();
+  renderMSData();
+  buildSterilCheatsheet();
+  injectCheatSheetButton('.tool-page-body > div:first-child');
+  const loader = document.getElementById('loaderScreen');
+  setTimeout(() => { loader.classList.add('hidden'); setTimeout(() => loader.remove(), 600); }, 500);
+});
+window.addEventListener('langchange', () => { renderMSData(); buildSterilCheatsheet(); });
+</script>
+</body>
+</html>

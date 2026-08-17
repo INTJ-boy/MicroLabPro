@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>MicroID : Identification bacterienne guidee gratuite</title>
+<meta name="description" content="Identifiez plus de 50 bacteries, levures et moisissures par arbre decisionnel biochimique guide : Gram, catalase, oxydase, TSI et plus. Outil gratuit pour etudiants et laborantins."/>
+<link rel="canonical" href="https://YOURDOMAIN.com/tools/microid.html"/>
+<meta property="og:type" content="website"/>
+<meta property="og:title" content="MicroID : Identification bacterienne guidee"/>
+<meta property="og:description" content="Arbre decisionnel biochimique interactif pour identifier bacteries, levures et moisissures."/>
+<meta property="og:url" content="https://YOURDOMAIN.com/tools/microid.html"/>
+<meta property="og:image" content="https://YOURDOMAIN.com/og-image.png"/>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "MicroID",
+  "url": "https://YOURDOMAIN.com/tools/microid.html",
+  "description": "Outil d'identification bacterienne par arbre de decision biochimique.",
+  "applicationCategory": "EducationalApplication",
+  "isPartOf": { "@type": "WebSite", "name": "MicroLab Pro", "url": "https://YOURDOMAIN.com/" }
+}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="icon" type="image/x-icon" href="../favicon.ico"/>
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png"/>
+<link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png"/>
+<link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png"/>
+<link rel="manifest" href="../site.webmanifest"/>
+<meta name="theme-color" content="#04080f"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="../style.css"/>
+</head>
+<body>
+
+<div class="loader-screen" id="loaderScreen">
+  <div class="loader-mascot">🦑</div>
+  <div class="loader-bar"><div class="loader-bar-fill"></div></div>
+  <div class="loader-text" data-i18n="loading_text">Chargement de la boite a outils</div>
+</div>
+
+<nav>
+  <a class="nav-logo" href="../index.html">Micro<span>Lab</span> Pro</a>
+  <ul class="nav-links">
+    <li><a href="../index.html" data-i18n="nav_home">Accueil</a></li>
+    <li><a href="microid.html" style="color:var(--accent)" data-i18n="nav_microid">MicroID</a></li>
+    <li><a href="micropath.html" data-i18n="nav_micropath">MicroPath</a></li>
+    <li><a href="microcalc.html" data-i18n="nav_microcalc">MicroCalc</a></li>
+    <li><a href="micropedia.html" data-i18n="nav_micropedia">MicroPedia</a></li>
+    <li><a href="microsteril.html" data-i18n="nav_microsteril">MicroSteril</a></li>
+  </ul>
+  <div class="nav-right">
+    <div class="lang-switcher">
+      <button class="lang-btn" data-lang="ar" onclick="setLang('ar')">ع</button>
+      <button class="lang-btn" data-lang="fr" onclick="setLang('fr')">FR</button>
+      <button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
+    </div>
+  </div>
+  <button class="hamburger" onclick="toggleMenu()">&#9776;</button>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="../index.html" data-i18n="nav_home">Accueil</a>
+  <a href="microid.html" data-i18n="nav_microid">MicroID</a>
+  <a href="micropath.html" data-i18n="nav_micropath">MicroPath</a>
+  <a href="microcalc.html" data-i18n="nav_microcalc">MicroCalc</a>
+  <a href="micropedia.html" data-i18n="nav_micropedia">MicroPedia</a>
+  <a href="microsteril.html" data-i18n="nav_microsteril">MicroSteril</a>
+  <div class="lang-switcher" style="margin-top:1rem;">
+    <button class="lang-btn" data-lang="ar" onclick="setLang('ar');toggleMenu()">ع</button>
+    <button class="lang-btn" data-lang="fr" onclick="setLang('fr');toggleMenu()">FR</button>
+    <button class="lang-btn" data-lang="en" onclick="setLang('en');toggleMenu()">EN</button>
+  </div>
+</div>
+</div>
+
+<div class="tool-page-header">
+  <div class="tool-page-eyebrow" style="color:var(--accent)"><span data-i18n="microid_eyebrow">🧫 MicroID</span></div>
+  <h1 class="tool-page-title" data-i18n="microid_title">Identification bactérienne guidée</h1>
+  <p class="tool-page-sub" data-i18n="microid_sub">Répondez aux questions séquentiellement. L'algorithme vous guide vers le genre et l'espèce sur la base des tests biochimiques standards.</p>
+</div>
+
+<div class="print-header">
+  <strong>MicroLab Pro</strong> &middot; <span id="printDate"></span>
+</div>
+<div class="tool-page-body">
+  <div style="text-align:right; margin-bottom:0.5rem;">
+    <button class="export-btn" onclick="printResult()">🖨 <span data-i18n="export_print">Exporter / Imprimer</span></button>
+  </div>
+
+  <!-- PATH DISPLAY -->
+  <div class="tree-path" id="pathDisplay"></div>
+
+  <!-- TREE STEP -->
+  <div id="treeContainer"></div>
+
+  <!-- RESET -->
+  <div style="text-align:center; margin-top:1rem;">
+    <button class="btn-reset" onclick="resetTree()">↺ <span data-i18n="microid_reset">Recommencer</span></button>
+  </div>
+
+</div>
+
+<footer>
+  <span class="footer-logo">MicroLab Pro</span>
+  <a class="footer-social" href="https://www.linkedin.com/in/zekraouirabahallaaeddine" target="_blank" rel="noopener">
+    <svg viewBox="0 0 24 24"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.03-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.34V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.38-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12zM7.12 20.45H3.56V9h3.56v11.45z"/></svg>
+    <span data-i18n="follow_link">Suivre sur LinkedIn</span>
+  </a>
+  <p class="footer-copy" data-i18n="copyright">Tous droits réservés à Zekraoui Rabah AllaaEddine 🦑 © 2026</p>
+</footer>
+
+<script src="../lang.js"></script>
+<script src="../inquiry.js"></script>
+<script src="../widgets.js"></script>
+<script>
+// ── DECISION TREE ─────────────────────────────────────────────────────────────
+// Structure: { id, question, options: [{label, next}] } or { id, result: {name, family, notes} }
+
+const TREE = {
+  start: {
+    q: { fr:"Type de micro-organisme observe ?", en:"Type of microorganism observed?", ar:"نوع الكائن الدقيق الملاحظ؟" },
+    options: [
+      { label:{ fr:"Bacterie", en:"Bacterium", ar:"بكتيريا" }, next:"gram_choice" },
+      { label:{ fr:"Levure / Champignon", en:"Yeast / Fungus", ar:"خميرة / فطر" }, next:"fungi_type" }
+    ]
+  },
+  gram_choice: {
+    q: { fr:"Coloration de Gram ?", en:"Gram stain?", ar:"صبغة غرام؟" },
+    options: [
+      { label:{ fr:"Gram +", en:"Gram +", ar:"غرام +" }, next:"gram_pos" },
+      { label:{ fr:"Gram -", en:"Gram -", ar:"غرام -" }, next:"gram_neg" }
+    ]
+  },
+  fungi_type: {
+    q: { fr:"Morphologie microscopique ?", en:"Microscopic morphology?", ar:"الشكل المجهري؟" },
+    options: [
+      { label:{ fr:"Cellules bourgeonnantes (levure)", en:"Budding cells (yeast)", ar:"خلايا متبرعمة (خميرة)" }, next:"fungi_yeast" },
+      { label:{ fr:"Hyphes cloisonnes", en:"Septate hyphae", ar:"خيوط مقسمة" }, next:"fungi_mold_septate" },
+      { label:{ fr:"Hyphes non cloisonnes", en:"Non-septate hyphae", ar:"خيوط غير مقسمة" }, next:"r_mucor" }
+    ]
+  },
+  fungi_yeast: {
+    q: { fr:"Test de blastese (germ tube) ?", en:"Germ tube test?", ar:"اختبار الأنبوب الجرثومي؟" },
+    options: [
+      { label:{ fr:"Positif", en:"Positive", ar:"إيجابي" }, next:"r_candida_albicans" },
+      { label:{ fr:"Negatif", en:"Negative", ar:"سلبي" }, next:"fungi_yeast_neg" }
+    ]
+  },
+  fungi_yeast_neg: {
+    q: { fr:"Pigmentation sur CHROMagar ?", en:"CHROMagar pigmentation?", ar:"التصبغ على CHROMagar؟" },
+    options: [
+      { label:{ fr:"Colonies roses", en:"Pink colonies", ar:"مستعمرات وردية" }, next:"r_candida_glabrata" },
+      { label:{ fr:"Colonies bleu-vert metallique", en:"Metallic blue-green colonies", ar:"مستعمرات زرقاء معدنية" }, next:"r_candida_tropicalis" },
+      { label:{ fr:"Capsule visible a l'encre de Chine", en:"Capsule visible with India ink", ar:"محفظة ظاهرة بالحبر الصيني" }, next:"r_cryptococcus" }
+    ]
+  },
+  fungi_mold_septate: {
+    q: { fr:"Couleur et tete conidienne ?", en:"Color and conidial head?", ar:"اللون ورأس الأبواغ؟" },
+    options: [
+      { label:{ fr:"Tete radiee noire/verte (Aspergillus)", en:"Black/green radiate head (Aspergillus)", ar:"رأس إشعاعي أسود/أخضر" }, next:"fungi_aspergillus" },
+      { label:{ fr:"Colonies duveteuses colorees (dermatophyte)", en:"Colored fluffy colonies (dermatophyte)", ar:"مستعمرات زغبية ملونة" }, next:"fungi_dermato" }
+    ]
+  },
+  fungi_aspergillus: {
+    q: { fr:"Couleur des conidies ?", en:"Conidia color?", ar:"لون الأبواغ؟" },
+    options: [
+      { label:{ fr:"Vert-noir", en:"Green-black", ar:"أخضر-أسود" }, next:"r_a_niger" },
+      { label:{ fr:"Vert-jaune", en:"Green-yellow", ar:"أخضر-أصفر" }, next:"r_a_flavus" },
+      { label:{ fr:"Bleu-vert", en:"Blue-green", ar:"أزرق-أخضر" }, next:"r_a_fumigatus" }
+    ]
+  },
+  fungi_dermato: {
+    q: { fr:"Genre suspecte ?", en:"Suspected genus?", ar:"الجنس المشتبه به؟" },
+    options: [
+      { label:{ fr:"Atteinte cutanee/unguéale", en:"Skin/nail involvement", ar:"إصابة جلدية/ظفرية" }, next:"r_trichophyton" },
+      { label:{ fr:"Atteinte du cuir chevelu", en:"Scalp involvement", ar:"إصابة فروة الرأس" }, next:"r_microsporum" }
+    ]
+  },
+  // ── GRAM + ──────────────────────────────────────────────────────────────────
+  gram_pos: {
+    q: { fr:"Morphologie ?", en:"Morphology?", ar:"الشكل المجهري؟" },
+    options: [
+      { label:{ fr:"Cocci", en:"Cocci", ar:"مكورات" }, next:"gp_cocci" },
+      { label:{ fr:"Bacilles", en:"Bacilli", ar:"عصيات" }, next:"gp_bacilli" },
+      { label:{ fr:"Cocci en chaînettes", en:"Cocci in chains", ar:"مكورات في سلاسل" }, next:"gp_strepto" }
+    ]
+  },
+  gp_cocci: {
+    q: { fr:"Test catalase ?", en:"Catalase test?", ar:"اختبار الكتالاز؟" },
+    options: [
+      { label:{ fr:"Catalase +", en:"Catalase +", ar:"كتالاز +" }, next:"gp_staph_group" },
+      { label:{ fr:"Catalase -", en:"Catalase -", ar:"كتالاز -" }, next:"gp_strepto" }
+    ]
+  },
+  gp_staph_group: {
+    q: { fr:"Test coagulase ?", en:"Coagulase test?", ar:"اختبار الكواغولاز؟" },
+    options: [
+      { label:{ fr:"Coagulase +", en:"Coagulase +", ar:"كواغولاز +" }, next:"r_s_aureus" },
+      { label:{ fr:"Coagulase - + Novobiocine S", en:"Coagulase - + Novobiocin S", ar:"كواغولاز - + نوفوبيوسين حساس" }, next:"gp_coag_neg_s" },
+      { label:{ fr:"Coagulase - + Novobiocine R", en:"Coagulase - + Novobiocin R", ar:"كواغولاز - + نوفوبيوسين مقاوم" }, next:"r_s_saprophyticus" }
+    ]
+  },
+  gp_coag_neg_s: {
+    q: { fr:"Origine du prelevement ?", en:"Sample origin?", ar:"أصل العينة؟" },
+    options: [
+      { label:{ fr:"Peau / cathéter", en:"Skin / catheter", ar:"جلد / قسطرة" }, next:"r_s_epidermidis" },
+      { label:{ fr:"Prothese articulaire / sang", en:"Joint prosthesis / blood", ar:"طرف اصطناعي / دم" }, next:"r_s_haemolyticus" }
+    ]
+  },
+  gp_strepto: {
+    q: { fr:"Hémolyse sur gélose au sang ?", en:"Hemolysis on blood agar?", ar:"انحلال الدم على أجار الدم؟" },
+    options: [
+      { label:{ fr:"Bêta-hémolyse", en:"Beta-hemolysis", ar:"انحلال بيتا" }, next:"gp_strep_beta" },
+      { label:{ fr:"Alpha-hémolyse", en:"Alpha-hemolysis", ar:"انحلال ألفا" }, next:"gp_strep_alpha" },
+      { label:{ fr:"Gamma (aucune)", en:"Gamma (none)", ar:"غاما (لا انحلال)" }, next:"r_enterococcus" }
+    ]
+  },
+  gp_strep_beta: {
+    q: { fr:"Sensibilité à la Bacitracine ?", en:"Bacitracin sensitivity?", ar:"الحساسية للباسيتراسين؟" },
+    options: [
+      { label:{ fr:"Sensible (S)", en:"Sensitive (S)", ar:"حساس" }, next:"r_s_pyogenes" },
+      { label:{ fr:"Résistant (R)", en:"Resistant (R)", ar:"مقاوم" }, next:"r_s_agalactiae" }
+    ]
+  },
+  gp_strep_alpha: {
+    q: { fr:"Sensibilité à l'Optochine ?", en:"Optochin sensitivity?", ar:"الحساسية للأوبتوشين؟" },
+    options: [
+      { label:{ fr:"Sensible", en:"Sensitive", ar:"حساس" }, next:"r_s_pneumoniae" },
+      { label:{ fr:"Résistant", en:"Resistant", ar:"مقاوم" }, next:"r_viridans" }
+    ]
+  },
+  gp_bacilli: {
+    q: { fr:"Sporulation ?", en:"Sporulation?", ar:"التبويغ؟" },
+    options: [
+      { label:{ fr:"Spores présentes", en:"Spores present", ar:"جراثيم موجودة" }, next:"gp_spore" },
+      { label:{ fr:"Pas de spores", en:"No spores", ar:"لا جراثيم" }, next:"gp_nospore" }
+    ]
+  },
+  gp_spore: {
+    q: { fr:"Caractère aérobie ?", en:"Aerobic character?", ar:"الطابع الهوائي؟" },
+    options: [
+      { label:{ fr:"Aérobie strict", en:"Strict aerobe", ar:"هوائي صارم" }, next:"r_bacillus" },
+      { label:{ fr:"Anaérobie strict", en:"Strict anaerobe", ar:"لاهوائي صارم" }, next:"r_clostridium" }
+    ]
+  },
+  gp_nospore: {
+    q: { fr:"Mobilité ?", en:"Motility?", ar:"الحركة؟" },
+    options: [
+      { label:{ fr:"Mobile", en:"Motile", ar:"متحرك" }, next:"r_listeria" },
+      { label:{ fr:"Immobile, ramifie (branching)", en:"Non-motile, branching", ar:"غير متحرك، متفرع" }, next:"gp_actinomyces_branch" },
+      { label:{ fr:"Immobile, en palissade", en:"Non-motile, palisade", ar:"غير متحرك، صفوف" }, next:"r_corynebacterium" }
+    ]
+  },
+  gp_actinomyces_branch: {
+    q: { fr:"Aerobie ou anaerobie ?", en:"Aerobic or anaerobic?", ar:"هوائي أم لاهوائي؟" },
+    options: [
+      { label:{ fr:"Aerobie, acido-resistance partielle", en:"Aerobic, partial acid-fastness", ar:"هوائي، مقاومة جزئية للحمض" }, next:"r_nocardia" },
+      { label:{ fr:"Anaerobie strict", en:"Strict anaerobe", ar:"لاهوائي صارم" }, next:"r_actinomyces" }
+    ]
+  },
+  // ── GRAM - ──────────────────────────────────────────────────────────────────
+  gram_neg: {
+    q: { fr:"Morphologie ?", en:"Morphology?", ar:"الشكل المجهري؟" },
+    options: [
+      { label:{ fr:"Bacilles (Entérobactéries)", en:"Bacilli (Enterobacteria)", ar:"عصيات (أمعائيات)" }, next:"gn_entero" },
+      { label:{ fr:"Cocci", en:"Cocci", ar:"مكورات" }, next:"gn_cocci" },
+      { label:{ fr:"Coccobacilles", en:"Coccobacilli", ar:"مكورات عصوية" }, next:"gn_coccobacilli" },
+      { label:{ fr:"Bacilles non entérobactéries", en:"Non-enteric bacilli", ar:"عصيات غير أمعائية" }, next:"gn_nonentero" },
+      { label:{ fr:"Anaerobie strict", en:"Strict anaerobe", ar:"لاهوائي صارم" }, next:"gn_anaerobe" }
+    ]
+  },
+  gn_anaerobe: {
+    q: { fr:"Aspect et pigmentation ?", en:"Appearance and pigmentation?", ar:"الشكل والتصبغ؟" },
+    options: [
+      { label:{ fr:"Bacille, pigmentation noire", en:"Bacillus, black pigmentation", ar:"عصية، تصبغ أسود" }, next:"r_porphyromonas" },
+      { label:{ fr:"Bacille, sans pigment, resistant bile", en:"Bacillus, no pigment, bile resistant", ar:"عصية، بدون صبغة، مقاومة للصفراء" }, next:"r_bacteroides" },
+      { label:{ fr:"Cocci en amas", en:"Cocci in clusters", ar:"مكورات متجمعة" }, next:"r_veillonella" }
+    ]
+  },
+  gn_entero: {
+    q: { fr:"Test Oxydase ?", en:"Oxidase test?", ar:"اختبار الأوكسيداز؟" },
+    options: [
+      { label:{ fr:"Oxydase -", en:"Oxidase -", ar:"أوكسيداز -" }, next:"gn_entero_ox_neg" },
+      { label:{ fr:"Oxydase +", en:"Oxidase +", ar:"أوكسيداز +" }, next:"gn_entero_ox_pos" }
+    ]
+  },
+  gn_entero_ox_neg: {
+    q: { fr:"Milieu TSI (H2S, gaz, glucose/lactose) ?", en:"TSI medium (H2S, gas, glucose/lactose)?", ar:"وسط TSI (H2S، غاز، جلوكوز/لاكتوز)؟" },
+    options: [
+      { label:{ fr:"Lac+ / H2S-", en:"Lac+ / H2S-", ar:"لاكتوز+ / H2S-" }, next:"gn_entero_lac_pos" },
+      { label:{ fr:"Lac- / H2S+", en:"Lac- / H2S+", ar:"لاكتوز- / H2S+" }, next:"gn_salmo_shig" },
+      { label:{ fr:"Lac- / H2S-", en:"Lac- / H2S-", ar:"لاكتوز- / H2S-" }, next:"gn_shig_proto" }
+    ]
+  },
+  gn_entero_lac_pos: {
+    q: { fr:"Test IMViC (Indole / RM / VP / Citrate) ?", en:"IMViC tests (Indole / MR / VP / Citrate)?", ar:"اختبارات IMViC؟" },
+    options: [
+      { label:{ fr:"+ + - - (E. coli typique)", en:"+ + - - (E. coli)", ar:"+ + - - (إي كولاي)" }, next:"r_e_coli" },
+      { label:{ fr:"- - + + (Klebsiella)", en:"- - + + (Klebsiella)", ar:"- - + + (كليبسيلا)" }, next:"r_klebsiella" },
+      { label:{ fr:"+ - - - (Citrobacter)", en:"+ - - - (Citrobacter)", ar:"+ - - - (سيتروباكتر)" }, next:"r_citrobacter" }
+    ]
+  },
+  gn_salmo_shig: {
+    q: { fr:"Mobilité + H2S ?", en:"Motility + H2S?", ar:"الحركة + H2S؟" },
+    options: [
+      { label:{ fr:"Mobile + H2S +", en:"Motile + H2S +", ar:"متحرك + H2S +" }, next:"r_salmonella" },
+      { label:{ fr:"Mobile + H2S -", en:"Motile + H2S -", ar:"متحرك + H2S -" }, next:"r_proteus" }
+    ]
+  },
+  gn_shig_proto: {
+    q: { fr:"Mobilité ?", en:"Motility?", ar:"الحركة؟" },
+    options: [
+      { label:{ fr:"Immobile", en:"Non-motile", ar:"غير متحرك" }, next:"r_shigella" },
+      { label:{ fr:"Mobile", en:"Motile", ar:"متحرك" }, next:"r_proteus" }
+    ]
+  },
+  gn_entero_ox_pos: {
+    q: { fr:"Croissance à 42°C / Microaérophile ?", en:"Growth at 42°C / Microaerophilic?", ar:"النمو عند 42 درجة / ميكروهوائي؟" },
+    options: [
+      { label:{ fr:"Oui (Campylobacter)", en:"Yes (Campylobacter)", ar:"نعم (كامبيلوباكتر)" }, next:"r_campylobacter" },
+      { label:{ fr:"Non (Aeromonas)", en:"No (Aeromonas)", ar:"لا (أيروموناس)" }, next:"r_aeromonas" }
+    ]
+  },
+  gn_cocci: {
+    q: { fr:"Diplocoque / Oxydase ?", en:"Diplococcus / Oxidase?", ar:"ثنائي المكورات / أوكسيداز؟" },
+    options: [
+      { label:{ fr:"Diplococques Ox+ intracellulaires", en:"Ox+ intracellular diplococci", ar:"ثنائي مكورات داخل خلوي أوكسيداز+" }, next:"r_neisseria_g" },
+      { label:{ fr:"Diplococques Ox+", en:"Ox+ diplococci", ar:"ثنائي مكورات أوكسيداز+" }, next:"r_neisseria_m" }
+    ]
+  },
+  gn_coccobacilli: {
+    q: { fr:"Aérobie strict / Oxydase ?", en:"Strict aerobe / Oxidase?", ar:"هوائي صارم / أوكسيداز؟" },
+    options: [
+      { label:{ fr:"Ox+ / Moteur polaire", en:"Ox+ / Polar flagellum", ar:"أوكسيداز+ / أهداب قطبية" }, next:"r_pseudomonas" },
+      { label:{ fr:"Ox- / Immobile", en:"Ox- / Non-motile", ar:"أوكسيداز- / غير متحرك" }, next:"r_acinetobacter" },
+      { label:{ fr:"Ox+ / Haemophilus", en:"Ox+ / Haemophilus-like", ar:"أوكسيداز+ / هيموفيلوس" }, next:"r_haemophilus" },
+      { label:{ fr:"Ox+ / Toux quinteuse", en:"Ox+ / Paroxysmal cough", ar:"أوكسيداز+ / سعال نوبي" }, next:"r_bordetella" },
+      { label:{ fr:"Ox+ / Diplocoque respiratoire", en:"Ox+ / Respiratory diplococcus", ar:"أوكسيداز+ / ثنائي مكورات تنفسي" }, next:"r_moraxella" }
+    ]
+  },
+  gn_nonentero: {
+    q: { fr:"Test Oxydase + acido-résistance ?", en:"Oxidase + acid-fast?", ar:"أوكسيداز + مقاوم للحمض؟" },
+    options: [
+      { label:{ fr:"Acido-alcoolo-résistant (BAAR)", en:"Acid-fast (BAAR)", ar:"مقاوم للحمض والكحول (BAAR)" }, next:"gn_baar" },
+      { label:{ fr:"Ox+ incurvé", en:"Ox+ curved", ar:"أوكسيداز+ منحني" }, next:"gn_vibrio_group" },
+      { label:{ fr:"Ox+ hélicoïdal", en:"Ox+ helical", ar:"أوكسيداز+ حلزوني" }, next:"r_helicobacter" },
+      { label:{ fr:"Bacille fin, croissance lente", en:"Thin bacillus, slow growth", ar:"عصية رفيعة، نمو بطيء" }, next:"gn_fastidious" }
+    ]
+  },
+  gn_baar: {
+    q: { fr:"Vitesse de croissance ?", en:"Growth speed?", ar:"سرعة النمو؟" },
+    options: [
+      { label:{ fr:"Lente (3-8 semaines)", en:"Slow (3-8 weeks)", ar:"بطيئة (3-8 أسابيع)" }, next:"r_mycobacterium" },
+      { label:{ fr:"Rapide (moins de 7 jours)", en:"Rapid (under 7 days)", ar:"سريعة (أقل من 7 أيام)" }, next:"r_m_fortuitum" }
+    ]
+  },
+  gn_vibrio_group: {
+    q: { fr:"Halophile (NaCl requis) ?", en:"Halophilic (NaCl required)?", ar:"محب للملح (يحتاج NaCl)؟" },
+    options: [
+      { label:{ fr:"Non, croit sans sel ajoute", en:"No, grows without added salt", ar:"لا، ينمو بدون ملح إضافي" }, next:"r_vibrio" },
+      { label:{ fr:"Oui, halophile strict", en:"Yes, strictly halophilic", ar:"نعم، محب للملح بشدة" }, next:"r_v_parahaemolyticus" }
+    ]
+  },
+  gn_fastidious: {
+    q: { fr:"Contexte clinique ?", en:"Clinical context?", ar:"السياق السريري؟" },
+    options: [
+      { label:{ fr:"Morsure/griffure animale", en:"Animal bite/scratch", ar:"عضة/خدشة حيوانية" }, next:"r_pasteurella" },
+      { label:{ fr:"Contact zoonotique (bovins/ovins)", en:"Zoonotic contact (cattle/sheep)", ar:"تلامس مع الحيوانات" }, next:"r_brucella" },
+      { label:{ fr:"Eau contaminee, climatisation", en:"Contaminated water, AC systems", ar:"مياه ملوثة، تكييف" }, next:"r_legionella" }
+    ]
+  },
+  // ── RESULTS ─────────────────────────────────────────────────────────────────
+  r_s_aureus: {
+    result: {
+      name: "Staphylococcus aureus",
+      family: { fr:"Staphylococcaceae", en:"Staphylococcaceae", ar:"ستافيلوكوكاسيا" },
+      notes: { fr:"Coagulase +. DNase +. Thermonucléase +. Pathogène majeur : infections cutanées, septicémies, intoxinations alimentaires (entérotoxines thermostables). Milieu sélectif : Chapman (MSA).", en:"Coagulase +. DNase +. Thermonuclease +. Major pathogen: skin infections, septicemia, food poisoning (heat-stable enterotoxins). Selective medium: Chapman (MSA).", ar:"كواغولاز+. مسبب رئيسي للأمراض: التهابات جلدية، تسمم غذائي. وسط انتقائي: شابمان." }
+    }
+  },
+  r_s_epidermidis: {
+    result: {
+      name: "Staphylococcus epidermidis",
+      family: { fr:"Staphylococcaceae", en:"Staphylococcaceae", ar:"ستافيلوكوكاسيا" },
+      notes: { fr:"Coagulase - / Novobiocine sensible. Commensale de la peau. Pathogène opportuniste chez l'immunodéprimé, infections de prothèses et cathéters.", en:"Coagulase - / Novobiocin sensitive. Skin commensal. Opportunistic pathogen in immunocompromised patients, prosthetic and catheter infections.", ar:"كواغولاز-. ميكروب انتهازي على الأجهزة الطبية المزروعة." }
+    }
+  },
+  r_s_saprophyticus: {
+    result: {
+      name: "Staphylococcus saprophyticus",
+      family: { fr:"Staphylococcaceae", en:"Staphylococcaceae", ar:"ستافيلوكوكاسيا" },
+      notes: { fr:"Coagulase - / Novobiocine résistant. Cause fréquente d'infections urinaires chez la femme jeune.", en:"Coagulase - / Novobiocin resistant. Common cause of urinary tract infections in young women.", ar:"كواغولاز-. سبب شائع لالتهابات المسالك البولية عند النساء الشابات." }
+    }
+  },
+  r_s_pyogenes: {
+    result: {
+      name: "Streptococcus pyogenes (groupe A)",
+      family: { fr:"Streptococcaceae", en:"Streptococcaceae", ar:"ستريبتوكوكاسيا" },
+      notes: { fr:"Bêta-hémolytique / Bacitracine S. Angines, scarlatines, impétigo, RAA. Détection rapide : test TDR.", en:"Beta-hemolytic / Bacitracin S. Pharyngitis, scarlet fever, impetigo, rheumatic fever. Rapid detection: RAT test.", ar:"بيتا انحلالي / حساس للباسيتراسين. التهاب الحلق، الحمى القرمزية، الحمى الروماتيزمية." }
+    }
+  },
+  r_s_agalactiae: {
+    result: {
+      name: "Streptococcus agalactiae (groupe B)",
+      family: { fr:"Streptococcaceae", en:"Streptococcaceae", ar:"ستريبتوكوكاسيا" },
+      notes: { fr:"Bêta-hémolytique / Bacitracine R. CAMP test +. Infections néonatales graves, méningites. Dépistage chez la femme enceinte à 36 SA.", en:"Beta-hemolytic / Bacitracin R. CAMP test +. Severe neonatal infections, meningitis. Screening in pregnant women at 36 weeks.", ar:"بيتا انحلالي / مقاوم للباسيتراسين. عدوى حديثي الولادة الخطيرة." }
+    }
+  },
+  r_s_pneumoniae: {
+    result: {
+      name: "Streptococcus pneumoniae",
+      family: { fr:"Streptococcaceae", en:"Streptococcaceae", ar:"ستريبتوكوكاسيا" },
+      notes: { fr:"Optochine S / Bile soluble. Lancéolé, encapsulé. Pneumonies, méningites, otites. Vaccin disponible.", en:"Optochin S / Bile soluble. Lancet-shaped, encapsulated. Pneumonia, meningitis, otitis. Vaccine available.", ar:"حساس للأوبتوشين. محفظة. التهاب رئوي، التهاب سحايا." }
+    }
+  },
+  r_viridans: {
+    result: {
+      name: "Streptococcus viridans (groupe)",
+      family: { fr:"Streptococcaceae", en:"Streptococcaceae", ar:"ستريبتوكوكاسيا" },
+      notes: { fr:"Alpha-hémolytique / Optochine R. Flore buccale normale. Endocardites subaiguës (prophylaxie antibiotique en chirurgie dentaire).", en:"Alpha-hemolytic / Optochin R. Normal oral flora. Subacute endocarditis (antibiotic prophylaxis for dental surgery).", ar:"ألفا انحلالي / مقاوم للأوبتوشين. فلورا الفم الطبيعية. التهاب الشغاف." }
+    }
+  },
+  r_enterococcus: {
+    result: {
+      name: "Enterococcus faecalis / faecium",
+      family: { fr:"Enterococcaceae", en:"Enterococcaceae", ar:"إنتيروكوكاسيا" },
+      notes: { fr:"Gamma-hémolyse. Croît à 6,5% NaCl et à 45°C. Infections urinaires, endocardites. Résistances multiples (ERV : entérocoques résistants aux glycopeptides).", en:"Gamma-hemolysis. Grows in 6.5% NaCl and at 45°C. UTIs, endocarditis. Multi-drug resistance (VRE: vancomycin-resistant enterococci).", ar:"لا انحلال. ينمو في 6.5% NaCl. التهابات بولية، التهاب شغاف." }
+    }
+  },
+  r_bacillus: {
+    result: {
+      name: "Bacillus sp. (B. cereus / B. anthracis)",
+      family: { fr:"Bacillaceae", en:"Bacillaceae", ar:"باسيلاسيا" },
+      notes: { fr:"Bacilles Gram+ sporulés aérobies. B. cereus : toxi-infection alimentaire. B. anthracis : charbon (anthrax), non mobile, encapsulé. Milieu sélectif : PEMBA pour B. cereus.", en:"Aerobic Gram+ sporulating bacilli. B. cereus: food poisoning. B. anthracis: anthrax, non-motile, encapsulated. Selective medium: PEMBA for B. cereus.", ar:"عصيات غرام+ تبويغية هوائية. B. cereus: تسمم غذائي. B. anthracis: الجمرة الخبيثة." }
+    }
+  },
+  r_clostridium: {
+    result: {
+      name: "Clostridium sp. (C. perfringens / C. difficile)",
+      family: { fr:"Clostridiaceae", en:"Clostridiaceae", ar:"كلوستريدياسيا" },
+      notes: { fr:"Bacilles Gram+ sporulés anaérobies stricts. C. perfringens : gangrène gazeuse, toxi-infection. C. difficile : colites pseudomembraneuses post-antibiotiques. C. tetani : tétanos.", en:"Strictly anaerobic Gram+ sporulating bacilli. C. perfringens: gas gangrene, food poisoning. C. difficile: post-antibiotic pseudomembranous colitis. C. tetani: tetanus.", ar:"عصيات غرام+ لاهوائية صارمة. C. difficile: التهاب القولون. C. tetani: الكزاز." }
+    }
+  },
+  r_listeria: {
+    result: {
+      name: "Listeria monocytogenes",
+      family: { fr:"Listeriaceae", en:"Listeriaceae", ar:"ليستيرياسيا" },
+      notes: { fr:"Gram+, mobile à 25°C (culbute), bêta-hémolytique. Croît à 4°C. Listériose : méningites, avortements. Contrôle majeur en industrie alimentaire (NF EN ISO 11290).", en:"Gram+, motile at 25°C (tumbling), beta-hemolytic. Grows at 4°C. Listeriosis: meningitis, abortion. Major food industry control (NF EN ISO 11290).", ar:"غرام+، متحرك عند 25°C. ينمو عند 4°C. مهم جداً في الرقابة الغذائية." }
+    }
+  },
+  r_corynebacterium: {
+    result: {
+      name: "Corynebacterium diphtheriae",
+      family: { fr:"Corynebacteriaceae", en:"Corynebacteriaceae", ar:"كورينيباكتيرياسيا" },
+      notes: { fr:"Bacilles Gram+ en palissade / V. Test de Elek (toxigenèse). Diphtérie (pseudomembranes laryngées). Vaccination DTP obligatoire.", en:"Gram+ bacilli in palisades/V-forms. Elek test (toxigenesis). Diphtheria (laryngeal pseudomembranes). Mandatory DTP vaccination.", ar:"عصيات غرام+ على شكل حرف V. الدفتيريا. التطعيم إلزامي." }
+    }
+  },
+  r_e_coli: {
+    result: {
+      name: "Escherichia coli",
+      family: { fr:"Enterobacteriaceae", en:"Enterobacteriaceae", ar:"أمعائيات" },
+      notes: { fr:"IMViC : + + - -. Lactose +. Indicateur de contamination fécale. ECEH (O157:H7) : SHU. Infections urinaires, méningites néonatales. Milieux : EMB, MacConkey. NF ISO 16649.", en:"IMViC: + + - -. Lactose +. Fecal contamination indicator. EHEC (O157:H7): HUS. UTIs, neonatal meningitis. Media: EMB, MacConkey. NF ISO 16649.", ar:"مؤشر التلوث البرازي. ECEH: متلازمة HUS. التهابات بولية." }
+    }
+  },
+  r_klebsiella: {
+    result: {
+      name: "Klebsiella pneumoniae",
+      family: { fr:"Enterobacteriaceae", en:"Enterobacteriaceae", ar:"أمعائيات" },
+      notes: { fr:"IMViC : - - + +. Encapsulée, muccoïde. Pneumonies nécrosantes, infections urinaires. Productrice de BLSE (résistances aux bêta-lactamines).", en:"IMViC: - - + +. Encapsulated, mucoïd. Necrotizing pneumonia, UTIs. ESBL producer (beta-lactam resistance).", ar:"محفظة مخاطية. التهاب رئوي، التهابات بولية. منتجة للBLSE." }
+    }
+  },
+  r_citrobacter: {
+    result: {
+      name: "Citrobacter freundii",
+      family: { fr:"Enterobacteriaceae", en:"Enterobacteriaceae", ar:"أمعائيات" },
+      notes: { fr:"Indole +, citrate +. Opportuniste. Infections nosocomiales, urinaires. Peut produire des bêta-lactamases AmpC.", en:"Indole +, citrate +. Opportunistic. Nosocomial infections, UTIs. Can produce AmpC beta-lactamases.", ar:"انتهازي. عدوى مستشفوية. منتج للبيتا-لاكتاماز AmpC." }
+    }
+  },
+  r_salmonella: {
+    result: {
+      name: "Salmonella sp. (S. enterica)",
+      family: { fr:"Enterobacteriaceae", en:"Enterobacteriaceae", ar:"أمعائيات" },
+      notes: { fr:"Lac- / H2S+ / Mobile. Sérotyoage (antigènes O, H, Vi). Toxi-infections alimentaires collectives (TIAC), fièvre typhoïde (S. Typhi). Recherche obligatoire en contrôle alimentaire (ISO 6579).", en:"Lac- / H2S+ / Motile. Serotyping (O, H, Vi antigens). Collective food poisoning, typhoid fever (S. Typhi). Mandatory detection in food control (ISO 6579).", ar:"لاكتوز- / H2S+. تسمم غذائي جماعي، حمى التيفوئيد. بحث إلزامي في الرقابة الغذائية (ISO 6579)." }
+    }
+  },
+  r_shigella: {
+    result: {
+      name: "Shigella sp.",
+      family: { fr:"Enterobacteriaceae", en:"Enterobacteriaceae", ar:"أمعائيات" },
+      notes: { fr:"Lac- / H2S- / Immobile. Dysenterie bacillaire (diarrhées sanglantes). S. dysenteriae produit la toxine de Shiga. Transmission féco-orale.", en:"Lac- / H2S- / Non-motile. Bacillary dysentery (bloody diarrhea). S. dysenteriae produces Shiga toxin. Fecal-oral transmission.", ar:"لاكتوز- / H2S- / غير متحرك. الدوسنتاريا. انتقال برازي-فموي." }
+    }
+  },
+  r_proteus: {
+    result: {
+      name: "Proteus mirabilis",
+      family: { fr:"Enterobacteriaceae", en:"Enterobacteriaceae", ar:"أمعائيات" },
+      notes: { fr:"Uréase +++ (rapide). Essaimage sur gélose. Infections urinaires récidivantes, lithiases rénales. Résistant à l'ampicilline.", en:"Urease +++ (rapid). Swarming on agar. Recurrent UTIs, kidney stones. Resistant to ampicillin.", ar:"يوريازا+++ سريعة. الانتشار على الأجار. التهابات بولية متكررة." }
+    }
+  },
+  r_pseudomonas: {
+    result: {
+      name: "Pseudomonas aeruginosa",
+      family: { fr:"Pseudomonadaceae", en:"Pseudomonadaceae", ar:"سودوموناداسيا" },
+      notes: { fr:"Ox+ / Pigment pyocyanine (bleu-vert) / Odeur de fleur. Aérobie strict. Infections nosocomiales graves (brûlés, mucoviscidose). Multirésistant (PAVM). Milieu : Cétrimide.", en:"Ox+ / Pyocyanin pigment (blue-green) / Fruity odor. Strict aerobe. Serious nosocomial infections (burns, cystic fibrosis). Multi-drug resistant (MPDR). Medium: Cetrimide.", ar:"أوكسيداز+، صبغة بيوسيانين خضراء-زرقاء. عدوى مستشفوية خطيرة. متعدد المقاومة." }
+    }
+  },
+  r_acinetobacter: {
+    result: {
+      name: "Acinetobacter baumannii",
+      family: { fr:"Moraxellaceae", en:"Moraxellaceae", ar:"موراكسيلاسيا" },
+      notes: { fr:"Ox- / Immobile / Coccobacille. Aérobie strict. Infections nosocomiales, bactériémies. Extrêmement multirésistant (ABRI). Survit longtemps sur les surfaces.", en:"Ox- / Non-motile / Coccobacillus. Strict aerobe. Nosocomial infections, bacteremia. Extremely multi-drug resistant (XDRAB). Survives long on surfaces.", ar:"أوكسيداز-. عدوى مستشفوية. مقاوم للغاية. يبقى حياً على الأسطح مدة طويلة." }
+    }
+  },
+  r_haemophilus: {
+    result: {
+      name: "Haemophilus influenzae",
+      family: { fr:"Pasteurellaceae", en:"Pasteurellaceae", ar:"باستيرياسيا" },
+      notes: { fr:"Nécessite facteurs X (hémine) et V (NAD). Satellite du Staphylocoque. Méningites bactériennes (enfants), infections ORL. Vaccin Hib disponible.", en:"Requires factors X (hemin) and V (NAD). Staphylococcal satellite. Bacterial meningitis (children), ENT infections. Hib vaccine available.", ar:"يحتاج العوامل X و V. التهاب سحايا عند الأطفال. اللقاح Hib متاح." }
+    }
+  },
+  r_neisseria_g: {
+    result: {
+      name: "Neisseria gonorrhoeae",
+      family: { fr:"Neisseriaceae", en:"Neisseriaceae", ar:"نيسيرياسيا" },
+      notes: { fr:"Diplocoque Gram- intracellulaire (LPN). Gonorrhée (urétrite, cervicite). IST. Milieu sélectif : Thayer-Martin. Sensible à la dessication.", en:"Intracellular Gram- diplococcus (PMN). Gonorrhea (urethritis, cervicitis). STI. Selective medium: Thayer-Martin. Sensitive to desiccation.", ar:"ثنائي مكورات غرام- داخل خلوي. السيلان (داء السيلان). أمراض جنسية." }
+    }
+  },
+  r_neisseria_m: {
+    result: {
+      name: "Neisseria meningitidis",
+      family: { fr:"Neisseriaceae", en:"Neisseriaceae", ar:"نيسيرياسيا" },
+      notes: { fr:"Diplocoque Gram- encapsulé. Méningites bactériennes fulminantes (purpura fulminans). Sérogroupes A, B, C, W, Y. Vaccin méningocoque disponible.", en:"Encapsulated Gram- diplococcus. Fulminant bacterial meningitis (purpura fulminans). Serogroups A, B, C, W, Y. Meningococcal vaccine available.", ar:"ثنائي مكورات محفظة. التهاب السحايا الخاطف. التطعيم متاح." }
+    }
+  },
+  r_campylobacter: {
+    result: {
+      name: "Campylobacter jejuni",
+      family: { fr:"Campylobacteraceae", en:"Campylobacteraceae", ar:"كامبيلوباكتراسيا" },
+      notes: { fr:"Microaérophile / Croissance 42°C / Mobile (flagelle unipolaire). Gastroentérites (diarrhées sanglantes). Réservoir : volailles. Milieu : Karmali. ISO 10272.", en:"Microaerophilic / Growth at 42°C / Motile (unipolar flagellum). Gastroenteritis (bloody diarrhea). Reservoir: poultry. Medium: Karmali. ISO 10272.", ar:"ميكروهوائي / ينمو عند 42°C. التهاب معوي. الدواجن المصدر الرئيسي. ISO 10272." }
+    }
+  },
+  r_aeromonas: {
+    result: {
+      name: "Aeromonas hydrophila",
+      family: { fr:"Aeromonadaceae", en:"Aeromonadaceae", ar:"إيروموناداسيا" },
+      notes: { fr:"Ox+ / Mobile / Milieux aquatiques. Diarrhées, infections de plaies après exposition à l'eau. Bêta-hémolytique sur gélose au sang.", en:"Ox+ / Motile / Aquatic environments. Diarrhea, wound infections after water exposure. Beta-hemolytic on blood agar.", ar:"أوكسيداز+. بيئات مائية. إسهال، التهابات جروح." }
+    }
+  },
+  r_mycobacterium: {
+    result: {
+      name: "Mycobacterium tuberculosis (BK)",
+      family: { fr:"Mycobacteriaceae", en:"Mycobacteriaceae", ar:"ميكوباكتيرياسيا" },
+      notes: { fr:"BAAR (Ziehl-Neelsen). Aérobie strict. Croissance lente (3-8 semaines sur Löwenstein-Jensen). Tuberculose. IDR tuberculinique / Quantiféron. Traitement : RHZE.", en:"Acid-fast (Ziehl-Neelsen). Strict aerobe. Slow growth (3-8 weeks on Löwenstein-Jensen). Tuberculosis. Tuberculin test / QuantiFERON. Treatment: RHZE.", ar:"مقاوم للحمض (زيل-نيلسن). نمو بطيء على لوينشتاين-جنسن. السل. علاج RHZE." }
+    }
+  },
+  r_vibrio: {
+    result: {
+      name: "Vibrio cholerae",
+      family: { fr:"Vibrionaceae", en:"Vibrionaceae", ar:"فيبريوناسيا" },
+      notes: { fr:"Ox+ / Incurvé / Flagelle polaire. Choléra (diarrhées riziformes massives, déshydratation). TCBS sélectif. Biotypes El Tor, Ogawa, Inaba.", en:"Ox+ / Curved / Polar flagellum. Cholera (massive rice-water diarrhea, dehydration). TCBS selective medium. Biotypes El Tor, Ogawa, Inaba.", ar:"أوكسيداز+، منحني. الكوليرا (إسهال مائي حاد). وسط TCBS الانتقائي." }
+    }
+  },
+  r_helicobacter: {
+    result: {
+      name: "Helicobacter pylori",
+      family: { fr:"Helicobacteraceae", en:"Helicobacteraceae", ar:"هيليكوباكتراسيا" },
+      notes: { fr:"Spiralé / Microaérophile / Uréase +++. Gastrite chronique, ulcères gastroduodénaux, adénocarcinome gastrique. Test rapide uréase (biopsie). Traitement triple IPP+2ATB.", en:"Spiral / Microaerophilic / Urease +++. Chronic gastritis, peptic ulcers, gastric adenocarcinoma. Rapid urease test (biopsy). Triple therapy PPI+2ATB.", ar:"حلزوني / يوريازا+++. قرحة معدية، سرطان المعدة. علاج ثلاثي." }
+    }
+  },
+  r_s_haemolyticus: {
+    result: { name:"Staphylococcus haemolyticus", family:{fr:"Staphylococcaceae",en:"Staphylococcaceae",ar:"ستافيلوكوكاسيا"},
+      notes:{ fr:"SCN le plus resistant aux antibiotiques (multiresistant frequent). Infections sur protheses et catheters, bacteriemies nosocomiales.", en:"Most antibiotic-resistant CoNS species. Prosthetic and catheter infections, nosocomial bacteremia.", ar:"أكثر أنواع SCN مقاومة للمضادات الحيوية. عدوى مستشفوية." } } },
+  r_nocardia: {
+    result: { name:"Nocardia asteroides", family:{fr:"Nocardiaceae",en:"Nocardiaceae",ar:"نوكارديا"},
+      notes:{ fr:"Bacille ramifie, acido-resistance partielle (Ziehl modifie). Nocardiose pulmonaire et cerebrale chez l'immunodeprime. Traitement : cotrimoxazole prolonge.", en:"Branching bacillus, partial acid-fastness (modified Ziehl). Pulmonary and cerebral nocardiosis in immunocompromised patients. Treatment: prolonged cotrimoxazole.", ar:"عصية متفرعة. داء النوكارديا الرئوي والدماغي عند ضعاف المناعة." } } },
+  r_actinomyces: {
+    result: { name:"Actinomyces israelii", family:{fr:"Actinomycetaceae",en:"Actinomycetaceae",ar:"أكتينوميسيتاسيا"},
+      notes:{ fr:"Bacille ramifie anaerobie strict. Actinomycose cervico-faciale (grains de soufre), infections dentaires chroniques.", en:"Strictly anaerobic branching bacillus. Cervicofacial actinomycosis (sulfur granules), chronic dental infections.", ar:"عصية متفرعة لاهوائية. داء الشعيات الرقبي الوجهي." } } },
+  r_pasteurella: {
+    result: { name:"Pasteurella multocida", family:{fr:"Pasteurellaceae",en:"Pasteurellaceae",ar:"باستيرياسيا"},
+      notes:{ fr:"Coccobacille Gram- Ox+. Transmission par morsure/griffure de chat ou chien. Cellulite d'evolution rapide au point d'inoculation.", en:"Gram- Ox+ coccobacillus. Transmitted by cat or dog bites/scratches. Rapidly progressive cellulitis at inoculation site.", ar:"عضة أو خدشة القطط والكلاب. التهاب نسيج خلوي سريع التطور." } } },
+  r_brucella: {
+    result: { name:"Brucella melitensis", family:{fr:"Brucellaceae",en:"Brucellaceae",ar:"بروسيلاسيا"},
+      notes:{ fr:"Coccobacille Gram- intracellulaire. Brucellose (fievre ondulante), transmission par lait cru et contact animalier. Culture lente et dangereuse (BSL-3).", en:"Intracellular Gram- coccobacillus. Brucellosis (undulant fever), transmitted via raw milk and animal contact. Slow and hazardous culture (BSL-3).", ar:"داء البروسيلات (الحمى المتموجة). ينتقل عبر الحليب الخام." } } },
+  r_legionella: {
+    result: { name:"Legionella pneumophila", family:{fr:"Legionellaceae",en:"Legionellaceae",ar:"ليجيونيلاسيا"},
+      notes:{ fr:"Bacille Gram- fastidieux, milieu BCYE special requis. Legionellose (pneumopathie severe), reservoirs hydriques et systemes de climatisation.", en:"Fastidious Gram- bacillus, requires special BCYE medium. Legionnaires' disease (severe pneumonia), water reservoirs and AC systems.", ar:"داء الفيالقة (التهاب رئوي حاد). مصدره أنظمة المياه والتكييف." } } },
+  r_m_fortuitum: {
+    result: { name:"Mycobacterium fortuitum", family:{fr:"Mycobacteriaceae",en:"Mycobacteriaceae",ar:"ميكوباكتيرياسيا"},
+      notes:{ fr:"Mycobacterie atypique a croissance rapide (moins de 7 jours). Infections cutanees post-chirurgicales, cathéters.", en:"Rapidly growing atypical mycobacterium (under 7 days). Post-surgical skin infections, catheters.", ar:"ميكوباكتيريا سريعة النمو. عدوى جلدية بعد الجراحة." } } },
+  r_v_parahaemolyticus: {
+    result: { name:"Vibrio parahaemolyticus", family:{fr:"Vibrionaceae",en:"Vibrionaceae",ar:"فيبريوناسيا"},
+      notes:{ fr:"Halophile strict (necessite NaCl). Gastro-enterite apres consommation de fruits de mer crus. TCBS : colonies vertes.", en:"Strictly halophilic (requires NaCl). Gastroenteritis after raw seafood consumption. TCBS: green colonies.", ar:"محب للملح بشدة. التهاب معوي بعد أكل المأكولات البحرية النيئة." } } },
+  r_porphyromonas: {
+    result: { name:"Porphyromonas gingivalis", family:{fr:"Porphyromonadaceae",en:"Porphyromonadaceae",ar:"بورفيروموناداسيا"},
+      notes:{ fr:"Bacille anaerobie pigmente en noir sur gelose au sang. Parodontite chronique, associe aux maladies cardiovasculaires.", en:"Anaerobic bacillus, black pigmentation on blood agar. Chronic periodontitis, associated with cardiovascular disease.", ar:"عصية لاهوائية بتصبغ أسود. التهاب دواعم السن المزمن." } } },
+  r_bacteroides: {
+    result: { name:"Bacteroides fragilis", family:{fr:"Bacteroidaceae",en:"Bacteroidaceae",ar:"باكتيرويداسيا"},
+      notes:{ fr:"Anaerobie strict, flore digestive dominante. Abces intra-abdominaux post-chirurgicaux. Resistant a la penicilline (beta-lactamase).", en:"Strict anaerobe, dominant gut flora. Post-surgical intra-abdominal abscesses. Penicillin-resistant (beta-lactamase).", ar:"لاهوائي صارم، الفلورا المعوية السائدة. خراجات بطنية بعد الجراحة." } } },
+  r_veillonella: {
+    result: { name:"Veillonella parvula", family:{fr:"Veillonellaceae",en:"Veillonellaceae",ar:"فيلونيلاسيا"},
+      notes:{ fr:"Cocci Gram- anaerobies en amas. Flore commensale buccale et digestive, rarement pathogene.", en:"Anaerobic Gram- cocci in clusters. Commensal oral and gut flora, rarely pathogenic.", ar:"مكورات لاهوائية، فلورا الفم الطبيعية، نادراً ما تسبب المرض." } } },
+  r_bordetella: {
+    result: { name:"Bordetella pertussis", family:{fr:"Alcaligenaceae",en:"Alcaligenaceae",ar:"ألكاليجيناسيا"},
+      notes:{ fr:"Coccobacille Gram- fastidieux. Coqueluche (toux quinteuse caracteristique). Milieu de Bordet-Gengou. Vaccination DTCaP.", en:"Fastidious Gram- coccobacillus. Whooping cough (characteristic paroxysmal cough). Bordet-Gengou medium. DTaP vaccination.", ar:"السعال الديكي (سعال نوبي مميز). التطعيم DTCaP." } } },
+  r_moraxella: {
+    result: { name:"Moraxella catarrhalis", family:{fr:"Moraxellaceae",en:"Moraxellaceae",ar:"موراكسيلاسيا"},
+      notes:{ fr:"Diplocoque Gram- Ox+. Otites, sinusites, exacerbations de BPCO. Production frequente de beta-lactamases.", en:"Gram- Ox+ diplococcus. Otitis, sinusitis, COPD exacerbations. Frequent beta-lactamase production.", ar:"ثنائي مكورات أوكسيداز+. التهاب الأذن، تفاقم مرض الانسداد الرئوي." } } },
+  r_candida_albicans: {
+    result: { name:"Candida albicans", family:{fr:"Saccharomycetaceae",en:"Saccharomycetaceae",ar:"ساكاروميسيتاسيا"},
+      notes:{ fr:"Levure bourgeonnante, germ tube +. Candidoses cutaneo-muqueuses (muguet, vaginites), candidemies chez l'immunodeprime. Milieu : Sabouraud, CHROMagar (colonies vertes).", en:"Budding yeast, germ tube +. Cutaneomucosal candidiasis (thrush, vaginitis), candidemia in immunocompromised patients. Medium: Sabouraud, CHROMagar (green colonies).", ar:"خميرة متبرعمة. داء المبيضات الجلدي المخاطي. وسط Sabouraud." } } },
+  r_candida_glabrata: {
+    result: { name:"Candida glabrata", family:{fr:"Saccharomycetaceae",en:"Saccharomycetaceae",ar:"ساكاروميسيتاسيا"},
+      notes:{ fr:"Germ tube negatif, colonies roses sur CHROMagar. Sensibilite reduite aux azoles, infections nosocomiales chez l'immunodeprime.", en:"Germ tube negative, pink colonies on CHROMagar. Reduced azole susceptibility, nosocomial infections in immunocompromised patients.", ar:"سلبي لاختبار الأنبوب الجرثومي. حساسية منخفضة لمضادات الفطريات." } } },
+  r_candida_tropicalis: {
+    result: { name:"Candida tropicalis", family:{fr:"Saccharomycetaceae",en:"Saccharomycetaceae",ar:"ساكاروميسيتاسيا"},
+      notes:{ fr:"Colonies bleu-vert metallique sur CHROMagar. Deuxieme cause de candidemie apres C. albicans chez les patients d'oncohematologie.", en:"Metallic blue-green colonies on CHROMagar. Second leading cause of candidemia after C. albicans in oncohematology patients.", ar:"مستعمرات زرقاء معدنية. السبب الثاني لداء المبيضات الدموي." } } },
+  r_cryptococcus: {
+    result: { name:"Cryptococcus neoformans", family:{fr:"Tremellaceae",en:"Tremellaceae",ar:"تريميلاسيا"},
+      notes:{ fr:"Levure capsulee visible a l'encre de Chine. Meningite cryptococcique chez l'immunodeprime (VIH avance). Reservoir : fientes de pigeons.", en:"Capsulated yeast visible with India ink. Cryptococcal meningitis in immunocompromised patients (advanced HIV). Reservoir: pigeon droppings.", ar:"خميرة محفظة. التهاب سحايا خطير عند ضعاف المناعة. مصدره فضلات الحمام." } } },
+  r_a_niger: {
+    result: { name:"Aspergillus niger", family:{fr:"Aspergillaceae",en:"Aspergillaceae",ar:"أسبيرجيلاسيا"},
+      notes:{ fr:"Tete conidienne radiee noire caracteristique. Otomycose, alteration alimentaire (fruits secs), rarement invasif.", en:"Characteristic black radiate conidial head. Otomycosis, food spoilage (dried fruits), rarely invasive.", ar:"رأس إشعاعي أسود مميز. التهاب فطري بالأذن، فساد المواد الغذائية." } } },
+  r_a_flavus: {
+    result: { name:"Aspergillus flavus", family:{fr:"Aspergillaceae",en:"Aspergillaceae",ar:"أسبيرجيلاسيا"},
+      notes:{ fr:"Producteur d'aflatoxines (cancerigenes). Contamination des cereales et arachides mal stockees. Controle strict en industrie alimentaire.", en:"Aflatoxin producer (carcinogenic). Contamination of poorly stored cereals and peanuts. Strict control in food industry.", ar:"منتج للأفلاتوكسين المسرطن. تلوث الحبوب والفول السوداني." } } },
+  r_a_fumigatus: {
+    result: { name:"Aspergillus fumigatus", family:{fr:"Aspergillaceae",en:"Aspergillaceae",ar:"أسبيرجيلاسيا"},
+      notes:{ fr:"Tete conidienne bleu-vert, thermotolerant (37-45°C). Aspergillose pulmonaire invasive chez le neutropenique, allergie (ABPA).", en:"Blue-green conidial head, thermotolerant (37-45°C). Invasive pulmonary aspergillosis in neutropenic patients, allergy (ABPA).", ar:"رأس أزرق أخضر، محب للحرارة. داء الرشاشيات الرئوي الغازي." } } },
+  r_trichophyton: {
+    result: { name:"Trichophyton rubrum", family:{fr:"Arthrodermataceae",en:"Arthrodermataceae",ar:"أرثروديرماتاسيا"},
+      notes:{ fr:"Dermatophyte anthropophile le plus frequent. Onychomycoses, dermatophytoses cutanees (pied d'athlete). Culture lente sur Sabouraud (2-3 semaines).", en:"Most common anthropophilic dermatophyte. Onychomycosis, cutaneous dermatophytosis (athlete's foot). Slow culture on Sabouraud (2-3 weeks).", ar:"أكثر الفطريات الجلدية شيوعاً. فطريات الأظافر، قدم الرياضي." } } },
+  r_microsporum: {
+    result: { name:"Microsporum canis", family:{fr:"Arthrodermataceae",en:"Arthrodermataceae",ar:"أرثروديرماتاسيا"},
+      notes:{ fr:"Dermatophyte zoophile (chats, chiens). Teignes du cuir chevelu chez l'enfant, fluorescence verte en lumiere de Wood.", en:"Zoophilic dermatophyte (cats, dogs). Scalp ringworm in children, green fluorescence under Wood's lamp.", ar:"فطر جلدي حيواني المنشأ. سعفة فروة الرأس عند الأطفال." } } },
+  r_mucor: {
+    result: { name:"Mucor sp. / Rhizopus sp.", family:{fr:"Mucoraceae",en:"Mucoraceae",ar:"موكوراسيا"},
+      notes:{ fr:"Hyphes larges non cloisonnes, croissance tres rapide (moisissure du pain). Mucormycose invasive grave chez le diabetique acidocetosique et le neutropenique.", en:"Wide non-septate hyphae, very rapid growth (bread mold). Severe invasive mucormycosis in ketoacidotic diabetics and neutropenic patients.", ar:"خيوط عريضة غير مقسمة، نمو سريع جداً. داء الفطر الطحلبي الغازي الخطير." } } }
+};
+
+// ── PATH & STATE ──────────────────────────────────────────────────────────────
+let pathHistory = []; // [{question, answer}]
+let currentNode = 'start';
+
+function getLang() { return currentLang || 'fr'; }
+
+function renderTree() {
+  const container = document.getElementById('treeContainer');
+  const pathDiv = document.getElementById('pathDisplay');
+  const lang = getLang();
+  const node = TREE[currentNode];
+
+  // Render path chips
+  pathDiv.innerHTML = pathHistory.map(p =>
+    `<span class="path-chip">${p.answer}</span>`
+  ).join(' &rsaquo; ');
+
+  if (!node) { container.innerHTML = `<p style="color:var(--muted)">${LANG[lang].microid_error}</p>`; return; }
+
+  // Result node
+  if (node.result) {
+    const favId = 'microid-' + node.result.name.replace(/\s+/g,'-').toLowerCase();
+    container.innerHTML = `
+      <div class="result-organism" style="position:relative;">
+        <button class="fav-btn ${typeof isFavorited==='function' && isFavorited(favId) ? 'active' : ''}" data-fav-id="${favId}" onclick="toggleFavorite('${favId}','${node.result.name.replace(/'/g,"\\'")}','tools/microid.html')">${typeof isFavorited==='function' && isFavorited(favId) ? '★' : '☆'}</button>
+        <div style="font-size:2.5rem;margin-bottom:0.75rem;">🎯</div>
+        <h2>${node.result.name}</h2>
+        <div style="font-size:0.8rem;color:var(--muted);font-family:var(--mono);margin-bottom:1rem;">${node.result.family[lang]}</div>
+        <p>${node.result.notes[lang]}</p>
+        <div style="display:flex; gap:0.6rem; justify-content:center; flex-wrap:wrap;">
+          <button class="btn-reset" onclick="resetTree()" style="margin-top:1.5rem;">↺ ${LANG[lang].microid_new}</button>
+          <button class="export-btn" onclick="printResult()" style="margin-top:1.5rem;">🖨 ${LANG[lang].export_print}</button>
+        </div>
+      </div>`;
+    return;
+  }
+
+  // Question node
+  const optionsBtns = node.options.map((opt, i) =>
+    `<button class="tree-btn" onclick="selectOption(${i})">${opt.label[lang]}</button>`
+  ).join('');
+
+  container.innerHTML = `
+    <div class="tree-step">
+      <div class="tree-question">${node.q[lang]}</div>
+      <div class="tree-options">${optionsBtns}</div>
+    </div>`;
+}
+
+function selectOption(index) {
+  const lang = getLang();
+  const node = TREE[currentNode];
+  const opt = node.options[index];
+  pathHistory.push({ question: node.q[lang], answer: opt.label[lang] });
+  currentNode = opt.next;
+  renderTree();
+}
+
+function resetTree() {
+  pathHistory = [];
+  currentNode = 'start';
+  renderTree();
+}
+
+function toggleMenu() { document.getElementById('mobileMenu').classList.toggle('open'); }
+
+function buildMicroIDCheatsheet(){
+  const lang = currentLang || 'fr';
+  const rows = Object.values(TREE)
+    .filter(node => node.result)
+    .map(node => [node.result.name, node.result.family[lang], node.result.notes[lang].slice(0,90) + '...']);
+  window.CHEATSHEET_DATA = {
+    title: 'MicroID Species Cheat Sheet',
+    sections: [
+      { heading: 'All identified organisms (' + rows.length + ')', headers: ['Organism','Family','Key notes'], rows }
+    ]
+  };
+}
+window.addEventListener('load', () => {
+  initLang();
+  renderTree();
+  buildMicroIDCheatsheet();
+  injectCheatSheetButton('.tool-page-body > div:first-child');
+  const loader = document.getElementById('loaderScreen');
+  setTimeout(() => { loader.classList.add('hidden'); setTimeout(() => loader.remove(), 600); }, 500);
+});
+window.addEventListener('langchange', () => { renderTree(); buildMicroIDCheatsheet(); });
+</script>
+</body>
+</html>
