@@ -1,4 +1,4 @@
-![MicroLanPro banner]og-image.png)
+![MicroLanPro banner](og-image.png)
 
 # MicroLab Pro 🦑
 
