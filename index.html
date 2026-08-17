@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>MicroLab Pro : Outils gratuits de microbiologie et controle qualite</title>
+<meta name="description" content="Boite a outils gratuite pour microbiologistes : identification bacterienne, antibiogramme, calculateurs de laboratoire, sterilisation et reference ISO. Sans inscription, en francais, anglais et arabe."/>
+<meta name="author" content="Zekraoui Rabah AllaaEddine"/>
+<meta name="keywords" content="microbiologie, controle qualite, identification bacterienne, antibiogramme, ISO, laboratoire, USTHB, Algerie"/>
+<link rel="canonical" href="https://YOURDOMAIN.com/"/>
+<meta property="og:type" content="website"/>
+<meta property="og:site_name" content="MicroLab Pro"/>
+<meta property="og:title" content="MicroLab Pro : Outils gratuits de microbiologie et controle qualite"/>
+<meta property="og:description" content="Identification bacterienne, antibiogramme, calculateurs de laboratoire, sterilisation et reference ISO. Gratuit, sans inscription, en francais, anglais et arabe."/>
+<meta property="og:url" content="https://YOURDOMAIN.com/"/>
+<meta property="og:image" content="https://YOURDOMAIN.com/og-image.png"/>
+<meta property="og:image:width" content="1200"/>
+<meta property="og:image:height" content="630"/>
+<meta property="og:image:alt" content="MicroLab Pro : boite a outils gratuite de microbiologie et controle qualite"/>
+<meta property="og:locale" content="fr_FR"/>
+<meta property="og:locale:alternate" content="en_US"/>
+<meta property="og:locale:alternate" content="ar_AR"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:title" content="MicroLab Pro : Outils gratuits de microbiologie"/>
+<meta name="twitter:description" content="Identification bacterienne, antibiogramme, calculateurs de laboratoire et reference ISO. Gratuit, sans inscription."/>
+<meta name="twitter:image" content="https://YOURDOMAIN.com/og-image.png"/>
+<meta name="twitter:image:alt" content="MicroLab Pro : boite a outils gratuite de microbiologie"/>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "MicroLab Pro",
+  "url": "https://YOURDOMAIN.com/",
+  "description": "Boite a outils gratuite pour microbiologistes : identification bacterienne, antibiogramme, calculateurs de laboratoire, sterilisation et reference ISO.",
+  "applicationCategory": "EducationalApplication",
+  "operatingSystem": "Any",
+  "inLanguage": ["fr","en","ar"],
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+  "author": {
+    "@type": "Person",
+    "name": "Zekraoui Rabah AllaaEddine",
+    "sameAs": "https://www.linkedin.com/in/zekraouirabahallaaeddine"
+  }
+}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="icon" type="image/x-icon" href="favicon.ico"/>
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png"/>
+<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png"/>
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png"/>
+<link rel="manifest" href="site.webmanifest"/>
+<meta name="theme-color" content="#04080f"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+
+<div class="loader-screen" id="loaderScreen">
+  <div class="loader-mascot">🦑</div>
+  <div class="loader-bar"><div class="loader-bar-fill"></div></div>
+  <div class="loader-text" data-i18n="loading_text">Chargement de la boite a outils</div>
+</div>
+
+<nav>
+  <a class="nav-logo" href="index.html">Micro<span>Lab</span> Pro</a>
+  <ul class="nav-links">
+    <li><a href="index.html" data-i18n="nav_home">Accueil</a></li>
+    <li><a href="tools/microid.html" data-i18n="nav_microid">MicroID</a></li>
+    <li><a href="tools/micropath.html" data-i18n="nav_micropath">MicroPath</a></li>
+    <li><a href="tools/microcalc.html" data-i18n="nav_microcalc">MicroCalc</a></li>
+    <li><a href="tools/micropedia.html" data-i18n="nav_micropedia">MicroPedia</a></li>
+    <li><a href="tools/microsteril.html" data-i18n="nav_microsteril">MicroSteril</a></li>
+    <li><a href="#about" data-i18n="nav_about">A propos</a></li>
+  </ul>
+  <div class="nav-right">
+    <div class="lang-switcher">
+      <button class="lang-btn" data-lang="ar" onclick="setLang('ar')">ع</button>
+      <button class="lang-btn" data-lang="fr" onclick="setLang('fr')">FR</button>
+      <button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
+    </div>
+    <span class="nav-badge" data-i18n="nav_badge">Gratuit · Ouvert</span>
+  </div>
+  <button class="hamburger" onclick="toggleMenu()" aria-label="Menu">&#9776;</button>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="index.html" data-i18n="nav_home">Accueil</a>
+  <a href="tools/microid.html" data-i18n="nav_microid">MicroID</a>
+  <a href="tools/micropath.html" data-i18n="nav_micropath">MicroPath</a>
+  <a href="tools/microcalc.html" data-i18n="nav_microcalc">MicroCalc</a>
+  <a href="tools/micropedia.html" data-i18n="nav_micropedia">MicroPedia</a>
+  <a href="tools/microsteril.html" data-i18n="nav_microsteril">MicroSteril</a>
+  <a href="#about" data-i18n="nav_about">A propos</a>
+  <div class="lang-switcher" style="margin-top:1rem;">
+    <button class="lang-btn" data-lang="ar" onclick="setLang('ar');toggleMenu()">ع</button>
+    <button class="lang-btn" data-lang="fr" onclick="setLang('fr');toggleMenu()">FR</button>
+    <button class="lang-btn" data-lang="en" onclick="setLang('en');toggleMenu()">EN</button>
+  </div>
+</div>
+
+<section class="hero">
+  <div class="grid-bg"></div>
+  <div class="hero-eyebrow" data-i18n="hero_eyebrow">Microbiologie · Controle Qualite · Diagnostic</div>
+  <h1><span class="accent" data-i18n="hero_h1a">La boite a outils complete</span><br/><span class="dim" data-i18n="hero_h1b">pour tout microbiologiste</span></h1>
+  <p class="hero-sub" data-i18n="hero_sub">Identifiez des bacteries, interpretez vos resultats CQ, effectuez des calculs de laboratoire et accedez a des references microbiologiques.</p>
+  <div class="hero-stats">
+    <div class="stat"><span class="stat-num" data-i18n="stat1_num">5</span><span class="stat-label" data-i18n="stat1_label">Outils integres</span></div>
+    <div class="stat"><span class="stat-num" data-i18n="stat2_num">200+</span><span class="stat-label" data-i18n="stat2_label">Especes bacteriennes</span></div>
+    <div class="stat"><span class="stat-num" data-i18n="stat3_num">ISO</span><span class="stat-label" data-i18n="stat3_label">Normes referencees</span></div>
+    <div class="stat"><span class="stat-num" data-i18n="stat4_num">Gratuit</span><span class="stat-label" data-i18n="stat4_label">Pour toujours</span></div>
+  </div>
+  <div class="hero-cta">
+    <a class="btn-primary" href="tools/microid.html"><span data-i18n="btn_start">Commencer l'identification</span> &rarr;</a>
+    <a class="btn-ghost" href="#tools" data-i18n="btn_explore">Explorer les outils</a>
+  </div>
+</section>
+
+<section class="tools-section" id="tools">
+  <div class="section-header">
+    <div class="section-eyebrow" data-i18n="tools_eyebrow">La Suite</div>
+    <h2 class="section-title" data-i18n="tools_title">Cinq outils. Une plateforme.</h2>
+    <p class="section-sub" data-i18n="tools_sub">Concu par un microbiologiste, pour les microbiologistes.</p>
+  </div>
+  <div class="tools-grid">
+
+    <a class="tool-card" href="tools/microid.html" style="--card-accent:#00d4aa">
+      <span class="tool-arrow">&#8599;</span>
+      <div class="tool-icon">🧫</div>
+      <div class="tool-tag" data-i18n="t1_tag">Outil 01 · Identification</div>
+      <div class="tool-name" data-i18n="t1_name">MicroID</div>
+      <p class="tool-desc" data-i18n="t1_desc">Arbre decisionnel biochimique guide.</p>
+      <div class="tool-features">
+        <span class="feature-pill" data-i18n="t1_p1">Clinique</span>
+        <span class="feature-pill" data-i18n="t1_p2">Alimentaire</span>
+        <span class="feature-pill" data-i18n="t1_p3">Environnemental</span>
+        <span class="feature-pill" data-i18n="t1_p4">200+ especes</span>
+      </div>
+    </a>
+
+    <a class="tool-card" href="tools/micropath.html" style="--card-accent:#3b82f6">
+      <span class="tool-arrow">&#8599;</span>
+      <div class="tool-icon">🔬</div>
+      <div class="tool-tag" data-i18n="t2_tag">Outil 02 · Diagnostic</div>
+      <div class="tool-name" data-i18n="t2_name">MicroPath</div>
+      <p class="tool-desc" data-i18n="t2_desc">Assistant de diagnostic.</p>
+      <div class="tool-features">
+        <span class="feature-pill" data-i18n="t2_p1">Antibiogramme</span>
+        <span class="feature-pill" data-i18n="t2_p2">CASFM/EUCAST</span>
+        <span class="feature-pill" data-i18n="t2_p3">Milieux</span>
+        <span class="feature-pill" data-i18n="t2_p4">Verdict CQ</span>
+      </div>
+    </a>
+
+    <a class="tool-card" href="tools/microcalc.html" style="--card-accent:#a855f7">
+      <span class="tool-arrow">&#8599;</span>
+      <div class="tool-icon">📊</div>
+      <div class="tool-tag" data-i18n="t3_tag">Outil 03 · Calculateurs</div>
+      <div class="tool-name" data-i18n="t3_name">MicroCalc</div>
+      <p class="tool-desc" data-i18n="t3_desc">Tous les calculs de laboratoire.</p>
+      <div class="tool-features">
+        <span class="feature-pill" data-i18n="t3_p1">UFC / NPP</span>
+        <span class="feature-pill" data-i18n="t3_p2">ISO 2859</span>
+        <span class="feature-pill" data-i18n="t3_p3">Valeur D/Z</span>
+        <span class="feature-pill" data-i18n="t3_p4">Dilutions</span>
+      </div>
+    </a>
+
+    <a class="tool-card" href="tools/micropedia.html" style="--card-accent:#f59e0b">
+      <span class="tool-arrow">&#8599;</span>
+      <div class="tool-icon">📚</div>
+      <div class="tool-tag" data-i18n="t4_tag">Outil 04 · Reference</div>
+      <div class="tool-name" data-i18n="t4_name">MicroPedia</div>
+      <p class="tool-desc" data-i18n="t4_desc">Reference ouverte et structuree.</p>
+      <div class="tool-features">
+        <span class="feature-pill" data-i18n="t4_p1">Milieux</span>
+        <span class="feature-pill" data-i18n="t4_p2">Protocoles</span>
+        <span class="feature-pill" data-i18n="t4_p3">QCM</span>
+        <span class="feature-pill" data-i18n="t4_p4">AR/FR/EN</span>
+      </div>
+    </a>
+
+    <a class="tool-card" href="tools/microsteril.html" style="--card-accent:#ef4444">
+      <span class="tool-arrow">&#8599;</span>
+      <div class="tool-icon">🧴</div>
+      <div class="tool-tag" data-i18n="t5_tag">Outil 05 · Sterilisation</div>
+      <div class="tool-name" data-i18n="t5_name">MicroSteril</div>
+      <p class="tool-desc" data-i18n="t5_desc">Reference de sterilisation et desinfection.</p>
+      <div class="tool-features">
+        <span class="feature-pill" data-i18n="t5_p1">Autoclave</span>
+        <span class="feature-pill" data-i18n="t5_p2">Desinfectants</span>
+        <span class="feature-pill" data-i18n="t5_p3">Chaleur seche</span>
+        <span class="feature-pill" data-i18n="t5_p4">Indicateurs</span>
+      </div>
+    </a>
+
+  </div>
+</section>
+
+<section class="about-section" id="about">
+  <div class="about-inner">
+    <div>
+      <div class="section-eyebrow" data-i18n="about_eyebrow">A propos</div>
+      <h2 class="about-title" data-i18n="about_title">Cree par un specialiste, pas un generaliste.</h2>
+      <p class="about-text" data-i18n="about_p1">MicroLab Pro a ete cree par un etudiant en Master 2 Microbiologie et Controle Qualite.</p>
+      <p class="about-text" data-i18n="about_p2">Aucune publicite. Aucune inscription. Aucune collecte de donnees.</p>
+      <div class="about-sig" data-i18n="about_sig">Fondateur et Administrateur : M2 Microbiologie et Controle Qualite</div>
+    </div>
+    <div class="about-specs">
+      <div class="spec-row"><span class="spec-key" data-i18n="spec1k">Backend</span><span class="spec-val" data-i18n="spec1v">Aucun requis</span></div>
+      <div class="spec-row"><span class="spec-key" data-i18n="spec2k">Inscription</span><span class="spec-val" data-i18n="spec2v">Non requise</span></div>
+      <div class="spec-row"><span class="spec-key" data-i18n="spec3k">Donnees collectees</span><span class="spec-val" data-i18n="spec3v">Zero</span></div>
+      <div class="spec-row"><span class="spec-key" data-i18n="spec4k">Normes</span><span class="spec-val" data-i18n="spec4v">ISO · Codex · CASFM · JORA</span></div>
+      <div class="spec-row"><span class="spec-key" data-i18n="spec5k">Hors ligne</span><span class="spec-val" data-i18n="spec5v">Oui</span></div>
+      <div class="spec-row"><span class="spec-key" data-i18n="spec6k">Langues</span><span class="spec-val" data-i18n="spec6v">AR · FR · EN</span></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span class="footer-logo">MicroLab Pro</span>
+  <p data-i18n="footer_tagline">Outils de microbiologie gratuits pour etudiants et professionnels du monde entier.</p>
+  <a class="footer-social" href="https://www.linkedin.com/in/zekraouirabahallaaeddine" target="_blank" rel="noopener">
+    <svg viewBox="0 0 24 24"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.03-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.34V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.38-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12zM7.12 20.45H3.56V9h3.56v11.45z"/></svg>
+    <span data-i18n="follow_link">Suivre sur LinkedIn</span>
+  </a>
+  <p class="footer-copy" data-i18n="copyright">Tous droits reserves a Zekraoui Rabah AllaaEddine 🦑 © 2026</p>
+</footer>
+
+<script src="lang.js"></script>
+<script src="inquiry.js"></script>
+<script src="widgets.js"></script>
+<script>
+  function toggleMenu() {
+    document.getElementById('mobileMenu').classList.toggle('open');
+  }
+  initLang();
+  window.addEventListener('load', () => {
+    const loader = document.getElementById('loaderScreen');
+    setTimeout(() => {
+      loader.classList.add('hidden');
+      setTimeout(() => loader.remove(), 600);
+    }, 500);
+  });
+</script>
+</body>
+</html>
