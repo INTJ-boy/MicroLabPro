@@ -253,7 +253,8 @@ function toggleSupport(force) {
 
 // ── OTHER PROJECTS / WEBSITES ────────────────────────────────────────────────
 const OTHER_SITES = [
-  { name: 'LabPrepDz', url: 'https://intj-boy.github.io/LabPrepDz/' }
+  { name: 'LabPrepDz', url: 'https://intj-boy.github.io/LabPrepDz/' }, 
+  { name: 'ExpoShare', url: 'https://intj-boy.github.io/ExpoShare/' }
   // Add up to 4 more entries here as future projects launch:
   // { name: 'ProjectName', url: 'https://example.com' }
 ];
